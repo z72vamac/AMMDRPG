@@ -1,0 +1,73 @@
+\section{Problem description and valid formulation}\label{section:desc}
+% Datos iniciales del problema
+
+\subsection{Problem description}
+In the All terrain Mothership and Multiple Drones Routing Problem with Graphs (\AMD), there is one mothership (the base vehicle) and a fleet of homogeneous drones $\mathcal D$ that have to coordinate among them and with the mothership to perform a number of operations consisting in visiting given percentages of the length of a set of graphs $\mathcal G$. The mothership and the drones travel at constant velocities $v_M$ and $v_D$, respectively. Moreover, it is assumed that each  drone has a limited flying autonomy (endurance) $N^d$, so that once it is launched it must complete the operation and return back to the base vehicle to recharge batteries before the time limit. The base vehicle can move freely on a continuous space and starts at a known location, denoted $orig$ where the mothership and the fleet of drones are ready to depart. Once all the operations are finished the mothership and the drones must return together to a final location, called $dest$. 
+%Finally, the mothership is allowed to move freely in a continuous space: $\mathbb R^2$ or $\mathbb R^3$.
+\noindent
+The set of target graphs $\mathcal G$ to be visited  permits to model real situations like monitoring and inspection activities on portions of networks (roads or wires) where traditional vehicles cannot arrive, due to, for example,  the presence of narrow streets, or because of a natural disaster or a terrorist attack that caused damages on the network. In all these cases, the inspection or monitoring of the drone consists in traversing edges of the network to perform a reconnaissance activity. For this reason we model the targets, to be visited by the drone, as graphs. The operation of visiting a graph can be of two different types: 1) traversing a given percentage of the length of each one of its edges or 2) visiting a percentage of the total length of the network. 
+
+% In this case, for the sake of simplicity, it is assumed that there exist no obstacles to prevent drone travelling in straight line. Nevertheless, that extension is interesting to be further considered although is beyond the scope of this paper.\\
+
+\noindent
+In this problem, it is assumed that each graph must be visited by one drone: once the drone assigned to the operation enters the graph, it has to complete the entire operation of traversing this target before to be able to leave the graph to return to the base. Moreover, at each stage the drones must be launched from the mothership at the same point (the launching points have to be determined) and they also must be retrieved at the same point (the rendezvous points also have to be determined). However, this does not mean that the mothership and all drones must arrive at a rendezvous location at the same time: the fastest arriving vehicle may wait for the others at the rendezvous location. Note also that every drone of the fleet does not have to be launched from the current base vehicle location in all the stages because of the capacity constraint. In addition, it is supposed that the cost induced by the drones' trips are negligible as compared to those incurred by the base vehicle. Therefore, the goal is to minimize the overall distance traveled by the mothership. In spite of that, the reader may note that from a theoretical point of view the extension to include in the objective function also the distances traveled by the drones is straightforward and does not increase the complexity of the models and formulations.
+\noindent
+The goal of the \AMD \ is to find the launching and rendezvous points of the fleet of drones $\mathcal D$ satisfying the visit requirements for the graphs in $\mathcal G$ and minimizing the length of the path traveled by the mothership.\\
+
+\noindent
+
+
+
+% The mothership and the drone begin at a starting location, denoted $orig$ and a set $\mathcal G$ of target locations modeled by graphs, that must be visited by the drone, are located in the plane. These assumptions permit to model several real situations like roads or wired networks inspection.
+% %The natural application for this situation comes from road or wired network inspection. 
+% For each stage $t \in \{1, \ldots, |\mathcal G|\}$, we require that the drone is launched from the current mothership location, that at stage $t$ is a decision variable denoted by $x_L^t$, flies to one of the graphs $g$ that has to be visited , traverses the required portion of $g$ and then returns to the current position of the mothership, that most likely is different from the launching point $x_L^t$, and  that is another decision variable denoted by $x_R^t$. Once all targets graphs have been visited, the mothership and drone return to a final location (depot), denoted by $dest$.\\
+% \noindent
+% Let $g = (V_g, E_g)$ be a graph in $\mathcal G$ whose total length is denoted by $\mathcal L(g)$ and $e_g$ that denotes the edge $e$ of this graph $g$. This edge is parametrized by its endpoints $B^{e_g}, C^{e_g}$ and its length $\|\overline{B^{e_g}C^{e_g}}\|$ is denoted by $\mathcal L(e_g)$. For each line segment, we assign a binary variable $\mu^{e_g}$ that indicates whether or not the drone visits the segment $e_g$ and define entry and exit points $(R^{e_g}, \rho^{e_g})$ and $(L^{e_g}, \lambda^{e_g})$, respectively, that determine the portion of the edge visited by the drone. \\
+% \noindent
+% We have considered two modes of visit to the targets graphs $g\in \mathcal{G}$:
+% \begin{itemize}
+%     \item Visiting a percentage $\alpha^{e_g}$ of each edge $e_g$ which can be modeled by using the following constraints:
+%     \begin{equation}\label{eq:alphaE}\tag{$\alpha$-E}
+%     |\lambda^{e_g} - \rho^{e_g}|\mu^{e_g}\geq \alpha^{e_g}, \quad \forall e_g\in E_g.
+%     \end{equation}
+%     \item Visiting a percentage $\alpha_g$ of the total length of the graph:
+%     \begin{equation}\label{eq:alphaG}\tag{$\alpha$-G}
+%     \sum_{e_g\in E_g} \mu^{e_g}|\lambda^{e_g} - \rho^{e_g}|\mathcal L(e_g) \geq \alpha^g\mathcal L(g),
+%     \end{equation}
+%     where $\mathcal L(g)$ denotes the total length of the graph.
+% \end{itemize}
+
+% \bigskip
+% \noindent
+% In both cases, we need to introduce a binary variable $\text{entry}^{e_g}$ that determines the traveling direction on the edge $e_g$ as well as the definition of the parameter values $\nu_\text{min}^{e_g}$ and $\nu_\text{max}^{e_g}$ of the access and exit points to that segment. Then, for each edge $e_g$, the absolute value constraint \eqref{eq:alphaE} can be represented by:
+
+% \begin{equation}\label{eq:alpha-E}\tag{$\alpha$-E}
+%  \mu^{e_g}|\rho^{e_g}-\lambda^{e_g}|\geq \alpha^{e_g} \Longleftrightarrow
+%  \left\{
+%  \begin{array}{ccl}
+%   \rho^{e_g} - \lambda^{e_g}                       & =    & \nu_\text{max}^{e_g} - \nu_\text{min}^{e_g}                                     \\
+%   \nu_\text{max}^{e_g}                         & \leq & 1-{\text{entry}^{e_g}}                                    \\
+%   \nu_\text{min}^{e_g}                      & \leq & {  \text{entry}^{e_g}},                                        \\
+%   \mu^{e_g}(\nu_\text{max}^{e_g} + \nu_\text{min}^{e_g} ) & \geq & \alpha^{e_g}
+%   \\
+%  \end{array}
+%  \right.
+% \end{equation}
+
+% \noindent
+% The linearization of \eqref{eq:alphaG} is similar to \eqref{eq:alphaE} by changing the last inequality in \eqref{eq:alpha-E} for
+
+% \begin{equation}\label{eq:alpha-G}\tag{$\alpha$-G}
+% \sum_{e_g\in E_g} \mu^{e_g}(\nu_\text{max}^{e_g} + \nu_\text{min}^{e_g})\mathcal L(e_g)\geq \alpha_g\mathcal L(g).
+% \end{equation}
+
+% \noindent
+% In our model wlog, we assume  that the mothership and drone do not need to arrive at a rendezvous location at the same time: the
+% faster arriving vehicle may wait for the other at the rendezvous location. In addition, we also assume that vehicles move at constant speeds, although this hypothesis could be relaxed. . The mothership and the drone must travel together from $orig$ to the first launching point. Similarly, after the drone visits the last target location, the mothership and the drone must meet at the final rendezvous location before traveling together back to $dest$. The first launching location and final rendezvous location are allowed to be $orig$ and $dest$, respectively, but it is not mandatory. For the ease of presentation, in this paper we will assume that $orig$ and $dest$ are the same location. However, all results extend easily to the case that $orig$ and $dest$ are different locations.\\
+% \noindent
+% The goal is to find a minimum time path that begins at $orig$, ends at $dest$, and where
+% every $g \in \mathcal G$ is visited by the drone.\\
+% \noindent
+% Depending on the assumptions made on the movements of the mothership vehicle this problem gives rise to two different versions: a) the mothership vehicle can move freely on the continuous space (all terrain ground vehicle, boat on the water or aircraft vehicle); and b) the mothership vehicle must move on a road network (that is, it is a normal truck or van). In the former case, that we will call All terrain Mothership-Drone Routing Problem with Graphs (\AMD), each launch and rendezvous location may be chosen from a continuous space (the Euclidean 2-or-3 dimension space). In the latter case, that we will call Network Mothership-Drone Routing Problem with Graphs (\NMD) from now on, each launch and rendezvouz location must be chosen on a given graph embedded in the considered space. For the sake of presentation and length  of the paper, we will focus in this paper, mainly, on the first model \AMD. The second model, namely \NMD, is addressed using similar techniques but providing slightly less details.
+
+

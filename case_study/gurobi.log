@@ -1,0 +1,190 @@
+
+Gurobi 9.1.1 (win64, Python) logging started Sun May 30 11:29:28 2021
+
+Academic license - for non-commercial use only - expires 2021-06-25
+Using license file C:\Users\G731\gurobi.lic
+Set parameter LogFile to value gurobi.log
+Read LP format model from file patios.lp
+Reading time = 0.04 seconds
+: 4330 rows, 2443 columns, 37922 nonzeros
+Read LP format model from file patios.lp
+Reading time = 0.03 seconds
+: 4330 rows, 2443 columns, 37922 nonzeros
+Gurobi Optimizer version 9.1.1 build v9.1.1rc0 (win64)
+Thread count: 6 physical cores, 12 logical processors, using up to 12 threads
+Optimize a model with 4330 rows, 2443 columns and 37922 nonzeros
+Model fingerprint: 0xcfd60a5c
+Model has 443 quadratic constraints
+Variable types: 1973 continuous, 470 integer (470 binary)
+Coefficient statistics:
+  Matrix range     [1e-01, 1e+05]
+  QMatrix range    [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+05]
+Presolve removed 750 rows and 70 columns
+Presolve time: 0.37s
+Presolved: 3580 rows, 2373 columns, 22956 nonzeros
+Presolved model has 441 quadratic constraint(s)
+Variable types: 1887 continuous, 486 integer (478 binary)
+
+Root relaxation: objective 0.000000e+00, 1118 iterations, 0.02 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.00000    0   30          -    0.00000      -     -    0s
+     0     0    0.00000    0   59          -    0.00000      -     -    0s
+     0     0    0.00000    0   38          -    0.00000      -     -    0s
+     0     0   38.72055    0   36          -   38.72055      -     -    0s
+     0     0   53.38452    0   37          -   53.38452      -     -    0s
+     0     0   72.96605    0   36          -   72.96605      -     -    0s
+     0     0   80.64635    0   40          -   80.64635      -     -    0s
+     0     0  100.00000    0   59          -  100.00000      -     -    0s
+     0     0  100.00000    0   50          -  100.00000      -     -    0s
+H    0     0                     205.2101963  100.00000  51.3%     -    1s
+*    0     0               0     205.2101963  100.00000  51.3%     -    1s
+     0     0  100.00000    0   35  205.21020  100.00000  51.3%     -    1s
+     0     0  100.00000    0   31  205.21020  100.00000  51.3%     -    1s
+     0     0  100.00000    0   32  205.21020  100.00000  51.3%     -    1s
+     0     0  100.00000    0   32  205.21020  100.00000  51.3%     -    1s
+     0     0  100.00000    0   28  205.21020  100.00000  51.3%     -    2s
+     0     0  100.00000    0   31  205.21020  100.00000  51.3%     -    2s
+     0     0  100.00000    0   25  205.21020  100.00000  51.3%     -    2s
+     0     0  100.00000    0   25  205.21020  100.00000  51.3%     -    2s
+     0     0  100.00000    0   30  205.21020  100.00000  51.3%     -    2s
+     0     0  100.00000    0   30  205.21020  100.00000  51.3%     -    2s
+     0     0  100.00000    0   19  205.21020  100.00000  51.3%     -    2s
+     0     0  100.00000    0   24  205.21020  100.00000  51.3%     -    2s
+     0     0  100.00000    0   24  205.21020  100.00000  51.3%     -    3s
+     0     0  100.00000    0   20  205.21020  100.00000  51.3%     -    3s
+     0     0  100.00000    0   20  205.21020  100.00000  51.3%     -    3s
+     0     0  100.00000    0   14  205.21020  100.00000  51.3%     -    3s
+     0     0  100.00000    0   20  205.21020  100.00000  51.3%     -    3s
+     0     0  100.00000    0   20  205.21020  100.00000  51.3%     -    3s
+     0     0  100.00000    0   20  205.21020  100.00000  51.3%     -    3s
+     0     0  100.00000    0   20  205.21020  100.00000  51.3%     -    3s
+     0     0  100.00000    0   20  205.21020  100.00000  51.3%     -    3s
+     0     0  100.00000    0   20  205.21020  100.00000  51.3%     -    4s
+     0     0  100.00000    0   20  205.21020  100.00000  51.3%     -    4s
+     0     2  100.00000    0   20  205.21020  100.00000  51.3%     -    4s
+     7    14  100.00000    3   42  205.21020  100.00000  51.3%   875    5s
+   398   361  149.03862    4   52  205.21020  100.00000  51.3%   390   10s
+   433   364  195.03377   25   32  205.21020  100.00000  51.3%   390   15s
+   441   369  124.96853   16   39  205.21020  100.00000  51.3%   383   20s
+H  444   352                     198.2586841  100.00000  49.6%   380   24s
+   445   353  100.00000   23   32  198.25868  100.00000  49.6%   379   27s
+   449   356  198.25868   28   22  198.25868  100.00000  49.6%   376   30s
+   453   358  125.76641   21   31  198.25868  100.00000  49.6%   373   35s
+   455   360  125.25427   31   24  198.25868  100.00000  49.6%   371   40s
+   459   362  152.19898   47   33  198.25868  100.00000  49.6%   368   45s
+   465   366  150.81503   29   77  198.25868  103.80972  47.6%   363   50s
+   473   372  150.81503   29   90  198.25868  105.43931  46.8%   357   55s
+   480   376  150.41408   40   74  198.25868  105.56620  46.8%   352   60s
+   489   382  130.11012   28   57  198.25868  105.72025  46.7%   345   65s
+   497   388  154.09774   35   87  198.25868  105.87040  46.6%   340   70s
+   506   394  126.89970    4   90  198.25868  107.19149  45.9%   334   75s
+   517   401  143.33575   15   95  198.25868  107.22323  45.9%   327   80s
+
+Cutting planes:
+  Implied bound: 31
+  Projected implied bound: 35
+  Clique: 2
+  MIR: 205
+  Flow cover: 264
+  GUB cover: 1
+  Zero half: 11
+  RLT: 16
+  Relax-and-lift: 49
+
+Explored 519 nodes (433163 simplex iterations) in 82.01 seconds
+Thread count was 12 (of 12 available processors)
+
+Solution count 2: 198.259 205.21 
+
+Solve interrupted
+Best objective 1.982586840635e+02, best bound 1.072265321461e+02, gap 45.9158%
+
+Gurobi 9.1.1 (win64, Python) logging started Tue Jun  8 01:23:52 2021
+
+Academic license - for non-commercial use only - expires 2021-06-25
+Using license file C:\Users\G731\gurobi.lic
+Set parameter LogFile to value gurobi.log
+Read LP format model from file patios.lp
+Reading time = 0.03 seconds
+: 4330 rows, 2443 columns, 37922 nonzeros
+Gurobi Optimizer version 9.1.1 build v9.1.1rc0 (win64)
+Thread count: 6 physical cores, 12 logical processors, using up to 12 threads
+Optimize a model with 4330 rows, 2443 columns and 37922 nonzeros
+Model fingerprint: 0xcfd60a5c
+Model has 443 quadratic constraints
+Variable types: 1973 continuous, 470 integer (470 binary)
+Coefficient statistics:
+  Matrix range     [1e-01, 1e+05]
+  QMatrix range    [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+05]
+Presolve removed 750 rows and 70 columns
+Presolve time: 0.31s
+Presolved: 3580 rows, 2373 columns, 22956 nonzeros
+Presolved model has 441 quadratic constraint(s)
+Variable types: 1887 continuous, 486 integer (478 binary)
+
+Root relaxation: objective 0.000000e+00, 1118 iterations, 0.02 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.00000    0   30          -    0.00000      -     -    0s
+     0     0    0.00000    0   59          -    0.00000      -     -    0s
+     0     0    0.00000    0   38          -    0.00000      -     -    0s
+     0     0   38.72055    0   36          -   38.72055      -     -    0s
+     0     0   53.38452    0   37          -   53.38452      -     -    0s
+     0     0   72.96605    0   36          -   72.96605      -     -    0s
+     0     0   80.64635    0   40          -   80.64635      -     -    0s
+     0     0  100.00000    0   59          -  100.00000      -     -    0s
+     0     0  100.00000    0   50          -  100.00000      -     -    0s
+H    0     0                     205.2101963  100.00000  51.3%     -    0s
+*    0     0               0     205.2101963  100.00000  51.3%     -    1s
+     0     0  100.00000    0   35  205.21020  100.00000  51.3%     -    1s
+     0     0  100.00000    0   31  205.21020  100.00000  51.3%     -    1s
+     0     0  100.00000    0   32  205.21020  100.00000  51.3%     -    1s
+     0     0  100.00000    0   32  205.21020  100.00000  51.3%     -    1s
+     0     0  100.00000    0   28  205.21020  100.00000  51.3%     -    1s
+     0     0  100.00000    0   31  205.21020  100.00000  51.3%     -    1s
+     0     0  100.00000    0   25  205.21020  100.00000  51.3%     -    2s
+     0     0  100.00000    0   25  205.21020  100.00000  51.3%     -    2s
+     0     0  100.00000    0   30  205.21020  100.00000  51.3%     -    2s
+     0     0  100.00000    0   30  205.21020  100.00000  51.3%     -    2s
+     0     0  100.00000    0   19  205.21020  100.00000  51.3%     -    2s
+     0     0  100.00000    0   24  205.21020  100.00000  51.3%     -    2s
+     0     0  100.00000    0   24  205.21020  100.00000  51.3%     -    2s
+     0     0  100.00000    0   20  205.21020  100.00000  51.3%     -    2s
+     0     0  100.00000    0   20  205.21020  100.00000  51.3%     -    2s
+     0     0  100.00000    0   14  205.21020  100.00000  51.3%     -    3s
+     0     0  100.00000    0   20  205.21020  100.00000  51.3%     -    3s
+     0     0  100.00000    0   20  205.21020  100.00000  51.3%     -    3s
+     0     0  100.00000    0   20  205.21020  100.00000  51.3%     -    3s
+     0     0  100.00000    0   20  205.21020  100.00000  51.3%     -    3s
+     0     0  100.00000    0   20  205.21020  100.00000  51.3%     -    3s
+     0     0  100.00000    0   20  205.21020  100.00000  51.3%     -    3s
+     0     0  100.00000    0   20  205.21020  100.00000  51.3%     -    3s
+     0     2  100.00000    0   20  205.21020  100.00000  51.3%     -    4s
+    45    52  100.00000    9   44  205.21020  100.00000  51.3%   568    5s
+
+Cutting planes:
+  Cover: 1
+  Implied bound: 14
+  MIR: 3
+  Flow cover: 8
+
+Explored 339 nodes (166276 simplex iterations) in 7.32 seconds
+Thread count was 12 (of 12 available processors)
+
+Solution count 1: 205.21 
+
+Solve interrupted
+Warning: max constraint violation (1.3307e-04) exceeds tolerance
+Warning: max bound violation (2.1308e-06) exceeds tolerance
+Best objective 2.052101963457e+02, best bound 1.000000000000e+02, gap 51.2695%

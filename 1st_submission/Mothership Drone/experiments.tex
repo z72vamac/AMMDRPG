@@ -1,0 +1,312 @@
+\newpage
+\section{Experimental results}
+
+
+% \begin{figure}[h!]
+% \begin{center}
+%  \includegraphics[width=1\linewidth]{Grid_generation.png}
+% \end{center}
+% \end{figure}
+\noindent
+In this section we discuss the experimental results obtained testing the formulations presented in Section \ref{Form} and the matheuristic procedure proposed in Section \ref{Math} on a testbed of instances. In particular, we consider instances like the ones used in \cite{art:Amorosi2021} where the targets, to be visited by the drones, are represented by grid graphs.
+This set consists of 5 instances of respectively 5 and 10 target graphs, with different cardinality of the set of nodes. More precisely, each instance is composed of 20$\%$ graphs with 4 nodes, 20$\%$ graphs of 6 nodes, 20$\%$ graphs of 8 nodes and 20$\%$ graphs of 10 nodes. Moreover, we assume that the velocity of the drones is twice that of the mothership and that a random percentage of each target graph, or of each of its edges, must be visited by the fleet of drones.\\
+We consider in our experiments that the number of drones varies between 1 and 3 and that the drones
+endurance (expressed as maximum time that the drone can operate when it is fully recharged) ranges between 20 and 60.
+Table \ref{table:tab1} reports a summary of the characteristics of our instances.
+
+\renewcommand{\arraystretch}{0.7}
+\begin{table}[!h]
+\caption{Instances parameter values}
+\centering
+\footnotesize
+\begin{tabular}{l | c }
+\hline
+\# Targets & (5,10)\\
+\hline
+\# Drones &	(1,2,3)\\
+\hline
+\# Vertices & (4,6,8,10,12)\\
+\hline
+Drone endurance & (20,30,40,50,60)\\
+\hline
+$\%$ target (edge) & random variable
+\end{tabular}
+\label{table:tab1}
+\end{table}
+
+\noindent
+Table \ref{table:tab2} reports the results obtained solving the \AMD model on the instances previously described, by adopting the commercial solver Gurobi. We consider the exact solution both providing and not providing an initial solution computed by the matheuristic described in Section \ref{Math}. More precisely, the first column of Table \ref{table:tab2} indicates the number of target graphs to be visited by the fleet of drones, the second column reports the capacity of the drones, the third column distinguishes between the visit of a percentage of each edge (e) and the percentage of each target graph (g). The fourth column reports the size of the fleet of drones. Thus, for each combination of the listed parameters, we summarize the average percentage gap of the solution obtained within the time limit set equal to 2 hours. We report respectively average percentage gap with initialization by the solution provided by the matheuristic, solution time, in seconds, of the matheuristic and average gap without initialization by the solution obtained by the matheuristic.\\
+We can observe that the value of the average percentage gap ranges between a minimum of 66.9\% and a maximum of 97.43\%. This shows that the model is hard to be solved even on small size instances. Moreover, we can see that in most of the cases, the average percentage gap associated with the variant of the model consisting in visiting a given percentage of each edge, is higher than the one associated with the variant imposing to visit a given percentage of each target graph. Another thing that we can observe is that the average percentage gap increases with the number of drones and decreases with the drone endurance.\\
+As regards the number of target graphs, we can see that by increasing it from 5 to 10, the exact method, without initialization by the solution obtained with the matheursitic, becomes even harder. Indeed, the red entries of the table mean that some instances could not find a feasible solution within the time limit (note that in the brackets we indicate the number of these instances). The number of not solvable instances increases with the number of drones. Moreover, for the minimum level of endurance, the exact solution of the model without initialization provided by the matheuristic, does not provide any solution, within the time limit, for instances with 10 graphs and 2 or 3 drones.\\
+Considering the comparison with the exact method starting from the solution provided by the matheuristic, we can note that the values of average percentage gap are very close to the ones related to the exact solution method without initialization. Thus the initialization does not speed up the convergence of the solver. However, we can see that the matheuristic is always able to find a feasible solution of the problem, even for the cases in which the solver is not.\\
+Moreover, the average solution times of the matheuristic range between a minimum of 37 seconds to a maximum of 3 minutes. They increase with the drone capacity for the variant of the model in which a given percentage of each edge must be visited, while they decrease by increasing the number of drones for the variant of the model in which a given percentage of each target graph must visited. By increasing the number of target graphs from 5 to 10, the average solution times of the matheuristics become more than double for both model variants.
+Summing up, the results obtained show that the exact solution method given by solving the formulation is very challenging even for small size instances. However, exploiting it, the matheuristic is able to provide  solutions for all instances rather quickly.
+
+
+%\begin{table}[!h]
+%\caption{Comparison between exact solution with and without initialization by the matheuristic solution}
+%\centering
+%\tiny
+%\begin{tabular}{|c|c|c|c c c c c c c c c|}
+%\hline
+%\multirow{3}{*}{$\bm{|\mathcal{G}|}$} & \multirow{3}{*}{$\bm{N^d}$}  & \multirow{3}{*}{\textbf{v.t.}} & \multicolumn{9}{|c|}{\textbf{$\#$ drones}} \\
+%\cline{4-12}
+%& & & \multicolumn{3}{c|}{1} & \multicolumn{3}{c|}{2} & \multicolumn{3}{c|}{3}\\
+%\cline{4-12}
+%& & &  $\%$Gap (i) & TimeH & $\%$Gap (wi) & $\%$Gap (i) & TimeH & $\%$Gap (wi)& $\%$Gap (i) & TimeH & $\%$Gap (wi)\\
+%\hline
+%\multirow{5}{*}{\midrule 5} & \multirow{2}{*}{20} & e & 82,63 & 61,56 & 81,70 & 91,57 &	63,80 &	90,61 &	93,06 &	60,87 &	90,93\\
+%&  & g & 79,09 & 44,97 & 79,63 & 89,03 & 37,32 & 91,85 & 94,00 & 39,05 & 95,80\\
+%\cline{2-12}
+%& \multirow{2}{*}{30} & e & 82,70 &	65,21 &	80,17 &	85,14 &	64,41 &	82,21 &	91,90 &	63,34 &	90,12\\
+%& & g & 75,80 &	55,77 &	71,19 &	84,36 &	44,36 &	88,27 &	91,02 &	44,59 &	91,39\\
+%\cline{2-12}
+%& \multirow{2}{*}{40} & e & 80,94 &	68,81 &	77,98 &	83,44 &	64,80 &	82,16 &	91,24 &	63,19 &	86,25\\
+%& & g & 74,47 &	43,92 &	73,46 &	81,21 &	38,27 &	84,35 &	85,34 &	37,51 &	89,63\\
+%\cline{2-12}
+%& \multirow{2}{*}{50} & e & 76,87 &	66,67 &	74,41 &	81,12 &	63,86 &	79,57 &	85,11 &	63,51 &	86,16\\
+%& & g & 70,58 &	43,42 &	66,90 &	80,96 &	43,98 &	88,84 &	80,49 &	44,35 &	82,81\\
+%\cline{2-12}
+%& \multirow{2}{*}{60} & e & 76,39 &	67,78 &	71,61 &	81,63 &	66,08 &	79,84 &	83,82 &	64,40 &	82,06\\
+%& & g & 78,17 &	44,69 &	72,79 &	79,35 &	40,63 &	86,55 &	81,74 &	50,01 &	84,66\\
+%\hline
+%\multirow{5}{*}{10} & \multirow{2}{*}{20} & e & 82,56 &	137,93 &	84,91 &	92,30 &	128,53 & - & 94,73 & 124,44 & -\\
+%&  & g & 81,00 & 119,20 & \textcolor{red}{84,08 (2)} & 89,88 & 83,50 & \textcolor{red}{96,64 (2)} & 96,44 & 70,00 & \textcolor{red}{97,43 (3)}\\
+%\cline{2-12}
+%& \multirow{2}{*}{30} & e & 80,60 &	159,00 & 80,93 & 87,11 & 132,15 & \textcolor{red}{87,58 (3)} &	94,56 &	127,35 & \textcolor{red}{92,85 (2)}\\
+%& & g & 79,93 &	132,67 & \textcolor{red}{82,70 (1)} & 86,32 & 80,29 & \textcolor{red}{86,13 (3)} & 91,12 &	76,72 &	\textcolor{red}{89,74 (1)}\\
+%\cline{2-12}
+%& \multirow{2}{*}{40} & e & 79,05 &	191,37 & 78,07 & 85,11 & 131,26 &	84,33 &	91,88 &	132,10 & \textcolor{red}{88,61 (1)}\\
+%& & g & 80,23 &	115,00 & 79,64 & 87,31 & 68,39 & \textcolor{red}{84,57 (3)} & 96,09 &	69,40 &	\textcolor{red}{91,86 (1)}\\
+%\cline{2-12}
+%& \multirow{2}{*}{50} & e & 81,49 &	188,32 & 77,81 & 87,72 & 134,01 &	\textcolor{red}{85,51 (1)} &	92,68 &	132,82 & \textcolor{red}{90,79 (3)}\\
+%& & g & 79,92 &	87,23 &	80,38 &	82,80 &	66,14 &	\textcolor{red}{84,00 (3)} &	92,48 &	64,94 &	\textcolor{red}{91,96 (2)}\\
+%\cline{2-12}
+%& \multirow{2}{*}{60} & e & 83,79 &	155,27 & 81,57 & 85,91 & 131,94 &	\textcolor{red}{82,96 (2)} &	92,24 &	130,11 & \textcolor{red}{86,58 (3)}\\
+%& & g & 77,57 &	97,89 &	78,46 &	86,94 &	76,53 &	\textcolor{red}{88,29 (2)} &	94,31 &	69,53 &	\textcolor{red}{92,23 (3)}\\
+%\hline
+%\end{tabular}
+%\label{table:tab2}
+%\end{table}
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+% \usepackage{graphicx}
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[h!]
+\centering
+\caption{Comparison between exact solution with and without initialization by the matheuristic solution}
+\label{table:tab2}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|ccc|ccc|ccc|}
+\hline
+ &  &  & \multicolumn{9}{c|}{\textbf{\# drones}} \\ \cline{4-12} 
+ &  &  & \multicolumn{3}{c|}{1} & \multicolumn{3}{c|}{2} & \multicolumn{3}{c|}{3} \\ \cline{4-12} 
+\multirow{-3}{*}{$\bm{|\mathcal G|}$} & \multirow{-3}{*}{$\bm{N^d}$} & \multirow{-3}{*}{\textbf{v.t.}} & \% Gap (i) & TimeH & \% Gap (wi) & \% Gap (i) & TimeH & \% Gap (wi) & \% Gap (i) & TimeH & \% Gap (wi) \\ \hline
+ &  & e & 82,63 & 61,56 & 81,70 & 91,57 & 63,80 & 90,61 & 93,06 & 60,87 & 90,93 \\ \cline{3-3}
+ & \multirow{-2}{*}{20} & g & 79,09 & 44,97 & 79,63 & {\color[HTML]{333333} 89,03} & 37,32 & 91,85 & 94,00 & 39,05 & 95,80 \\ \cline{2-12} 
+ &  & e & 82,70 & 65,21 & 80,17 & 85,14 & 64,41 & 82,21 & 91,9 & 63,34 & 90,12 \\ \cline{3-3}
+ & \multirow{-2}{*}{30} & g & 75,80 & 55,77 & 71,19 & 84,36 & 44,36 & 88,27 & 91,02 & 44,59 & 91,39 \\ \cline{2-12} 
+ &  & e & 80,94 & 68,81 & 77,98 & 83,44 & 64,80 & 82,16 & 91,24 & 63,19 & 86,25 \\ \cline{3-3}
+ & \multirow{-2}{*}{40} & g & 74,47 & 43,92 & 73,46 & 81,21 & 38,27 & 84,35 & 85,34 & 37,51 & 89,63 \\ \cline{2-12} 
+ &  & e & 76,87 & 66,67 & 74,41 & 81,12 & 63,86 & 79,57 & 85,11 & 63,51 & 86,16 \\ \cline{3-3}
+ & \multirow{-2}{*}{50} & g & 70,58 & 43,42 & 66,90 & 80,96 & 43,98 & 88,84 & 80,49 & 44,35 & 82,81 \\ \cline{2-12} 
+ &  & e & 76,39 & 67,78 & 71,61 & 81,63 & 66,08 & 79,84 & 83,82 & 64,40 & 82,06 \\ \cline{3-3}
+\multirow{-10}{*}{5} & \multirow{-2}{*}{60} & g & 78,17 & 44,69 & 72,79 & 79,35 & 40,63 & 86,55 & 81,74 & 50,01 & 84,66 \\ \hline
+ &  & e & 82,56 & 137,93 & 84,91 & 92,30 & 128,53 & - & 94,73 & 124,44 & - \\ \cline{3-3}
+ & \multirow{-2}{*}{20} & g & 81,00 & 119,20 & {\color[HTML]{FE0000} 84,08 (2)} & 89,88 & 83,50 & {\color[HTML]{FE0000} 96,64 (2)} & 96,44 & 70,00 & {\color[HTML]{FE0000} 97,43 (3)} \\ \cline{2-12} 
+ &  & e & 80,60 & 159,00 & 80,93 & 87,11 & 132,15 & {\color[HTML]{FE0000} 87,58 (3)} & 94,56 & 127,35 & {\color[HTML]{FE0000} 92,85 (2)} \\ \cline{3-3}
+ & \multirow{-2}{*}{30} & g & 79,93 & 132,67 & {\color[HTML]{FE0000} 82,70 (1)} & 86,32 & 80,29 & {\color[HTML]{FE0000} 86,13 (3)} & 91,12 & 76,72 & {\color[HTML]{FE0000} 89,74 (1)} \\ \cline{2-12} 
+ &  & e & 79,05 & 191,37 & 78,07 & 85,11 & 131,26 & 84,33 & 91,88 & 132,10 & {\color[HTML]{FE0000} 88,61 (1)} \\ \cline{3-3}
+ & \multirow{-2}{*}{40} & g & 80,23 & 115,00 & 79,64 & 87,31 & 68,39 & {\color[HTML]{FE0000} 84,57 (3)} & 96,09 & 69,40 & {\color[HTML]{FE0000} 91,86 (1)} \\ \cline{2-12} 
+ &  & e & 81,49 & 188,32 & 77,81 & 87,72 & 134,01 & {\color[HTML]{FE0000} 85,51 (1)} & 92,68 & 132,82 & {\color[HTML]{FE0000} 90,79 (3)} \\ \cline{3-3}
+ & \multirow{-2}{*}{50} & g & 79,92 & 87,23 & 80,38 & 82,80 & 66,14 & {\color[HTML]{FE0000} 84,00 (3)} & 92,48 & 64,94 & {\color[HTML]{FE0000} 91,96 (2)} \\ \cline{2-12} 
+ &  & e & 83,79 & 155,27 & 81,57 & 85,91 & 131,94 & {\color[HTML]{FE0000} 82,96 (2)} & 92,24 & 130,11 & {\color[HTML]{FE0000} 86,58 (3)} \\ \cline{3-3}
+\multirow{-10}{*}{10} & \multirow{-2}{*}{60} & g & 77,57 & 97,89 & 78,46 & 86,94 & 76,53 & {\color[HTML]{FE0000} 88,29 (2)} & 94,31 & 69,53 & {\color[HTML]{FE0000} 92,23 (3)} \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+\noindent
+We show in Figure \ref{fig:heatmap} the relationship between the objective function values of the problem and the number of available drones and their capacity. This figure reports the average objective values of all the instances with three target graphs varying the number of drones in $\{1,2,3\}$ and their endurance (capacity) in $\{10,20,30,40,50,60\}$. The darker the color intensity the smaller the objective value. As expected, our experiment confirms that both, a greater number of drones and larger endurance reduce total length of the mothership route.
+
+\begin{figure}[h!]
+\includegraphics[width=\linewidth]{heatmap.png}
+\caption{Heatmap of objective function values depending on number of drones and drone capacities. The darker the color intensity the smaller the objective value. \label{fig:heatmap}}
+\end{figure}
+\noindent
+%In order to test the performances of the matheuristic proposed in Section \ref{Math}, we coded it in Python and we run it on the same sets of instances (Grid and Delaunay) on which the three formulations have been solved. Table \ref{table:tab3} reports for each instance, numbered from 0 to 4, distinguishing between Grid and Delauney, respectively, the best objective function provided by the best formulation, the objective function provided by the matheuristic and the associated CPU time. As already noticed from Table \ref{table:tab2}, for grid graph instances, SEC formulation has the best behaviour, with the exception of the instance number 3 for which the MTZ provides a smaller value of the objective function. As for the Delaunay graph instances, MTZ is the best formulation, but also in this case there is an exception on the instance number 2 for which SEC formulation returns a smaller value of the objective function.\\
+%The results show that the matheuristic returns a solution with value of the objective function that is higher than the one provided by the SEC formulation on grid instances. However, these values are smaller than the ones provided by the Stages and the MTZ formulations. Moreover, the saving in terms of resolution time is very significant as the maximum CPU time is less than 1 minute.  As regards the Delaunay instances, the matheuristic performances are even better, as it finds a solution that is better than the best one provided by the MTZ formulation and in a resolution time that is at most 28 minutes. 
+
+
+
+%\renewcommand{\arraystretch}{0.7}
+%\begin{table}[!h]
+%\caption{Heuristic performances}
+%\centering
+%\footnotesize
+%\begin{tabular}{c | c c c | c c c}
+%\hline
+%\textbf{\#}  & \multicolumn{3}{c}{\textbf{Grid}} &  \multicolumn{3}{c}{\textbf{Delauney}} \\
+ % \hline
+% &Best Obj & Obj Heuristic &CPU Time &Best Obj & Obj Heuristic & CPU Time \\
+%\hline
+%0 &	1087,87	& 1117,83 &	50,99 &	947,01 &	934,46 &	52,49\\
+%1 &	1100,38	& 1319,64 &	24,64 &	986,22 &	 938,68	& 72,73\\
+%2 &	1350,67	& 1126,35 &	46,06 &	888,48 &	865,66 &	1073,80\\
+%3 &	1218,66	& 1476,36 &	27,18 &	1249,69 &	1154,62 &	1703,33\\
+%4 &	1297,77	& 1424,37 &	40,91 &	1239,93	 & 1184,67 &	81,15\\
+%    \hline
+%\end{tabular}
+%\label{table:tab3}
+%\end{table}
+
+
+\noindent
+%We performed a second set of experiments by observing that, even if there are small differences between the SEC and the MTZ formulations depending on the type of instances, their performances are comparable.
+%Thus, in the rest of the tests we focused on the MTZ formulation. We compared its performances, with or without providing the initial solution found by the matheuristic, on a set of larger instances. More precisely, we generated 20 instances with targets represented by grid graphs and 20 instances with targets represented by Delauney graphs. The instances of each typology are split in 4 groups of 5 instances each, consisting respectively of 5, 10, 15 and 20 targets to be visited.
+%In each instance the same percentage of graphs ($20\%$) has respectively 4, 6, 8, 10 and 12 nodes. 
+%Moreover, we assumed that the origin coincides with the destination in all instances and we randomly generated with uniform distribution between 0 and 1, two values representing the percentage of each edge and of each graph to be visited.
+%As regards the speeds, we set the speed of the drone three times the one of the mothership.
+%We run the MTZ formulation by adopting Gurobi, setting a time limit of 7200 sec. for each instance.
+%On the same instances also the matheuristic has been applied. Note that, in order to define a stopping rule for the exact resolution of the AMDRPG model within the matheuristic procedure (STEP 3 and STEP 4), we set the maximum number of solutions generated by the solver equal to five.
+%For each instance, the solution provided by the matheuristic has been then used to initialize the exact resolution of the MTZ formulation in order to try to speed up the resolution process.
+%Table \ref{table:tab4} shows the results of the comparison between the exact resolution of the formulation with and without initialization. In the first column, named List, we report the size of the instances in terms of number of targets to be visited (0, 1, 2 and 3 identifies instances respectively with 5, 10, 15 and 20 graphs).The second column refers to the two variants of the model, that is, a given percentage of each edge of the targets (e) or a given percentage of each target (g) must be visited by the drone. The other columns report respectively the average percentage gap of the solutions found within the time limit starting from the initial solution provided by the matheuristic, the average running time of the matheuristic and the average percentage gap of the solutions found within the time limit without initialization. These information are reported for both Grid and Delauney instances.
+
+%\renewcommand{\arraystretch}{0.7}
+%\begin{table}[!h]
+%\caption{Comparison between exact resolution with and without initialization}
+%\centering
+%\footnotesize
+%\begin{tabular}{c c | c c c | c c c}
+%\hline
+% &  & \multicolumn{3}{c}{\textbf{Grid}} &  \multicolumn{3}{c}{\textbf{Delauney}} \\
+%\hline
+% List &  $\%$  & $\%$ Gap (i) & Time$\_$h & $\%$ Gap (ni)  & $\%$ Gap (i) & Time$\_$h &  $\%$ Gap (ni)\\
+%\hline
+%\multirow{}{}{0} & e & 0.72 & 105.12 & 0.73 & 0.78 & 154.92 & 0.74\\
+%& g & 0.55 & 58.92 & 0.54 & 0.62 & 92.64 & 0.67\\
+%\hline
+%\multirow{}{}{1} & e & 0.76 & 241.99 & 0.76 & 0.80 & 314.69 & 0.79\\
+%& g & 0.71 & 182.61 & 0.70 & 0.74 & 353.04 & 0.75\\
+%\hline
+%\multirow{}{}{2} & e & 0.76 & 367.69 & 0.76 & 0.80 & 447.61 & 0.80 \\
+%& g & 0.71 & 326.49 & 0.72 & 0.76 & 429.16 & 0.76\\
+%\hline
+%\multirow{}{}{3} & e & 0.75 & 481.68 & 0.74 & 0.80 & 514.98 & 0.76^*\\
+%& g & 0.71 & 492.27 & 0.70 & 0.77 & 582.90 & 0.77\\
+%    \hline
+%\end{tabular}
+%\label{table:tab4}
+%\end{table}
+
+\noindent
+%From Table \ref{table:tab4} we can notice that in most of the cases the average gaps associated with the solution found within the time limit, with and without initialization by the solution found by the matheuristic, are the same or very close (note that in the last column the $*$ indicates that only one instance has been solved within the time limit).
+%As regards the running time of the matheuristic, we can see also from the boxplots in Figure \ref{fig:1}, that it increases with the number of targets to be visited both for Grid and Delaunay instances. Considering the model variants based on the minimum percentage of each edge or each graph to visit, we can observe that for Grid instances the average running time of the model imposing a minimum percentage of each edge to be visited, is greater than the one associated with the other variant, with the exception of the instances of biggest size (List=3). \\
+\noindent
+%The boxplots in Figure \ref{fig:2} represent the percentage gap of the solution provided by the matheuristic with respect to the one provided by the exact resolution of the MTZ model within the time limit, with initialization by the solution found by the matheuristic. From them we can notice that the gap increases with the size both for Grid and Delaunay instances but it is always less than 0.5$\%$.  
+%Figure \ref{fig:3} shows the percentage gap of the solution provided by the exact resolution of the MTZ formulation within the time limit without the initialization, with respect to the one found with the initialization. This gap is very close to 0 both for Grid and Delaunay instances. Only for the biggest size we observe values ranging between 0.1$\%$ and 0.6$\%$. These observations suggest that, even if the initialization of the model by the solution provided by the matheuristic does not speed up the convergence to the optimal solution, the matheuristic provides solutions of very good quality. Indeed, it generates in less than 10 minutes solutions that are very close to the ones provided by the model within 2 hours.\\
+
+
+%\begin{figure}[htp]% [H] is so declass\'e!
+%\centering
+%\begin{minipage}{0.45\textwidth}
+%\includegraphics[width=\textwidth]{time_h.png}
+%\caption{Matheuristic running time}
+%\label{fig:1}
+%\end{minipage}\hfill
+%\begin{minipage}{0.45\textwidth}
+%\includegraphics[width=\textwidth]{improved_gap.png}
+%\caption{Matheuristic improved gap}
+%\label{fig:2}
+%\end{minipage}\par
+%\vskip\floatsep% normal separation between figures
+%\includegraphics[width=0.45\textwidth]{differencewithwithout.png}
+%\caption{Improved gap of MTZ formulation with and without initialization}
+%\label{fig:3}
+%\end{figure}
+
+
+
+%\noindent
+%As regards the \NMD \xspace problem, we generated three sets of instances with targets represented by grid graphs considering different structures of the polygonal network where the mothership can move.
+%In particular, we defined a first set of instances where the mothership network is represented by a graph of 6 nodes with a tree structure with origin of the path of the base vehicle different from the destination.
+%A second set of instances involving a mothership network consisting in a complete graph of 4 vertices with origin of the path of the base vehicle different from the destination.  
+%A third set of instances characterized by star graphs of 7 nodes representing the mothership network, where the origin coincides with the destination and it is located at the centre of the star. We generated 10 instances for each of these three classes, 5 of them with 5 targets and 5 with 10 targets to be visited. 
+%Moreover, as for the AMDRPG, for each of these 10 instances we randomly generated two values representing the percentage of each edge and of each graph that must be visited by the drone.
+%We run on these sets of instances both Stages and MTZ formulations. Table \ref{table:tab5} summarizes the results obtained comparing them. The first column identifies the size of the instances, similarly to Table \ref{table:tab4}, (0 for instances with 5 targets and 1 for instances with 10 targets).
+%The second column distinguishes between minimum percentage of each edge (e) or of each graph (g) to be visited by the drone.
+%The remaining columns refer to the three different class  of instances described above (1 for the networks with a tree structure, 2 for complete networks and 3 for start networks).
+%For each of these sets of instances the average percentage gap of the solutions found within the time limit of 7200 sec. by the two formulations (Stages and MTZ) is reported.
+
+
+%\renewcommand{\arraystretch}{0.7}
+%\begin{table}[!h]
+%\caption{Comparison between formulations of \NMD}
+%\centering
+%\footnotesize
+%\begin{tabular}{c c | c c | c c | c c}
+%\hline
+% & Net Struct  & \multicolumn{2}{c}{1} &  \multicolumn{2}{c}{2}  & \multicolumn{2}{c}{3}\\
+%\hline
+%List & $\%$ &  Stages  & MTZ & Stages & MTZ  & Stages & MTZ\\
+%\hline
+%\multirow{}{}{0} & e & 0.89 & 0.33 & 0.88 & 0.24 & 0.87 & 0.39\\
+%& g & 0.86 & 0.29 & 0.89 & 0.18 & 0.90 & 0.42\\
+%\hline
+%\multirow{}{}{1} & e & 0.92 & 0.43 & 0.92 & 0.33 & 0.92 & 0.46\\
+%& g & 0.91 & 0.36 & 0.92 & 0.23 & 0.92 & 0.39\\
+%\hline
+%\end{tabular}
+%\label{table:tab5}
+%\end{table}
+
+\noindent
+%We can observe that for each class of instances and model variants, based on the percentage of each edge or each graph to be visited, the MTZ formulation performs better than the Stages one. In all the cases the percentage average gap associated with the MTZ formulation is one third or half of that associated with the Stages formulation. For this reason, in the following tests, related to the comparison between the exact resolution of the \NMD\xspace  model with and without the initialization by the solution found by the matheuristic, we focused only on the MTZ formulation.\\
+%Table \ref{table:tab6} summarizes the results of this comparison distinguishing again between the different network structures (columns labelled 1, 2 and 3), the different size (rows labelled 0 and 1) characterizing the instances and model variants (minimum percentage of each edge (e) or each graph (g) to be visited). For each combination of network structure, size and model variant we reported the average percentage gap with initialization ($\%$ Gap (i)), the solution time of the matheuristic (T$\_$h) and the average percentage gap without initialization by the solution found by the matheuristic ($\%$ Gap (ni))
+
+%\renewcommand{\arraystretch}{0.8}
+%\begin{table}[!h]
+%\caption{Comparison between exact resolution with and without initialization of \NMD}
+%\centering
+%\scriptsize
+%\begin{tabular}{c c | c c c | c c c | c c c}
+%\hline
+% & Net Struct  & \multicolumn{3}{c}{1} &  \multicolumn{3}{c}{2}  & \multicolumn{3}{c}{3}\\
+%\hline
+%List &  $\%$  & $\%$ Gap (i) & T$\_$h & $\%$ Gap (ni)  & $\%$ Gap (i) & T$\_$h &  $\%$ Gap (ni) & $\%$ Gap (i) & T$\_$h &  $\%$ Gap (ni)\\
+%\hline
+%\multirow{}{}{0} & e & 0.32 & 109.96 & 0.33 & 0.24 & 207 & 0.24 & 0.39 & 177.57 & 0.39\\
+%& g & 0.30 & 110.92 & 0.29 & 0.18 & 163.36 & 0.18 & 0.45 & 149.68 & 0.42\\
+%\hline
+%\multirow{}{}{1} & e & 0.48 & 1030.64 & 0.43 & 0.39 & 802.3 & 0.33 & 0.53 & 770.05 & 0.46\\
+%& g & 0.33 & 479.36 & 0.36 & 0.35 & 639.09 & 0.23 & 0.42 & 689.51 & 0.39\\
+%\hline
+%\end{tabular}
+%\label{table:tab6}
+%\end{table}
+
+\noindent
+%We can observe that, similarly to the AMDRPG problem, the average gaps associated with the solution found within the time limit, with and without initialization by the solution found by the matheuristic, are very close. Considering the average running time we can notice that the \NMD\xspace  problem is more challanging to be solved with respect to the AMDRPG. It increases very fast with the size of the instances especially for the case in which the network where the mothership moves has a tree structure. Moreover, as for the Grid instances in the continuous case, the model variant imposing a minimum percentage of each edge to be visited takes more time to be solved.
+
+%\begin{figure}
+%\centering
+%\includegraphics[width=5cm]{improved_gap_ND.png}
+%\caption{Matheuristic improved gap for \NMD}
+%\label{fig:4}
+%\end{figure}
+\noindent
+%The boxplots showed in Figure \ref{fig:4} report the percentage gap of the solution provided by the matheuristic with respect to the one provided by the exact resolution of the MTZ model within the time limit, with initialization by the solution found by the matheuristic.
+%We can notice that, excluding the outliers, this gap ranges between 0$\%$ and 0.7$\%$ and its lowest values are observed for the instances in which the network where the mothership moves has a star structure (green boxplots). 
+%From the previous observations, similarly to the AMDRPG, we can conclude that the behaviour of the matheuristic is very good in terms of quality of the solutions provided, even if the initialization of the MTZ model does not help in speeding up the convergence to the optimal solution. 
+
+
+
+
+
+
+
+
+
+
+

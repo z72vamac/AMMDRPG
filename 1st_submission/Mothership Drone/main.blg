@@ -1,0 +1,61 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+Reallocating 'name_of_file' (item size: 1) to 21 items.
+The style file: elsarticle-num-names.bst
+Reallocating 'name_of_file' (item size: 1) to 18 items.
+Database file #1: bibliography2.bib
+Name 4 in "Amorosi, Lavinia and Caprari, Riccardo and Crainic, Teodor and Dell'Olmo, Paolo, and Ricciardi, Nicoletta" has a comma at the end for entry art:Amorosi2020
+while executing---line 1423 of file elsarticle-num-names.bst
+Warning--to sort, need author or key in FG
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Name 4 in "Amorosi, Lavinia and Caprari, Riccardo and Crainic, Teodor and Dell'Olmo, Paolo, and Ricciardi, Nicoletta" has a comma at the end for entry art:Amorosi2020
+while executing---line 1513 of file elsarticle-num-names.bst
+Name 4 in "Amorosi, Lavinia and Caprari, Riccardo and Crainic, Teodor and Dell'Olmo, Paolo, and Ricciardi, Nicoletta" has a comma at the end for entry art:Amorosi2020
+while executing---line 1513 of file elsarticle-num-names.bst
+Warning--empty booktitle in art:Amorosi2020
+Warning--empty pages in art:Amorosi2020
+Warning--empty journal in art:Amorosi2021
+Warning--empty year in FG; set to ????
+You've used 28 entries,
+            2918 wiz_defined-function locations,
+            829 strings with 12330 characters,
+and the built_in function-call counts, 19421 in all, are:
+= -- 1472
+> -- 881
+< -- 8
++ -- 333
+- -- 300
+* -- 2390
+:= -- 2790
+add.period$ -- 56
+call.type$ -- 28
+change.case$ -- 240
+chr.to.int$ -- 27
+cite$ -- 35
+duplicate$ -- 1377
+empty$ -- 1329
+format.name$ -- 393
+if$ -- 3588
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 277
+newline$ -- 150
+num.names$ -- 108
+pop$ -- 482
+preamble$ -- 1
+purify$ -- 239
+quote$ -- 0
+skip$ -- 306
+stack$ -- 0
+substring$ -- 795
+swap$ -- 1041
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 252
+warning$ -- 5
+while$ -- 113
+width$ -- 0
+write$ -- 400
+(There were 3 error messages)

@@ -1,0 +1,52 @@
+\section{Description of the Problem}
+\JP{In the Mothership and Drone Routing Problem with Graphs (MDRPG), there is one mothership (the base vehicle) and one drone and the problem consists on the coordination between the drone and the base vehicle to minimize the total distance travelled by both vehicles. \JP{In this case, for the sake of simplicity, we assume that there exist no obstacles to prevent drone travel from moving in straight line segments. Nevertheless, that extension is interesting to be further considered although is beyond the scope of this paper.}
+
+The mothership and the drone begin at a starting location, denoted $orig$. There exists a set $\mathcal G$ of target locations modeled by graphs that must be visited by the drone. The natural application for this situation comes from road or wired network inspection. For each stage $t \in \{1, \ldots, |\mathcal G|\}$, we require that the drone is launched from the current mothership location, that at stage $t$ is a decision variable denoted by $x_L^t$, flies to one of the graphs that has to be visited $g$, traverses the required portion of $g$ and then returns to the current position of the mothership, that most likely is different from the launching point $x_L^t$, and  that is another decision variable denoted by $x_R^t$. Once all targets graphs have been visited, the mothership and drone return to a final location (depot), denoted by $dest$.
+
+Let $g = (V_G, E_G)$ be a graph in $\mathcal G$ whose total length is denoted by $\mathcal L(g)$ and $i_g$ that denotes the edge $e$ of this graph $g$. This edge is parametrized by its endpoints $B^{i_g}, C^{i_g}$ and its length $\|\overline{B^{i_g}C^{i_g}}\|$ is denoted by $\mathcal L(i_g)$. For each line segment, we assign a binary variable $\mu^{i_g}$ that indicates whether or not the drone visits the segment $i_g$ and define entry and exit points $(R^{i_g}, \rho^{i_g})$ and $(L^{i_g}, \lambda^{i_g})$, respectively, that determine the portion of the edge visited by the drone. }
+
+We have considered two modes of visit to the targets graphs $g\in \mathcal{G}$:
+\begin{itemize}
+    \item Visiting a percentage $\alpha^{i_g}$ of each edge $i_g$ which can be modeled by using the following constraints:
+    \begin{equation}\label{eq:alphaE}\tag{$\alpha$-E}
+    |\lambda^{i_g} - \rho^{i_g}|\mu^{i_g}\geq \alpha^{i_g}, \quad \forall i_g, \forall g.
+    \end{equation}
+    \item Visiting a percentage $\alpha_g$ of the total length of the graph:
+    \begin{equation}\label{eq:alphaG}\tag{$\alpha$-G}
+    \sum_{i_g} \mu^{i_g}|\lambda^{i_g} - \rho^{i_g}|\mathcal L(i_g) \geq \alpha_g\mathcal L(g), \quad \forall g
+    \end{equation}
+    where $\mathcal L(g)$ denotes the total length of the graph.
+\end{itemize}
+
+\bigskip
+
+In both cases, we need to introduce a binary variable that determines the traveling direction on the edge $i_g$ as well as the definition of the parameter values $\nu_\text{min}^{i_g}$ and $\nu_\text{max}^{i_g}$ of the access and exit points to that segment. Then, for each edge $i_g$, the absolute value constraint \eqref{eq:alphaE} can be represented by:
+
+\begin{equation}\label{eq:alpha-E}\tag{$\alpha$-E}
+ \mu^{i_g}|\rho^{i_g}-\lambda^{i_g}|\geq \alpha^{i_g} \Longleftrightarrow
+ \left\{
+ \begin{array}{ccl}
+  \rho^{i_g} - \lambda^{i_g}                       & =    & \nu_\text{max}^{i_g} - \nu_\text{min}^{i_g}                                     \\
+  \nu_\text{max}^{i_g}                         & \leq & 1-\text{entry}^{i_g}                                    \\
+  \nu_\text{min}^{i_g}                      & \leq & \text{entry}^{i_g},                                        \\
+  \mu^{i_g}(\nu_\text{max}^{i_g} + \nu_\text{min}^{i_g} ) & \geq & \alpha^{i_g}
+  \\
+ \end{array}
+ \right.
+\end{equation}
+
+The linearization of \eqref{eq:alphaG} is similar to \eqref{eq:alphaE} by changing the last inequality in \eqref{eq:alpha-E} for
+
+\begin{equation}\label{eq:alpha-G}\tag{$\alpha$-G}
+\sum_{i_g} \mu^{i_g}(\nu_\text{max}^{i_g} + \nu_\text{min}^{i_g})\mathcal L(i_g)\geq \alpha_g\mathcal L(g).
+\end{equation}
+
+\JP{In our model wlog, we assume  that the mothership and drone do not need to arrive at a rendezvous location at the same time: the
+faster arriving vehicle may wait for the other at the rendezvous location. In addition, we also assume that vehicles move at constant speeds, although this hypothesis could be relaxed. The mothership travels at $v_M$ speed whereas the drone has a speed of $v_D$ > $v_M$. The mothership and the drone must travel together from $orig$ to the first launch location. Similarly, after the drone visits the last target location, the mothership and the drone must meet at the final rendezvous location before traveling together back to $dest$. The first launch location and final rendezvous location are allowed to be $orig$ and $dest$, respectively, but it is not mandatory. For the ease of presentation, in this paper we will assume that $orig$ and $dest$ are the same location. However, all results extend easily to the case that $orig$ and $dest$ are different locations.
+
+The goal is to find a minimum time path that begins at $orig$, ends at $dest$, and where
+every $g \in \mathcal G$ is visited by the drone.
+
+Depending on the assumptions made on the movements of the mothership vehicle this problem gives rise to two different versions: a) the mothership vehicle can move freely on the continuous space (all terrain ground vehicle, boat on the water or flying vehicle); and b) the mothership vehicle must move on a travel network (that is, it is a normal truck or van). In the former case, that we will call All terrain Mothership-Drone Routing Problem with Graphs (\AMD), each launch and rendezvous location may be chosen from a continuous space (the Euclidean 2-or-3 dimension space). In the latter case, that we will call Network Mothership-Drone Routing Problem with Graphs (\NMD) from now on, each launch and rendezvouz location must be chosen on a given graph embedded in the considered space. For the sake of presentation and length  of the paper, we will focus in this paper, mainly, on the first model \AMD. The second model, namely \NMD, is addressed using similar techniques but providing slightly less details.}
+
+

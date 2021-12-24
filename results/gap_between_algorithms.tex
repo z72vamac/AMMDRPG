@@ -1,0 +1,507 @@
+% This file was created with tikzplotlib v0.9.12.
+\begin{figure}[h!}
+\begin{tikzpicture}
+
+\definecolor{color0}{rgb}{0.917647058823529,0.917647058823529,0.949019607843137}
+\definecolor{color1}{rgb}{0.347058823529412,0.458823529411765,0.641176470588235}
+\definecolor{color2}{rgb}{0.798529411764706,0.536764705882353,0.389705882352941}
+
+\begin{groupplot}[group style={group size=3 by 1}]
+\nextgroupplot[
+axis background/.style={fill=color0},
+axis line style={white},
+tick align=outside,
+title={Num\_Drones = 1},
+x grid style={white},
+xlabel={Size},
+xmajorticks=false,
+xmin=-0.5, xmax=1.5,
+xtick style={color=white!15!black},
+xtick={0,1},
+xticklabels={5,10},
+y grid style={white},
+ylabel={Difference},
+ymajorgrids,
+ymajorticks=false,
+ymin=-2.0023571013993, ymax=42.0494991293852,
+ytick style={color=white!15!black}
+]
+\path [draw=white!29.8039215686275!black, fill=color1, semithick]
+(axis cs:-0.396,20.6407800235787)
+--(axis cs:-0.004,20.6407800235787)
+--(axis cs:-0.004,29.8403354243381)
+--(axis cs:-0.396,29.8403354243381)
+--(axis cs:-0.396,20.6407800235787)
+--cycle;
+\path [draw=white!29.8039215686275!black, fill=color2, semithick]
+(axis cs:0.004,22.6632155088597)
+--(axis cs:0.396,22.6632155088597)
+--(axis cs:0.396,29.3936680794107)
+--(axis cs:0.004,29.3936680794107)
+--(axis cs:0.004,22.6632155088597)
+--cycle;
+\path [draw=white!29.8039215686275!black, fill=color1, semithick]
+(axis cs:0.604,0.0339850633863935)
+--(axis cs:0.996,0.0339850633863935)
+--(axis cs:0.996,10.2949188269681)
+--(axis cs:0.604,10.2949188269681)
+--(axis cs:0.604,0.0339850633863935)
+--cycle;
+\path [draw=white!29.8039215686275!black, fill=color2, semithick]
+(axis cs:1.004,0.0194795130371425)
+--(axis cs:1.396,0.0194795130371425)
+--(axis cs:1.396,0.306707139438365)
+--(axis cs:1.004,0.306707139438365)
+--(axis cs:1.004,0.0194795130371425)
+--cycle;
+\draw[draw=white!29.8039215686275!black,fill=color1,line width=0.3pt] (axis cs:0,0) rectangle (axis cs:0,0);
+\addlegendimage{ybar,ybar legend,draw=white!29.8039215686275!black,fill=color1,line width=0.3pt}
+\addlegendentry{False}
+
+\draw[draw=white!29.8039215686275!black,fill=color2,line width=0.3pt] (axis cs:0,0) rectangle (axis cs:0,0);
+\addlegendimage{ybar,ybar legend,draw=white!29.8039215686275!black,fill=color2,line width=0.3pt}
+\addlegendentry{True}
+
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+-0.2 20.6407800235787
+-0.2 10.2174215472121
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+-0.2 29.8403354243381
+-0.2 39.8372111596839
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+-0.298 10.2174215472121
+-0.102 10.2174215472121
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+-0.298 39.8372111596839
+-0.102 39.8372111596839
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.2 22.6632155088597
+0.2 12.5823686637236
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.2 29.3936680794107
+0.2 37.0654745861762
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.102 12.5823686637236
+0.298 12.5823686637236
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.102 37.0654745861762
+0.298 37.0654745861762
+};
+\addplot [black, mark=diamond*, mark size=2.5, mark options={solid,fill=white!29.8039215686275!black}, only marks]
+table {%
+0.2 12.3764537954977
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.8 0.0339850633863935
+0.8 0
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.8 10.2949188269681
+0.8 24.2898819355359
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.702 0
+0.898 0
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.702 24.2898819355359
+0.898 24.2898819355359
+};
+\addplot [black, mark=diamond*, mark size=2.5, mark options={solid,fill=white!29.8039215686275!black}, only marks]
+table {%
+0.8 28.0687173355187
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+1.2 0.0194795130371425
+1.2 0
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+1.2 0.306707139438365
+1.2 0.630772135488852
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+1.102 0
+1.298 0
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+1.102 0.630772135488852
+1.298 0.630772135488852
+};
+\addplot [black, mark=diamond*, mark size=2.5, mark options={solid,fill=white!29.8039215686275!black}, only marks]
+table {%
+1.2 7.94455506693244
+1.2 9.18410909127298
+1.2 9.19193054556677
+1.2 7.08340072268779
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+-0.396 26.8781875312972
+-0.004 26.8781875312972
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.004 25.341101423165
+0.396 25.341101423165
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.604 0.591842201335821
+0.996 0.591842201335821
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+1.004 0.0939379065004709
+1.396 0.0939379065004709
+};
+
+\nextgroupplot[
+axis background/.style={fill=color0},
+axis line style={white},
+scaled y ticks=manual:{}{\pgfmathparse{#1}},
+tick align=outside,
+title={Num\_Drones = 2},
+x grid style={white},
+xlabel={Size},
+xmajorticks=false,
+xmin=-0.5, xmax=1.5,
+xtick style={color=white!15!black},
+xtick={0,1},
+xticklabels={5,10},
+y grid style={white},
+ymajorgrids,
+ymajorticks=false,
+ymin=-2.0023571013993, ymax=42.0494991293852,
+ytick style={color=white!15!black},
+yticklabels={}
+]
+\path [draw=white!29.8039215686275!black, fill=color1, semithick]
+(axis cs:-0.396,10.2866453493961)
+--(axis cs:-0.004,10.2866453493961)
+--(axis cs:-0.004,22.5081525206015)
+--(axis cs:-0.396,22.5081525206015)
+--(axis cs:-0.396,10.2866453493961)
+--cycle;
+\path [draw=white!29.8039215686275!black, fill=color2, semithick]
+(axis cs:0.004,7.0678376200125)
+--(axis cs:0.396,7.0678376200125)
+--(axis cs:0.396,20.7415594727762)
+--(axis cs:0.004,20.7415594727762)
+--(axis cs:0.004,7.0678376200125)
+--cycle;
+\path [draw=white!29.8039215686275!black, fill=color1, semithick]
+(axis cs:0.604,0)
+--(axis cs:0.996,0)
+--(axis cs:0.996,5.60272249505483)
+--(axis cs:0.604,5.60272249505483)
+--(axis cs:0.604,0)
+--cycle;
+\path [draw=white!29.8039215686275!black, fill=color2, semithick]
+(axis cs:1.004,8.79818728320465e-05)
+--(axis cs:1.396,8.79818728320465e-05)
+--(axis cs:1.396,0.13797377094944)
+--(axis cs:1.004,0.13797377094944)
+--(axis cs:1.004,8.79818728320465e-05)
+--cycle;
+\draw[draw=white!29.8039215686275!black,fill=color1,line width=0.3pt] (axis cs:0,0) rectangle (axis cs:0,0);
+\draw[draw=white!29.8039215686275!black,fill=color2,line width=0.3pt] (axis cs:0,0) rectangle (axis cs:0,0);
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+-0.2 10.2866453493961
+-0.2 3.60268280881678
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+-0.2 22.5081525206015
+-0.2 40.0471420279859
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+-0.298 3.60268280881678
+-0.102 3.60268280881678
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+-0.298 40.0471420279859
+-0.102 40.0471420279859
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.2 7.0678376200125
+0.2 0.642284767544519
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.2 20.7415594727762
+0.2 29.5674840057024
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.102 0.642284767544519
+0.298 0.642284767544519
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.102 29.5674840057024
+0.298 29.5674840057024
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.8 0
+0.8 0
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.8 5.60272249505483
+0.8 13.5020703882813
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.702 0
+0.898 0
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.702 13.5020703882813
+0.898 13.5020703882813
+};
+\addplot [black, mark=diamond*, mark size=2.5, mark options={solid,fill=white!29.8039215686275!black}, only marks]
+table {%
+0.8 20.0779538400286
+0.8 17.6366857723062
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+1.2 8.79818728320465e-05
+1.2 0
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+1.2 0.13797377094944
+1.2 0.235568383869461
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+1.102 0
+1.298 0
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+1.102 0.235568383869461
+1.298 0.235568383869461
+};
+\addplot [black, mark=diamond*, mark size=2.5, mark options={solid,fill=white!29.8039215686275!black}, only marks]
+table {%
+1.2 2.63387588427892
+1.2 0.424951172219
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+-0.396 18.3831443590176
+-0.004 18.3831443590176
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.004 15.3701106859569
+0.396 15.3701106859569
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.604 0.0593655722027036
+0.996 0.0593655722027036
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+1.004 0.0126952901795616
+1.396 0.0126952901795616
+};
+
+\nextgroupplot[
+axis background/.style={fill=color0},
+axis line style={white},
+scaled y ticks=manual:{}{\pgfmathparse{#1}},
+tick align=outside,
+title={Num\_Drones = 3},
+x grid style={white},
+xlabel={Size},
+xmajorticks=false,
+xmin=-0.5, xmax=1.5,
+xtick style={color=white!15!black},
+xtick={0,1},
+xticklabels={5,10},
+y grid style={white},
+ymajorgrids,
+ymajorticks=false,
+ymin=-2.0023571013993, ymax=42.0494991293852,
+ytick style={color=white!15!black},
+yticklabels={}
+]
+\path [draw=white!29.8039215686275!black, fill=color1, semithick]
+(axis cs:-0.396,6.53463437293595)
+--(axis cs:-0.004,6.53463437293595)
+--(axis cs:-0.004,20.6227343985175)
+--(axis cs:-0.396,20.6227343985175)
+--(axis cs:-0.396,6.53463437293595)
+--cycle;
+\path [draw=white!29.8039215686275!black, fill=color2, semithick]
+(axis cs:0.004,6.43445824030872)
+--(axis cs:0.396,6.43445824030872)
+--(axis cs:0.396,15.9075308578851)
+--(axis cs:0.004,15.9075308578851)
+--(axis cs:0.004,6.43445824030872)
+--cycle;
+\path [draw=white!29.8039215686275!black, fill=color1, semithick]
+(axis cs:0.604,7.32352158495657e-08)
+--(axis cs:0.996,7.32352158495657e-08)
+--(axis cs:0.996,2.99868227559093)
+--(axis cs:0.604,2.99868227559093)
+--(axis cs:0.604,7.32352158495657e-08)
+--cycle;
+\path [draw=white!29.8039215686275!black, fill=color2, semithick]
+(axis cs:1.004,0)
+--(axis cs:1.396,0)
+--(axis cs:1.396,0.0559914040218077)
+--(axis cs:1.004,0.0559914040218077)
+--(axis cs:1.004,0)
+--cycle;
+\draw[draw=white!29.8039215686275!black,fill=color1,line width=0.3pt] (axis cs:0,0) rectangle (axis cs:0,0);
+\draw[draw=white!29.8039215686275!black,fill=color2,line width=0.3pt] (axis cs:0,0) rectangle (axis cs:0,0);
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+-0.2 6.53463437293595
+-0.2 1.79056825828256e-05
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+-0.2 20.6227343985175
+-0.2 26.5456799908282
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+-0.298 1.79056825828256e-05
+-0.102 1.79056825828256e-05
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+-0.298 26.5456799908282
+-0.102 26.5456799908282
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.2 6.43445824030872
+0.2 0.0394119649305478
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.2 15.9075308578851
+0.2 22.8058892464428
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.102 0.0394119649305478
+0.298 0.0394119649305478
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.102 22.8058892464428
+0.298 22.8058892464428
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.8 7.32352158495657e-08
+0.8 0
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.8 2.99868227559093
+0.8 7.36554173175818
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.702 0
+0.898 0
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.702 7.36554173175818
+0.898 7.36554173175818
+};
+\addplot [black, mark=diamond*, mark size=2.5, mark options={solid,fill=white!29.8039215686275!black}, only marks]
+table {%
+0.8 12.2593696921256
+0.8 21.2612364965465
+0.8 21.8997819287943
+0.8 13.7961652594506
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+1.2 0
+1.2 0
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+1.2 0.0559914040218077
+1.2 0.109590853639457
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+1.102 0
+1.298 0
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+1.102 0.109590853639457
+1.298 0.109590853639457
+};
+\addplot [black, mark=diamond*, mark size=2.5, mark options={solid,fill=white!29.8039215686275!black}, only marks]
+table {%
+1.2 6.08934722229896
+1.2 6.51363062749102
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+-0.396 8.85165952119232
+-0.004 8.85165952119232
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.004 12.7294513588976
+0.396 12.7294513588976
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+0.604 0.0906636339713724
+0.996 0.0906636339713724
+};
+\addplot [semithick, white!29.8039215686275!black]
+table {%
+1.004 0.00552917704183977
+1.396 0.00552917704183977
+};
+\end{groupplot}
+
+\end{tikzpicture}
+\end{figure}

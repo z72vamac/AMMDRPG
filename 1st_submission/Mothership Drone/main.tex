@@ -1,0 +1,106 @@
+\documentclass[10pt,a4paper]{elsarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{mathtools,amssymb}
+\usepackage{subfig}
+\usepackage{graphicx}
+%\usepackage{subfigure}
+\usepackage{optidef}
+\usepackage{xcolor}
+\usepackage{amsthm}
+\usepackage{comment}
+\usepackage{bm}
+\usepackage[ruled]{algorithm2e}
+\usepackage{xspace}
+\usepackage{ulem}
+\usepackage{multirow}
+\usepackage{graphicx}
+%\usepackage[table,xcdraw]{xcolor}
+\usepackage{url}
+%\usepackage{booktabs}
+\newtheorem*{remark}{Remark}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\usepackage[margin=1in]{geometry}
+
+\def\MDR{{\sf MDRPG\xspace}}
+\def\AMD{{\sf AMMDRPG\xspace}}
+\def\NMD{{\sf NMDRPG\xspace}}
+\def\PMD{{\sf PMDRPG\xspace}}
+\definecolor{armygreen}{rgb}{0.19, 0.53, 0.43}
+\definecolor{atomictangerine}{rgb}{1.0, 0.6, 0.4}
+\newcommand{\JP}[1]{{\color{armygreen}#1}}
+\newcommand{\CV}[1]{{\color{atomictangerine}#1}}
+\newcommand{\LA}[1]{{\color{blue}#1}}
+\renewcommand{\arraystretch}{1.5}
+
+
+
+\title{Coordinating drones with mothership vehicles: The mothership and multiple drones routing problem with Graphs}
+
+\author[1]{Lavinia Amorosi\corref{cor1}}
+\ead{lavinia.amorosi@uniroma1.it}
+\author[2]{Justo Puerto\corref{cor1}}
+\ead{puerto@us.es}
+\author[2]{Carlos Valverde\corref{cor1}}
+\ead{cvalverde@us.es}
+
+\cortext[cor1]{Equally contributing authors}
+
+\address[1]{Department of Statistical Sciences, Sapienza University of Rome, Italy}
+\address[2]{Department of Statistical Sciences and Operational Research, University of Seville, Spain}
+
+
+
+%\author{Lavinia Amorosi^{a}, Justo Puerto^{b}, Carlos Valverde^{b}}
+%\address[1]{Department of Statistical Sciences, University of Rome, Sapienza}
+%\address[2]{IMUS, Mathematical Research Institute, University of Seville}
+
+\date{\today}
+
+\begin{document}
+
+
+\begin{abstract}
+This paper considers the optimization problems that arise to coordinate a tandem between a mothership vehicle and a fleet of drones. %more than one drone. 
+Each drone can be launched from the mothership to perform an operation. After completing the operations the drones return to the mothership to recharge batteries and to be ready for a new operation. Operations consist on (partially) visiting graphs with given lengths to deliver some service or to perform some surveillance/inspection activity.  The goal is to minimize the overall weighted distance traveled by the mothership while satisfying some requirements in terms of percentages of visits to the target graphs. In all cases, we develop exact formulations resorting to mixed integer second order cone programs that are compared on a testbed of instances to assess their performance. We also develop a matheuristic algorithm that provides reasonable solutions.  Computational experiments show the usefulness of our methods in different scenarios. 
+\end{abstract}
+
+\begin{keyword}
+Arc Routing Problems \sep Networks \sep Drones \sep Conic Programming
+\end{keyword}
+
+
+\maketitle
+
+
+\input{introduction}
+%\input{literature}
+\input{description}
+\input{formulations}
+\input{bounds}
+\input{heuristic}
+% \input{Benders-like}
+\input{experiments}
+\input{case_study}
+\input{conclusion}
+\section*{Acknowledgements}
+This research has been partially supported by Spanish Ministry of Education and Science/FEDER grant number  MTM2016-74983-C02-(01-02), and projects Junta de Andalucia P18-FR-1422, FEDER-US-1256951, CEI-3-FQM331 and  \textit{NetmeetData}: Ayudas Fundaci\'on BBVA a equipos de investigaci\'on cient\'ifica 2019.
+%\section{Introduction}
+
+% \bibliographystyle{apa}
+
+\bibliographystyle{elsarticle-num-names}
+% \printbibliography
+
+\bibliography{bibliography2.bib}
+
+
+\end{document}
