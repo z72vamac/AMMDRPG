@@ -54,7 +54,7 @@ for key, it in zip(instancias.keys(), range(len(instancias.keys()))):
         
         else:
             dataframe = dataframe.append(pd.Series([instance, size, alpha, capacity, nD, sol_Stages[0], sol_Stages[1], sol_Stages[2], sol_Stages[3]], index=['Instance', 'Size', 'Alpha_e', 'Capacity', 'Num_Drones', 'GAP', 'Runtime', 'NodeCount', 'ObjVal']), ignore_index=True)
-                    if init:
+        if init:
             dataframe.to_csv('./results/synchronous_withoutd_results_with.csv', header = True, mode = 'w')
         else:
             dataframe.to_csv('./results/synchronous_withoutd_results_without.csv', header = True, mode = 'w')
