@@ -373,7 +373,7 @@ class Data(object):
 
                 # alpha = np.random.rand()
                 # alpha = 0.0001
-                alpha = 0.5
+                # alpha = 0.5
 
                 self.data.append(e.Grafo(V, A, alpha))
         else:
