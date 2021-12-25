@@ -736,19 +736,19 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
             
             # nx.draw_networkx_labels(grafo.G, grafo.pos, font_color = 'white', font_size=9)
         
-        for g in grafos:
-            nx.draw(g.G, g.pos, node_size=10, width = 1, 
-                    node_color = 'blue', alpha = 1, edge_color = 'blue')
-            
-        plt.savefig('Synchronous{b}-{c}-{d}-{e}.png'.format(b = datos.m, c = int(datos.alpha), d = datos.capacity, e = datos.nD))
-        plt.show()
-        
-        import tikzplotlib
-        import matplotlib
-        
-        matplotlib.rcParams['axes.unicode_minus'] = False
-        
-        tikzplotlib.save('synchronous.tex', encoding = 'utf-8')
+        # for g in grafos:
+        #     nx.draw(g.G, g.pos, node_size=10, width = 1, 
+        #             node_color = 'blue', alpha = 1, edge_color = 'blue')
+        #
+        # plt.savefig('Synchronous{b}-{c}-{d}-{e}.png'.format(b = datos.m, c = int(datos.alpha), d = datos.capacity, e = datos.nD))
+        # plt.show()
+        #
+        # import tikzplotlib
+        # import matplotlib
+        #
+        # matplotlib.rcParams['axes.unicode_minus'] = False
+        #
+        # tikzplotlib.save('synchronous.tex', encoding = 'utf-8')
             
         # plt.show()
         # plt.savefig('Synchronous{b}-{c}-{d}-{e}.png'.format(b = datos.m, c = int(datos.alpha), d = datos.capacity, e = datos.nD))
