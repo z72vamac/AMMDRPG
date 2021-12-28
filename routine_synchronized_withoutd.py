@@ -22,7 +22,7 @@ import pickle as pickle
 
 instancias = pickle.load(open("instancias.pickle", "rb"))
 
-init = False
+init = True
 
 if init:
     dataframe = pd.DataFrame(columns = ['Instance', 'Size', 'Alpha_e', 'Capacity', 'Num_Drones', 'GAP', 'Runtime', 'NodeCount', 'ObjVal', 'HeurTime', 'HeurVal'])
