@@ -46,7 +46,7 @@ for key, it in zip(instancias.keys(), range(len(instancias.keys()))):
             datos.init = True
         else:
             datos.init = False
-        # datos.tmax = 10
+        datos.tmax = 3600
     
         print()
         print('--------------------------------------------')

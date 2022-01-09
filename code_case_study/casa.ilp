@@ -1,0 +1,23 @@
+\ Model Asynchoronous-Version_copy
+\ LP format - for model browsing. Use MPS format to capture full model detail.
+Minimize
+ 
+Subject To
+ R20773: dif_eg_e'g[1313,1515,3,1] - R_eg[1515,3,1] + L_eg[1313,3,1] >= 0
+ R46163: - 0.2526693222375838 z_eg_e'g[1313,1515,3] + p_eg_e'g[1313,1515,3]
+   <= 0
+ R46166: - 0.2526693222375838 z_eg_e'g[1313,1515,3] - d_eg_e'g[1313,1515,3]
+   + p_eg_e'g[1313,1515,3] >= -0.2526693222375838
+ R54924: L_eg[1313,3,1] + 0.77 lambda_eg[1313,3] = 71.02
+ R54938: R_eg[1515,3,1] - 2.4 rho_eg[1515,3] = 83.99
+ qc0: [ - d_eg_e'g[1313,1515,3] ^2 + dif_eg_e'g[1313,1515,3,0] ^2
+   + dif_eg_e'g[1313,1515,3,1] ^2 ] <= 0
+Bounds
+ dif_eg_e'g[1313,1515,3,0] free
+ dif_eg_e'g[1313,1515,3,1] free
+ p_eg_e'g[1313,1515,3] free
+ R_eg[1515,3,1] free
+ L_eg[1313,3,1] free
+Binaries
+ z_eg_e'g[1313,1515,3]
+End
