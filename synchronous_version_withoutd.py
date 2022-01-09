@@ -176,7 +176,11 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
             xRt_index.append((t, dim))
 
     xRt = MODEL.addVars(xRt_index, vtype=GRB.CONTINUOUS, name='xRt')
-
+    
+    timetD = MODEL.addVars(T_index_prima, vtype = GRB.CONTINUOUS, lb = 0.0, name = 'timetD')
+    timetM = MODEL.addVars(T_index_prima, vtype = GRB.CONTINUOUS, lb = 0.0, name = 'timetM')
+    
+    
     # Rig: punto de recogida del dron para el segmento sig
     Rig_index = []
     rhoig_index = []
@@ -320,6 +324,7 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
 
     SmallM = 0
     BigM = datos.capacity*datos.vD*2
+    BigM = 1e5
     # BigM = 0
     # for g in T_index_prima:
         # for h in T_index_prima:
@@ -387,10 +392,16 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
     #     longitudes.append(sum([grafos[g-1].A[i // 100 - 1, i % 100]*grafos[g-1].longaristas[i // 100 - 1, i % 100] for i in grafos[g-1].aristas]))
 
     BigM = 1e5
-    BigM = datos.capacity
+    # BigM = datos.capacity
 
-    MODEL.addConstrs((gp.quicksum(pLigt[i, g, t] for i in grafos[g-1].aristas) + pigjg.sum('*', '*', g) +  gp.quicksum(pig[i, g]*grafos[g-1].longaristas[i // 100 - 1, i % 100] for i in grafos[g-1].aristas) + gp.quicksum(pRigt[i, g, t] for i in grafos[g-1].aristas))/datos.vD <= dLRt[t]/datos.vC + BigM*(1- gp.quicksum(uigt[i, g, t] for i in grafos[g-1].aristas)) for t in T_index_prima for g in T_index_prima for d in D_index)
-    MODEL.addConstrs(dLRt[t]/datos.vC <= datos.capacity for t in T_index_prima)
+    MODEL.addConstrs(timetD[t] >= (gp.quicksum(pLigt[i, g, t] for i in grafos[g-1].aristas) + pigjg.sum('*', '*', g) +  gp.quicksum(pig[i, g]*grafos[g-1].longaristas[i // 100 - 1, i % 100] for i in grafos[g-1].aristas) + gp.quicksum(pRigt[i, g, t] for i in grafos[g-1].aristas))/datos.vD -  BigM*(1- gp.quicksum(uigt[i, g, t] for i in grafos[g-1].aristas)) for t in T_index_prima for g in T_index_prima)
+    MODEL.addConstrs(timetM[t] == dLRt[t]/datos.vC for t in T_index_prima)
+    
+    MODEL.addConstrs(timetD[t] <= timetM[t] for t in T_index_prima)
+    MODEL.addConstrs(timetD[t] <= datos.capacity for t in T_index_prima)
+    # MODEL.addConstrs((gp.quicksum(pLigt[i, g, t] for i in grafos[g-1].aristas) + pigjg.sum('*', '*', g) +  gp.quicksum(pig[i, g]*grafos[g-1].longaristas[i // 100 - 1, i % 100] for i in grafos[g-1].aristas) + gp.quicksum(pRigt[i, g, t] for i in grafos[g-1].aristas))/datos.vD <= dLRt[t]/datos.vC + BigM*(1- gp.quicksum(uigt[i, g, t] for i in grafos[g-1].aristas)) for t in T_index_prima for g in T_index_prima for d in D_index)
+    # MODEL.addConstrs((gp.quicksum(pLigt[i, g, t] for i in grafos[g-1].aristas) + pigjg.sum('*', '*', g) +  gp.quicksum(pig[i, g]*grafos[g-1].longaristas[i // 100 - 1, i % 100] for i in grafos[g-1].aristas) + gp.quicksum(pRigt[i, g, t] for i in grafos[g-1].aristas))/datos.vD
+    # MODEL.addConstrs(dLRt[t]/datos.vC <= datos.capacity for t in T_index_prima)
     
     # MODEL.addConstrs((gp.quicksum(pLigt[i, g, t] for i in grafos[g-1].aristas) + pigjg.sum('*', '*', g) +  gp.quicksum(pig[i, g]*grafos[g-1].longaristas[i // 100 - 1, i % 100] for i in grafos[g-1].aristas) + gp.quicksum(pRigt[i, g, t] for i in grafos[g-1].aristas))/datos.vD <=  zetat[t] + BigM*(1- gp.quicksum(uigt[i, g, t] for i in grafos[g-1].aristas)) for t in T_index_prima for g in T_index_prima for d in D_index)
 
@@ -474,7 +485,7 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
 
     # objective = gp.quicksum(1*dRLt[g1] for g1 in dRLt.keys()) + gp.quicksum(zetat[t] for t in zetat.keys()) + gp.quicksum(1*dLRt[g] for g in dLRt.keys())
     
-    objective = gp.quicksum(1*dRLt[g1] for g1 in dRLt.keys()) + gp.quicksum(1*dLRt[g] for g in dLRt.keys())
+    objective = gp.quicksum(1*dRLt[g1]/datos.vC for g1 in dRLt.keys()) + gp.quicksum(1*dLRt[g]/datos.vC for g in dLRt.keys())
 
     MODEL.setObjective(objective, GRB.MINIMIZE)
     MODEL.Params.Threads = 6

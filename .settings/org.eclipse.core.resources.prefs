@@ -1,4 +1,7 @@
 eclipse.preferences.version=1
+encoding//code_case_study/data.py=utf-8
+encoding//code_case_study/entorno.py=utf-8
+encoding//code_case_study/estimacion_M.py=utf-8
 encoding/data.py=utf-8
 encoding/data_generator.py=utf-8
 encoding/entorno.py=utf-8

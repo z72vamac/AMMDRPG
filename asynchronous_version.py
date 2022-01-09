@@ -337,12 +337,96 @@ def ASYNCHRONOUS(datos):
         
         hola = heuristic(datos)
         
+        # print(hola)
+        
         if hola != None:
             uigtd_sol = hola[0]
             vigtd_sol = hola[1]
             z_sol = hola[2]
             heuristic_time = hola[3]
             
+            O_set = set()
+            
+            for e, g, o in uigtd_sol:
+                O_set.add(o)
+            
+            print(O_set)
+            
+            G_list = list()
+            for o in O_set:
+                Go_list = list()
+                for e, g, u in uigtd_sol:
+                    if u == o:
+                        Go_list.append(g)
+                G_list.append(Go_list)
+            
+            print(G_list)
+            
+            to_list = [1]
+            
+            for o in list(O_set)[:-1]:
+                to_list.append(to_list[-1]+2*len(G_list[o-1]))
+                
+            print(to_list)
+            
+            tuo_list = list()
+            for o in list(O_set):
+                tu_list = []
+                for t in O_index:
+                    if t >= to_list[o-1] and t <= to_list[o-1] + len(G_list[o-1]) - 1:
+                        tu_list.append(t)
+                tuo_list.append(tu_list)
+                
+            print(tuo_list)        
+                
+            
+            tvo_list = list()
+            for o in list(O_set):
+                tv_list = []
+                for t in O_index:
+                    if t - len(G_list[o-1]) >= to_list[o-1] and t <= to_list[o-1] + 2*len(G_list[o-1]) - 1:
+                        tv_list.append(t)
+                tvo_list.append(tv_list)
+            
+            print(tvo_list)
+            
+            indices = []
+                             
+            for t in O_index:
+                for e, g, o in uigtd_sol:
+                    if t in tuo_list[o-1]:
+                        uego[e, g, t].start = 1
+                        indices.append((e, g, t))
+                        uigtd_sol.remove((e, g, o))
+                        
+            for t in O_index:
+                for e, g, o in vigtd_sol:
+                    if t in tvo_list[o-1]:
+                        vego[e, g, t].start = 1
+                        indices.append((e, g, t))
+                        vigtd_sol.remove((e, g, o))
+                        
+            for e, g, o in uego.keys():
+                if not(e, g, o in indices):
+                    uego[e, g, o].start = 0
+                    vego[e, g, o].start = 0
+                    
+                    
+            for i, j, g in zegeg.keys():
+                if (i, j, g) in z_sol:
+                    zegeg[i, j, g].start = 1
+                else:
+                    zegeg[i, j, g].start = 0                
+
+                        
+            
+                    
+                    
+                
+
+                
+            
+                
     ### DRONE CONSTRAINTS ###
     
     # (44): x_L^o must be associated to one point R^{e_g}
@@ -748,7 +832,7 @@ def ASYNCHRONOUS(datos):
     MODEL.Params.Threads = 6
     MODEL.Params.TimeLimit = datos.tmax
     
-    MODEL.read('solution.sol')
+    # MODEL.read('solution.sol')
 
     
     if datos.init:
@@ -854,11 +938,11 @@ def ASYNCHRONOUS(datos):
     if log:
         fig, ax = plt.subplots()
         
-        colors = {'fuchsia': 0 , 'orange' : 0, 'lime' : 0}
+        colors = {'lime': 0 , 'orange' : 0, 'fuchsia' : 0}
         
         # Mothership Route
     
-        ax.arrow(datos.orig[0], datos.orig[1], xLo[1, 0].X-datos.orig[0], xLo[1, 1].X - datos.orig[1], width = 0.3, head_width = 0.7, length_includes_head = True, color = 'black')
+        ax.arrow(datos.orig[0], datos.orig[1], xLo[1, 0].X-datos.orig[0], xLo[1, 1].X - datos.orig[1], width = 0.3, head_width = 1, length_includes_head = True, color = 'black')
         plt.plot(datos.orig[0], datos.orig[1], 's', markersize = 10, c = 'black')
         
         wasU = True
@@ -869,7 +953,7 @@ def ASYNCHRONOUS(datos):
             
             if wasU and isU:
                 
-                ax.arrow(xLo[o-1, 0].X, xLo[o-1, 1].X, xLo[o, 0].X - xLo[o-1, 0].X, xLo[o, 1].X - xLo[o-1, 1].X, width = 0.3, head_width = 0.7, length_includes_head = True, color = 'black')
+                ax.arrow(xLo[o-1, 0].X, xLo[o-1, 1].X, xLo[o, 0].X - xLo[o-1, 0].X, xLo[o, 1].X - xLo[o-1, 1].X, width = 0.3, head_width = 1, length_includes_head = True, color = 'black')
                 
                 edge = selected_u.select('*', '*', o)[0][0]
                 g = selected_u.select('*', '*', o)[0][1]
@@ -878,7 +962,7 @@ def ASYNCHRONOUS(datos):
                         
             elif not(wasU) and isU:
                 
-                ax.arrow(xRo[o-1, 0].X, xRo[o-1, 1].X, xLo[o, 0].X - xRo[o-1, 0].X, xLo[o, 1].X - xRo[o-1, 1].X, width = 0.3, head_width = 0.7, length_includes_head = True, color = 'black')
+                ax.arrow(xRo[o-1, 0].X, xRo[o-1, 1].X, xLo[o, 0].X - xRo[o-1, 0].X, xLo[o, 1].X - xRo[o-1, 1].X, width = 0.3, head_width = 1, length_includes_head = True, color = 'black')
     
                 edge = selected_u.select('*', '*', o)[0][0]
                 g = selected_u.select('*', '*', o)[0][1]
@@ -887,7 +971,7 @@ def ASYNCHRONOUS(datos):
                         
             elif wasU and not(isU):
                 
-                ax.arrow(xLo[o-1, 0].X, xLo[o-1, 1].X, xRo[o, 0].X - xLo[o-1, 0].X, xRo[o, 1].X - xLo[o-1, 1].X, width = 0.3, head_width = 0.7, length_includes_head = True, color = 'black')
+                ax.arrow(xLo[o-1, 0].X, xLo[o-1, 1].X, xRo[o, 0].X - xLo[o-1, 0].X, xRo[o, 1].X - xLo[o-1, 1].X, width = 0.3, head_width = 1, length_includes_head = True, color = 'black')
     
                 edge = selected_v.select('*', '*', o)[0][0]
                 g = selected_v.select('*', '*', o)[0][1]
@@ -896,7 +980,7 @@ def ASYNCHRONOUS(datos):
     
             elif not(wasU) and not(isU):
                 
-                ax.arrow(xRo[o-1, 0].X, xRo[o-1, 1].X, xRo[o, 0].X - xRo[o-1, 0].X, xRo[o, 1].X - xRo[o-1, 1].X, width = 0.3, head_width = 0.7, length_includes_head = True, color = 'black')
+                ax.arrow(xRo[o-1, 0].X, xRo[o-1, 1].X, xRo[o, 0].X - xRo[o-1, 0].X, xRo[o, 1].X - xRo[o-1, 1].X, width = 0.3, head_width = 1, length_includes_head = True, color = 'black')
     
                 edge = selected_v.select('*', '*', o)[0][0]
                 g = selected_v.select('*', '*', o)[0][1]
@@ -905,7 +989,7 @@ def ASYNCHRONOUS(datos):
             
             wasU = isU
         
-        ax.arrow(xRo[len(O_index), 0].X, xRo[len(O_index), 1].X, datos.dest[0]-xRo[len(O_index), 0].X, datos.dest[1] - xRo[len(O_index), 1].X, width = 0.3, head_width = 0.7, length_includes_head = True, color = 'black')
+        ax.arrow(xRo[len(O_index), 0].X, xRo[len(O_index), 1].X, datos.dest[0]-xRo[len(O_index), 0].X, datos.dest[1] - xRo[len(O_index), 1].X, width = 0.3, head_width = 1, length_includes_head = True, color = 'black')
         plt.plot(datos.dest[0], datos.dest[1], 's', markersize = 10, c = 'black')
     
         # Drone Route
@@ -932,17 +1016,17 @@ def ASYNCHRONOUS(datos):
                 ax.arrow(xLo[o, 0].X, xLo[o, 1].X, Reg[edge, g, 0].X - xLo[o, 0].X, Reg[edge, g, 1].X - xLo[o, 1].X, width = 0.1, head_width = 0.5, length_includes_head = True, color = color)
                 
                 for e1, e2, g in selected_z.select('*', '*', g):
-                    if pegeg[e1, e2, g].X >= 0.05:
-                        ax.arrow(Leg[e1, g, 0].X, Leg[e1, g, 1].X, Reg[e2, g, 0].X - Leg[e1, g, 0].X, Reg[e2, g, 1].X - Leg[e1, g, 1].X, width = 0.1, head_width = 0.5, length_includes_head = True, color = color)            
+                    if pegeg[e1, e2, g].X >= 0.1:
+                        ax.arrow(Leg[e1, g, 0].X, Leg[e1, g, 1].X, Reg[e2, g, 0].X - Leg[e1, g, 0].X, Reg[e2, g, 1].X - Leg[e1, g, 1].X, width = 0.1, head_width = 0.5, length_includes_head = True, color = color)          
 
                 for e in grafos[g-1].aristas:
-                    if mueg[e, g].X >= 0.5 and peg[e, g].X >= 0.01:
-                        ax.arrow(Reg[e, g, 0].X, Reg[e, g, 1].X, Leg[e, g, 0].X - Reg[e, g, 0].X, Leg[e, g, 1].X - Reg[e, g, 1].X, width = 0.1, head_width = 0.5, length_includes_head = True, color = color)            
+                    if mueg[e, g].X >= 0.5 and peg[e, g].X >= 0.05:
+                        ax.arrow(Reg[e, g, 0].X, Reg[e, g, 1].X, Leg[e, g, 0].X - Reg[e, g, 0].X, Leg[e, g, 1].X - Reg[e, g, 1].X, width = 0.1, head_width = 0.5, length_includes_head = True, color = color)
                 
                 edge_new = selected_v.select('*', g, '*')[0][0]
                 o_new = selected_v.select('*', g, '*')[0][2]
                 
-                ax.arrow(Leg[edge_new, g, 0].X, Leg[edge_new, g, 1].X, xRo[o_new, 0].X - Leg[edge_new, g, 0].X, xRo[o_new, 1].X - Leg[edge_new, g, 1].X, width = 0.1, head_width = 0.5, length_includes_head = True, color = color)            
+                ax.arrow(Leg[edge_new, g, 0].X, Leg[edge_new, g, 1].X, xRo[o_new, 0].X - Leg[edge_new, g, 0].X, xRo[o_new, 1].X - Leg[edge_new, g, 1].X, width = 0.1, head_width = 0.5, length_includes_head = True, color = color)         
 
             else:              
 
@@ -964,7 +1048,6 @@ def ASYNCHRONOUS(datos):
                     node_color = 'blue', alpha = 1, edge_color = 'blue')
         
         plt.savefig('Asynchronous{b}-{c}-{d}-{e}.png'.format(b = datos.m, c = int(datos.alpha), d = datos.capacity, e = datos.nD))
-        # plt.show()
         
         import tikzplotlib
         import matplotlib
@@ -973,6 +1056,7 @@ def ASYNCHRONOUS(datos):
         
         tikzplotlib.save('asynchronous.tex', encoding = 'utf-8')
         
+        plt.show()
 
     print(result)
     print()
