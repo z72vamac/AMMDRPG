@@ -363,7 +363,7 @@ class Data(object):
 
                 alpha = np.random.rand(nV, nV)
                 # alpha = 0.5*np.ones((nV, nV))
-                # alpha = 1*np.ones((nV, nV))
+                alpha = 1*np.ones((nV, nV))
 
                 A = np.zeros((nV, nV))
 

@@ -15,7 +15,8 @@ import entorno as e
 import copy
 import estimacion_M as eM
 import networkx as nx
-from AMMDRPGST import AMMDRPGST
+# from AMMDRPGST import AMMDRPGST
+from synchronous_version_withoutd import SYNCHRONOUS
 
 data = []
 
@@ -64,11 +65,11 @@ for i in range(1, 7):
 
 
 
-datos = Data(data, m=6, grid = True, tmax=3600, alpha = False, nD = 2, capacity = 357,
-        init=True,
+datos = Data(data, m=6, grid = True, tmax=60, alpha = False, nD = 2, capacity = 0.123672786,
+        init=False,
         show=True,
-        vC = 1,
-        vD = 1.2,
+        vC = 30,
+        vD = 43,
         orig = [0, 0],
         dest = [0, 0],
         seed=2)
@@ -101,6 +102,6 @@ print(sum([grafo.longitud for grafo in data])*14000/1e6)
                 # nx.draw_networkx_labels(grafo.G, grafo.pos, font_color = 'white', font_size=9)
             
 
-AMMDRPGST(datos)
+SYNCHRONOUS(datos)
 
 # plt.show()

@@ -22,7 +22,7 @@ import pickle as pickle
 
 instancias = pickle.load(open("instancias.pickle", "rb"))
 
-init = False
+init = True
 
 if init:
     dataframe = pd.DataFrame(columns = ['Instance', 'Size', 'Alpha_e', 'Capacity', 'Num_Drones', 'GAP', 'Runtime', 'NodeCount', 'ObjVal', 'HeurTime', 'HeurVal'])
@@ -32,7 +32,7 @@ else:
 
 for key, it in zip(instancias.keys(), range(len(instancias.keys()))):
     
-    # if it >= 18:
+    if it >= 56:
         instance, size, alpha, capacity, nD = key
         datos = instancias[key]
         
@@ -58,7 +58,7 @@ for key, it in zip(instancias.keys(), range(len(instancias.keys()))):
         else:
             dataframe = dataframe.append(pd.Series([instance, size, alpha, capacity, nD, sol_Stages[0], sol_Stages[1], sol_Stages[2], sol_Stages[3]], index=['Instance', 'Size', 'Alpha_e', 'Capacity', 'Num_Drones', 'GAP', 'Runtime', 'NodeCount', 'ObjVal']), ignore_index=True)
         if init:
-            dataframe.to_csv('./results/synchronous_withoutd_results_with.csv', header = True, mode = 'w')
+            dataframe.to_csv('./results/synchronous_withoutd_results_with2.csv', header = True, mode = 'w')
         else:
-            dataframe.to_csv('./results/synchronous_withoutd_results_without.csv', header = True, mode = 'w')
+            dataframe.to_csv('./results/synchronous_withoutd_results_without7200.csv', header = True, mode = 'w')
             
