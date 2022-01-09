@@ -60,5 +60,5 @@ for key, it in zip(instancias.keys(), range(len(instancias.keys()))):
         if init:
             dataframe.to_csv('./results/synchronous_withoutd_results_with2.csv', header = True, mode = 'w')
         else:
-            dataframe.to_csv('./results/synchronous_withoutd_results_without.csv', header = True, mode = 'w')
+            dataframe.to_csv('./results/synchronous_withoutd_results_without7200.csv', header = True, mode = 'w')
             

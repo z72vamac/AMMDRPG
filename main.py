@@ -55,47 +55,47 @@ np.random.seed(13)
 # datos.generar_grafo_personalizado(1)
 
 
-lista = list(4*np.ones(10, int))
-
-nG = len(lista)
-
-datos = Data([], m=nG, grid = True, tmax=3600, alpha = True, nD = 2, capacity = 30,
-            init=True,
-            show=True,
-            vD = 2,
-            orig = [0, 0],
-            dest = [100, 0],
-            seed=2)
-
-datos.generar_grid()
-datos.generar_grafos(lista)
+# lista = list(4*np.ones(10, int))
+#
+# nG = len(lista)
+#
+# datos = Data([], m=nG, grid = True, tmax=3600, alpha = True, nD = 2, capacity = 30,
+#             init=True,
+#             show=True,
+#             vD = 2,
+#             orig = [0, 0],
+#             dest = [100, 0],
+#             seed=2)
+#
+# datos.generar_grid()
+# datos.generar_grafos(lista)
 
 # for g in datos.data:
 #     print(g.V)
 
 # np.random.seed(30)
 
-# np.random.seed(6)
+np.random.seed(6)
 ## 117.949
 
-# lista = list(4*np.ones(2, int))
-# nG = len(lista)
-# datos = Data([], m=nG, grid = True, tmax=150, alpha = True, nD = 2,
-#              orig = [0, 0],
-#              dest = [100, 0],
-#              vD = 1.3,
-#              init=False,
-#              show=True,
-#              capacity = 46,
-#              seed=2)
-#
-# datos.generar_grid()
-#
-# datos.generar_grafos(lista)
+lista = list(4*np.ones(2, int))
+nG = len(lista)
+datos = Data([], m=nG, grid = True, tmax=150, alpha = True, nD = 2,
+             orig = [0, 0],
+             dest = [100, 0],
+             vD = 1.3,
+             init=True,
+             show=True,
+             capacity = 46,
+             seed=2)
 
-SYNCHRONOUS(datos)
+datos.generar_grid()
 
-# ASYNCHRONOUS(datos)
+datos.generar_grafos(lista)
+
+# SYNCHRONOUS(datos)
+
+ASYNCHRONOUS(datos)
 # AMMDRPGSTSINC(datos)
 
 
