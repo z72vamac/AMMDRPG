@@ -35,6 +35,9 @@ for key, it in zip(instancias.keys(), range(len(instancias.keys()))):
     # if it >= 18:
         instance, size, alpha, capacity, nD = key
         datos = instancias[key]
+        
+        datos.tmax = 3600
+        
         if init:
             datos.init = True
         else:
