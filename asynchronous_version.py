@@ -748,7 +748,7 @@ def ASYNCHRONOUS(datos):
     MODEL.Params.Threads = 6
     MODEL.Params.TimeLimit = datos.tmax
     
-    MODEL.read('solution.sol')
+    # MODEL.read('solution.sol')
 
     
     if datos.init:
