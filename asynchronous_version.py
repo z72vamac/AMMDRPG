@@ -875,6 +875,11 @@ def ASYNCHRONOUS(datos):
         return result
     
     else:
+        
+        if datos.init:
+            result.append(heuristic_time)
+            result.append(MODEL._startobjval)
+            
         result.append(MODEL.getAttr('MIPGap'))
         result.append(MODEL.Runtime)
         result.append(MODEL.getAttr('NodeCount'))
