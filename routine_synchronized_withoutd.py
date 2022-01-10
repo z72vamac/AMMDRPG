@@ -21,6 +21,7 @@ import pandas as pd
 import pickle as pickle
 
 instancias = pickle.load(open("instancias.pickle", "rb"))
+instancias = pickle.load(open("instancias_init2.pickle", "rb"))
 
 init = False
 
@@ -29,10 +30,11 @@ if init:
 else:
     dataframe = pd.DataFrame(columns = ['Instance', 'Size', 'Alpha_e', 'Capacity', 'Num_Drones', 'GAP', 'Runtime', 'NodeCount', 'ObjVal']) #, 'HeurTime', 'HeurVal'])
 
+lista = [150, 151, 152, 154, 158, 188, 225, 227, 230, 236, 237]
 
 for key, it in zip(instancias.keys(), range(len(instancias.keys()))):
     
-    # if it >= 18:
+    if it in lista:
         instance, size, alpha, capacity, nD = key
         datos = instancias[key]
         
@@ -60,5 +62,5 @@ for key, it in zip(instancias.keys(), range(len(instancias.keys()))):
         if init:
             dataframe.to_csv('./results/synchronous_withoutd_results_with.csv', header = True, mode = 'w')
         else:
-            dataframe.to_csv('./results/synchronous_withoutd_results_without7200.csv', header = True, mode = 'w')
+            dataframe.to_csv('./results/synchronous_withoutd_results_without_corrected.csv', header = True, mode = 'w')
             
