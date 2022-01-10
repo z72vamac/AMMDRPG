@@ -1056,7 +1056,7 @@ def ASYNCHRONOUS(datos):
         
         tikzplotlib.save('asynchronous.tex', encoding = 'utf-8')
         
-        plt.show()
+        # plt.show()
 
     print(result)
     print()

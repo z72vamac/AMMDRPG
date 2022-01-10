@@ -22,7 +22,7 @@ import pandas as pd
 import pickle as pickle
 
 # instancias = pickle.load(open("instancias.pickle", "rb")) # antiguas
-instancias = pickle.load(open("instancias.pickle", "rb"))
+instancias = pickle.load(open("instancias_init2.pickle", "rb"))
 
 # instancias_deulonay = pickle.load(open("instancias_deulonay.pickle", "rb"))
 
@@ -36,10 +36,11 @@ else:
 # dataframe_h = pd.DataFrame(columns=['Obj', 'Time', 'Type'])
 # [158, 162, 173, 179, 231, 238, 239, 248, 250]
 # lista = [231, 238, 239, 248, 250]
+lista = [150, 151, 152, 154, 158, 188, 225, 227, 230, 236, 237]
 
 for key, it in zip(instancias.keys(), range(len(instancias.keys()))):
     
-    # if it >= 18:
+    if it in lista:
         instance, size, alpha, capacity, nD = key
         datos = instancias[key]
         if init:
@@ -69,7 +70,7 @@ for key, it in zip(instancias.keys(), range(len(instancias.keys()))):
         if init:
             dataframe.to_csv('./results/asynchronous_results_with.csv', header = True, mode = 'w')
         else:
-            dataframe.to_csv('./results/asynchronous_results_without.csv', header = True, mode = 'w')
+            dataframe.to_csv('./results/asynchronous_results_without_corrected.csv', header = True, mode = 'w')
             
 
     # print()
