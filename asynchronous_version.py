@@ -332,7 +332,11 @@ def ASYNCHRONOUS(datos):
     
     MODEL.update()
     
-    ### INITIALIZATION ###
+<<<<<<< HEAD
+    ### INITIALIZATION ###             
+=======
+    ### INITIALIZATION ###      
+>>>>>>> 3a51f46fde70263994fead601d89787d7cdbc512
     if datos.init:
         
         hola = heuristic(datos)
@@ -420,6 +424,10 @@ def ASYNCHRONOUS(datos):
 
             
             print(indices)
+<<<<<<< HEAD
+=======
+                        
+>>>>>>> 61805bffc4b0f9b112ec078cef8396124af89b2e
             
                     
                     
@@ -870,22 +878,29 @@ def ASYNCHRONOUS(datos):
         # result.append('Stages')
 
         if datos.init:
-            result.append(heuristic_time)
-            result.append(MODEL._startobjval)
+            try:
+                result.append(heuristic_time)
+                result.append(MODEL._startobjval)
+            except:
+                result.append(np.nan)
+                result.append(np.nan)
         
         return result
     
     else:
-        
-        if datos.init:
-            result.append(heuristic_time)
-            result.append(MODEL._startobjval)
-            
+
         result.append(MODEL.getAttr('MIPGap'))
         result.append(MODEL.Runtime)
         result.append(MODEL.getAttr('NodeCount'))
         result.append(MODEL.ObjVal)
     
+        if datos.init:
+            try:
+                result.append(heuristic_time)
+                result.append(MODEL._startobjval)
+            except:
+                result.append(np.nan)
+                result.append(np.nan)
 
         
     MODEL.write('solution.sol')
