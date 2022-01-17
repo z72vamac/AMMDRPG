@@ -1,28 +1,28 @@
 % This file was created with tikzplotlib v0.9.12.
-\begin{figure}[h!}
-\begin{tikzpicture}
-
 \definecolor{color0}{rgb}{0.917647058823529,0.917647058823529,0.949019607843137}
 \definecolor{color1}{rgb}{0.347058823529412,0.458823529411765,0.641176470588235}
 \definecolor{color2}{rgb}{0.798529411764706,0.536764705882353,0.389705882352941}
 
-\begin{groupplot}[group style={group size=3 by 1}]
-\nextgroupplot[
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[scale=0.6]
+
+\begin{axis}[
 axis background/.style={fill=color0},
 axis line style={white},
 tick align=outside,
-title={Num\_Drones = 1},
+title={$|\mathcal D| = 1$},
 x grid style={white},
-xlabel={Size},
-xmajorticks=false,
+xtick pos = left,
+ytick pos = left,
+xlabel={$|\mathcal G|$},
 xmin=-0.5, xmax=1.5,
 xtick style={color=white!15!black},
 xtick={0,1},
 xticklabels={5,10},
 y grid style={white},
-ylabel={Difference},
+ylabel={Relative Gap},
 ymajorgrids,
-ymajorticks=false,
 ymin=-2.0023571013993, ymax=42.0494991293852,
 ytick style={color=white!15!black}
 ]
@@ -56,11 +56,11 @@ ytick style={color=white!15!black}
 --cycle;
 \draw[draw=white!29.8039215686275!black,fill=color1,line width=0.3pt] (axis cs:0,0) rectangle (axis cs:0,0);
 \addlegendimage{ybar,ybar legend,draw=white!29.8039215686275!black,fill=color1,line width=0.3pt}
-\addlegendentry{False}
+\addlegendentry{\% graph}
 
 \draw[draw=white!29.8039215686275!black,fill=color2,line width=0.3pt] (axis cs:0,0) rectangle (axis cs:0,0);
 \addlegendimage{ybar,ybar legend,draw=white!29.8039215686275!black,fill=color2,line width=0.3pt}
-\addlegendentry{True}
+\addlegendentry{\% edge}
 
 \addplot [semithick, white!29.8039215686275!black]
 table {%
@@ -177,26 +177,28 @@ table {%
 1.004 0.0939379065004709
 1.396 0.0939379065004709
 };
-
-\nextgroupplot[
+\end{axis}
+\end{tikzpicture}
+\begin{tikzpicture}[scale = 0.6]
+\begin{axis}[
 axis background/.style={fill=color0},
 axis line style={white},
 scaled y ticks=manual:{}{\pgfmathparse{#1}},
 tick align=outside,
-title={Num\_Drones = 2},
+title={$|\mathcal D| = 2$},
 x grid style={white},
-xlabel={Size},
-xmajorticks=false,
+xtick pos = left,
+ytick pos = left,
+xlabel={$|\mathcal G|$},
 xmin=-0.5, xmax=1.5,
 xtick style={color=white!15!black},
 xtick={0,1},
 xticklabels={5,10},
+ylabel={Relative Gap},
 y grid style={white},
 ymajorgrids,
-ymajorticks=false,
 ymin=-2.0023571013993, ymax=42.0494991293852,
-ytick style={color=white!15!black},
-yticklabels={}
+ytick style={color=white!15!black}
 ]
 \path [draw=white!29.8039215686275!black, fill=color1, semithick]
 (axis cs:-0.396,10.2866453493961)
@@ -226,6 +228,13 @@ yticklabels={}
 --(axis cs:1.004,0.13797377094944)
 --(axis cs:1.004,8.79818728320465e-05)
 --cycle;
+\draw[draw=white!29.8039215686275!black,fill=color1,line width=0.3pt] (axis cs:0,0) rectangle (axis cs:0,0);
+\addlegendimage{ybar,ybar legend,draw=white!29.8039215686275!black,fill=color1,line width=0.3pt}
+\addlegendentry{\% graph}
+
+\draw[draw=white!29.8039215686275!black,fill=color2,line width=0.3pt] (axis cs:0,0) rectangle (axis cs:0,0);
+\addlegendimage{ybar,ybar legend,draw=white!29.8039215686275!black,fill=color2,line width=0.3pt}
+\addlegendentry{\% edge}
 \draw[draw=white!29.8039215686275!black,fill=color1,line width=0.3pt] (axis cs:0,0) rectangle (axis cs:0,0);
 \draw[draw=white!29.8039215686275!black,fill=color2,line width=0.3pt] (axis cs:0,0) rectangle (axis cs:0,0);
 \addplot [semithick, white!29.8039215686275!black]
@@ -338,26 +347,28 @@ table {%
 1.004 0.0126952901795616
 1.396 0.0126952901795616
 };
-
-\nextgroupplot[
+\end{axis}
+\end{tikzpicture}
+\begin{tikzpicture}[scale = 0.6]
+\begin{axis}[
 axis background/.style={fill=color0},
 axis line style={white},
 scaled y ticks=manual:{}{\pgfmathparse{#1}},
 tick align=outside,
-title={Num\_Drones = 3},
+title={$|\mathcal D| = 3$},
 x grid style={white},
-xlabel={Size},
-xmajorticks=false,
+xtick pos = left,
+ytick pos = left,
+xlabel={$|\mathcal G|$},
 xmin=-0.5, xmax=1.5,
 xtick style={color=white!15!black},
 xtick={0,1},
 xticklabels={5,10},
+ylabel={Relative Gap},
 y grid style={white},
 ymajorgrids,
-ymajorticks=false,
 ymin=-2.0023571013993, ymax=42.0494991293852,
-ytick style={color=white!15!black},
-yticklabels={}
+ytick style={color=white!15!black}
 ]
 \path [draw=white!29.8039215686275!black, fill=color1, semithick]
 (axis cs:-0.396,6.53463437293595)
@@ -387,6 +398,13 @@ yticklabels={}
 --(axis cs:1.004,0.0559914040218077)
 --(axis cs:1.004,0)
 --cycle;
+\draw[draw=white!29.8039215686275!black,fill=color1,line width=0.3pt] (axis cs:0,0) rectangle (axis cs:0,0);
+\addlegendimage{ybar,ybar legend,draw=white!29.8039215686275!black,fill=color1,line width=0.3pt}
+\addlegendentry{\% graph}
+
+\draw[draw=white!29.8039215686275!black,fill=color2,line width=0.3pt] (axis cs:0,0) rectangle (axis cs:0,0);
+\addlegendimage{ybar,ybar legend,draw=white!29.8039215686275!black,fill=color2,line width=0.3pt}
+\addlegendentry{\% edge}
 \draw[draw=white!29.8039215686275!black,fill=color1,line width=0.3pt] (axis cs:0,0) rectangle (axis cs:0,0);
 \draw[draw=white!29.8039215686275!black,fill=color2,line width=0.3pt] (axis cs:0,0) rectangle (axis cs:0,0);
 \addplot [semithick, white!29.8039215686275!black]
@@ -501,7 +519,8 @@ table {%
 1.004 0.00552917704183977
 1.396 0.00552917704183977
 };
-\end{groupplot}
-
+\end{axis}
 \end{tikzpicture}
+\caption{Relative gap boxplots}
+\label{fig:gap_boxplot}
 \end{figure}

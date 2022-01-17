@@ -35,11 +35,11 @@ else:
 
 # dataframe_h = pd.DataFrame(columns=['Obj', 'Time', 'Type'])
 # [158, 162, 173, 179, 231, 238, 239, 248, 250]
-# lista = [231, 238, 239, 248, 250]
+lista = [205]
 
 for key, it in zip(instancias.keys(), range(len(instancias.keys()))):
     
-    if it >= 201 and it <= 300:
+    if it >= 201 and it <= 300 and it in lista:
         instance, size, alpha, capacity, nD = key
         datos = instancias[key]
         if init:
@@ -67,7 +67,7 @@ for key, it in zip(instancias.keys(), range(len(instancias.keys()))):
     
         # dataframe = dataframe.append(pd.Series([sol_SEC[0], sol_SEC[1], sol_SEC[2],sol_SEC[3], sol_SEC[4], sol_SEC[5]], index=['GAP', 'Time', 'Nodes', 'Obj', 'Type', 'Form']), ignore_index=True)
         if init:
-            dataframe.to_csv('./results/asynchronous_results_with100.csv', header = True, mode = 'w')
+            dataframe.to_csv('./results/asynchronous_results_with300_corrected.csv', header = True, mode = 'w')
         else:
             dataframe.to_csv('./results/asynchronous_results_without.csv', header = True, mode = 'w')
             

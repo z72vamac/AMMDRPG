@@ -392,16 +392,16 @@ def ASYNCHRONOUS(datos):
             
             indices = []
                              
-            for t in O_index:
-                for e, g, o in uigtd_sol:
-                    if t in tuo_list[o-1]:
-                        uego[e, g, t].start = 1
-                        indices.append((e, g, t))
-                        uigtd_sol.remove((e, g, o))
+            for o in O_set:
+                filtro = [(a, b) for a, b, c in uigtd_sol if c == o]
+                for t, (e, g) in zip(tuo_list[o-1], filtro):
+                    uego[e, g, t].start = 1
+                    indices.append((e, g, t))
+                    uigtd_sol.remove((e, g, o))
                         
-            for t in O_index:
-                for e, g, o in vigtd_sol:
-                    if t in tvo_list[o-1]:
+            for o in O_set:
+                filtro = [(a, b) for a, b, c in vigtd_sol if c == o]
+                for t, (e, g) in zip(tvo_list[o-1], filtro):
                         vego[e, g, t].start = 1
                         indices.append((e, g, t))
                         vigtd_sol.remove((e, g, o))
@@ -418,7 +418,8 @@ def ASYNCHRONOUS(datos):
                 else:
                     zegeg[i, j, g].start = 0                
 
-                        
+            
+            print(indices)
             
                     
                     
@@ -832,7 +833,7 @@ def ASYNCHRONOUS(datos):
     MODEL.Params.Threads = 6
     MODEL.Params.TimeLimit = datos.tmax
     
-    # MODEL.read('solution.sol')
+    MODEL.write('model.lp')
 
     
     if datos.init:
