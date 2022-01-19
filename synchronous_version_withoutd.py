@@ -46,6 +46,10 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
             if model.cbGet(GRB.Callback.MIPSOL_SOLCNT) == 0:
                 # creates new model attribute '_startobjval'
                 model._startobjval = model.cbGet(GRB.Callback.MIPSOL_OBJ)
+                model._starttime = model.cbGet(GRB.Callback.RUNTIME)
+                
+                model.terminate()
+                
                 
     grafos = datos.mostrar_datos()
 

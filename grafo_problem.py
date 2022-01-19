@@ -178,6 +178,7 @@ def grafo_problem(grafo, alpha, g):
     MODEL.Params.Threads = 8
     # MODEL.Params.NonConvex = 2
     MODEL.Params.TimeLimit = 60
+    MODEL.Params.MIPGap = 0.5
     
     MODEL.update()
     

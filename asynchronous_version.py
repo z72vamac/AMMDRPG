@@ -62,7 +62,7 @@ def ASYNCHRONOUS(datos):
                 model._startobjval = model.cbGet(GRB.Callback.MIPSOL_OBJ)
                 model._starttime = model.cbGet(GRB.Callback.RUNTIME)
                 
-                model.abort()
+                model.terminate()
 
     grafos = datos.mostrar_datos()
     

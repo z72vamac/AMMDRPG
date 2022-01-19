@@ -25,7 +25,7 @@ instancias = pickle.load(open("instancias.pickle", "rb"))
 
 # instancias_deulonay = pickle.load(open("instancias_deulonay.pickle", "rb"))
 
-init = False
+init = True
 
 if init:
     dataframe = pd.DataFrame(columns = ['Instance', 'Size', 'Alpha_e', 'Capacity', 'Num_Drones', 'GAP', 'Runtime', 'NodeCount', 'ObjVal', 'HeurTime', 'HeurVal'])
@@ -46,7 +46,8 @@ for key, it in zip(instancias.keys(), range(len(instancias.keys()))):
         else:
             datos.init = False
         # datos.tmax = 10
-    
+        datos.tmax = 5
+
         print()
         print('--------------------------------------------')
         print('Instance: {a}'.format(a = instance))
@@ -66,7 +67,7 @@ for key, it in zip(instancias.keys(), range(len(instancias.keys()))):
     
         # dataframe = dataframe.append(pd.Series([sol_SEC[0], sol_SEC[1], sol_SEC[2],sol_SEC[3], sol_SEC[4], sol_SEC[5]], index=['GAP', 'Time', 'Nodes', 'Obj', 'Type', 'Form']), ignore_index=True)
         if init:
-            dataframe.to_csv('./results/synchronous_results_with.csv', header = True, mode = 'w')
+            dataframe.to_csv('./results/synchronous_results_with_timeandobjval.csv', header = True, mode = 'w')
         else:
             dataframe.to_csv('./results/synchronous_results_without.csv', header = True, mode = 'w')
             
