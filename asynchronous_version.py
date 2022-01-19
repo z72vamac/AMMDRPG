@@ -332,11 +332,7 @@ def ASYNCHRONOUS(datos):
     
     MODEL.update()
     
-<<<<<<< HEAD
-    ### INITIALIZATION ###             
-=======
     ### INITIALIZATION ###      
->>>>>>> 3a51f46fde70263994fead601d89787d7cdbc512
     if datos.init:
         
         hola = heuristic(datos)
@@ -424,10 +420,6 @@ def ASYNCHRONOUS(datos):
 
             
             print(indices)
-<<<<<<< HEAD
-=======
-                        
->>>>>>> 61805bffc4b0f9b112ec078cef8396124af89b2e
             
                     
                     
