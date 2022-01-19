@@ -60,7 +60,10 @@ def ASYNCHRONOUS(datos):
             if model.cbGet(GRB.Callback.MIPSOL_SOLCNT) == 0:
                 # creates new model attribute '_startobjval'
                 model._startobjval = model.cbGet(GRB.Callback.MIPSOL_OBJ)
-    
+                model._starttime = model.cbGet(GRB.Callback.RUNTIME)
+                
+                model.terminate()
+
     grafos = datos.mostrar_datos()
     
     result = []
@@ -332,7 +335,11 @@ def ASYNCHRONOUS(datos):
     
     MODEL.update()
     
+<<<<<<< HEAD
     ### INITIALIZATION ###             
+=======
+    ### INITIALIZATION ###      
+>>>>>>> 5e71cec991fadaf9a85bf971a2539b06a493a76e
     if datos.init:
         
         hola = heuristic(datos)
@@ -420,7 +427,6 @@ def ASYNCHRONOUS(datos):
 
             
             print(indices)
-                        
             
                     
                     
@@ -834,7 +840,7 @@ def ASYNCHRONOUS(datos):
     MODEL.Params.Threads = 6
     MODEL.Params.TimeLimit = datos.tmax
     
-    # MODEL.read('solution.sol')
+    MODEL.write('model.lp')
 
     
     if datos.init:
@@ -854,7 +860,7 @@ def ASYNCHRONOUS(datos):
         #
         # result.append('Stages')
         if datos.init:
-            result.append(heuristic_time)
+            result.append(heuristic_time + MODEL._starttime)
             result.append(MODEL._startobjval)
         
         return result
@@ -872,7 +878,7 @@ def ASYNCHRONOUS(datos):
 
         if datos.init:
             try:
-                result.append(heuristic_time)
+                result.append(heuristic_time + MODEL._starttime)
                 result.append(MODEL._startobjval)
             except:
                 result.append(np.nan)
@@ -889,7 +895,7 @@ def ASYNCHRONOUS(datos):
     
         if datos.init:
             try:
-                result.append(heuristic_time)
+                result.append(heuristic_time + MODEL._starttime)
                 result.append(MODEL._startobjval)
             except:
                 result.append(np.nan)

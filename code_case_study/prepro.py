@@ -20,7 +20,7 @@ import estimacion_M as eM
 import networkx as nx
 from heuristic import heuristic
 import ast
-
+import pandas as pd
 
 # np.random.seed(4)
 #
@@ -38,6 +38,60 @@ import ast
 #
 # datos.generar_grafos(lista)
 
+# data = []
+#
+# for i in range(1, 7):
+#     puntos = pd.read_excel('./patios_breakpoints_simplified.xlsx', sheet_name='Ruta'+str(i))
+#
+#     puntos['y'] = 200 - puntos['y']
+#
+#     V = copy.copy(puntos.to_numpy())
+#
+#     m = V.shape[0]
+#
+#     Ar = np.zeros((m+1, m+1))
+#
+#     if i == 1 or i == 2 or i == 5:
+#         for j in range(m):
+#             Ar[j, j+1] = 1
+#
+#     if i == 3:
+#         for j in range(13):
+#             Ar[j, j+1] = 1
+#
+#         Ar[2, 14] = 1
+#         Ar[14, 15] = 1
+#
+#     if i == 4:
+#         for j in range(20):
+#             Ar[j, j+1] = 1
+#
+#         Ar[16, 21] = 1
+#         Ar[17, 22] = 1
+#
+#     if i == 6:
+#         for j in range(19):
+#             Ar[j, j+1] = 1
+#
+#         Ar[2, 20] = 1
+#         Ar[20, 21] = 1
+#         Ar[11, 22] = 1
+#         Ar[12, 23] = 1
+#
+#
+#     data.append(e.Grafo(V, Ar, 1))
+#
+#
+#
+# datos = Data(data, m=6, grid = True, tmax=14400, alpha = False, nD = 2, capacity = 0.123672786,
+#         init=False,
+#         show=True,
+#         vC = 30,
+#         vD = 43,
+#         orig = [0, 0],
+#         dest = [0, 0],
+#         seed=2)
+    
 def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
 
     
@@ -46,10 +100,6 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
             if model.cbGet(GRB.Callback.MIPSOL_SOLCNT) == 0:
                 # creates new model attribute '_startobjval'
                 model._startobjval = model.cbGet(GRB.Callback.MIPSOL_OBJ)
-                model._starttime = model.cbGet(GRB.Callback.RUNTIME)
-                
-                model.terminate()
-                
                 
     grafos = datos.mostrar_datos()
 
@@ -321,14 +371,14 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
             MODEL.addConstr(sig[i, g] <= grafos[g-1].num_aristas - 1)
     
     # Restricciones de distancias y producto
-    MODEL.addConstrs((difLigt[i, g, t, dim] >=   xLt[t, dim] - Rig[i, g, dim]) for i, g, t, dim in difLigt.keys())
-    MODEL.addConstrs((difLigt[i, g, t, dim] >= - xLt[t, dim] + Rig[i, g, dim]) for i, g, t, dim in difLigt.keys())
+    MODEL.addConstrs((difLigt[i, g, t, dim] >=  (xLt[t, dim] - Rig[i, g, dim])*14000/1e6) for i, g, t, dim in difLigt.keys())
+    MODEL.addConstrs((difLigt[i, g, t, dim] >= (- xLt[t, dim] + Rig[i, g, dim])*14000/1e6) for i, g, t, dim in difLigt.keys())
 
     MODEL.addConstrs((difLigt[i, g, t, 0]*difLigt[i, g, t, 0] + difLigt[i, g, t, 1] * difLigt[i, g, t, 1] <= dLigt[i, g, t] * dLigt[i, g, t] for i, g, t in uigt.keys()), name = 'difLigt')
 
     SmallM = 0
     BigM = datos.capacity*datos.vD*2
-    BigM = 1e5
+    # BigM = 1e5
     # BigM = 0
     # for g in T_index_prima:
         # for h in T_index_prima:
@@ -345,8 +395,8 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
     MODEL.addConstrs((pLigt[i, g, t] >= dLigt[i, g, t] - BigM * (1 - uigt[i, g, t])) for i, g, t in uigt.keys())
     
 
-    MODEL.addConstrs((difigjg[i, j, g, dim] >=   Lig[i, g, dim] - Rig[j, g, dim]) for i, j, g, dim in difigjg.keys())
-    MODEL.addConstrs((difigjg[i, j, g, dim] >= - Lig[i, g, dim] + Rig[j, g, dim]) for i, j, g, dim in difigjg.keys())
+    MODEL.addConstrs((difigjg[i, j, g, dim] >=  (Lig[i, g, dim] - Rig[j, g, dim])*14000/1e6) for i, j, g, dim in difigjg.keys())
+    MODEL.addConstrs((difigjg[i, j, g, dim] >= (- Lig[i, g, dim] + Rig[j, g, dim])*14000/1e6) for i, j, g, dim in difigjg.keys())
 
     MODEL.addConstrs((difigjg[i, j, g, 0]*difigjg[i, j, g, 0] + difigjg[i, j, g, 1] * difigjg[i, j, g, 1] <= digjg[i, j, g] * digjg[i, j, g] for i, j, g in digjg.keys()), name = 'difigjg')
 
@@ -369,8 +419,8 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
         MODEL.addConstr((pigjg[i, j, g] >= SmallM_local * zigjg[i, j, g]))
         MODEL.addConstr((pigjg[i, j, g] >= digjg[i, j, g] - BigM_local * (1 - zigjg[i, j, g])))
 
-    MODEL.addConstrs((difRigt[i, g, t, dim] >=   Lig[i, g, dim] - xRt[t, dim]) for i, g, t, dim in difRigt.keys())
-    MODEL.addConstrs((difRigt[i, g, t, dim] >= - Lig[i, g, dim] + xRt[t, dim]) for i, g, t, dim in difRigt.keys())
+    MODEL.addConstrs((difRigt[i, g, t, dim] >=   (Lig[i, g, dim] - xRt[t, dim])*14000/1e6) for i, g, t, dim in difRigt.keys())
+    MODEL.addConstrs((difRigt[i, g, t, dim] >= (- Lig[i, g, dim] + xRt[t, dim])*14000/1e6) for i, g, t, dim in difRigt.keys())
 
     MODEL.addConstrs((difRigt[i, g, t, 0]*difRigt[i, g, t, 0] + difRigt[i, g, t, 1] * difRigt[i, g, t, 1] <= dRigt[i, g, t] * dRigt[i, g, t] for i, g, t in vigt.keys()), name = 'difRigt')
 
@@ -382,12 +432,12 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
     MODEL.addConstrs((pRigt[i, g, t] >= SmallM * vigt[i, g, t]) for i, g, t in vigt.keys())
     MODEL.addConstrs((pRigt[i, g, t] >= dRigt[i, g, t] - BigM * (1 - vigt[i, g, t])) for i, g, t in vigt.keys())
 
-    MODEL.addConstrs((difRLt[t, dim] >=   xRt[t, dim] - xLt[t + 1, dim] for t in dRLt.keys() for dim in range(2)), name = 'error')
-    MODEL.addConstrs((difRLt[t, dim] >= - xRt[t, dim] + xLt[t + 1, dim] for t in dRLt.keys() for dim in range(2)), name = 'error2')
+    MODEL.addConstrs((difRLt[t, dim] >=   (xRt[t, dim] - xLt[t + 1, dim])*14000/1e6 for t in dRLt.keys() for dim in range(2)), name = 'error')
+    MODEL.addConstrs((difRLt[t, dim] >= (- xRt[t, dim] + xLt[t + 1, dim])*14000/1e6 for t in dRLt.keys() for dim in range(2)), name = 'error2')
     MODEL.addConstrs((difRLt[t, 0]*difRLt[t, 0] + difRLt[t, 1] * difRLt[t, 1] <= dRLt[t] * dRLt[t] for t in dRLt.keys()), name = 'difRLt')
 
-    MODEL.addConstrs((difLRt[t, dim] >=   xLt[t, dim] - xRt[t, dim]) for t, dim in difLRt.keys())
-    MODEL.addConstrs((difLRt[t, dim] >= - xLt[t, dim] + xRt[t, dim]) for t, dim in difLRt.keys())
+    MODEL.addConstrs((difLRt[t, dim] >=   (xLt[t, dim] - xRt[t, dim])*14000/1e6) for t, dim in difLRt.keys())
+    MODEL.addConstrs((difLRt[t, dim] >= (- xLt[t, dim] + xRt[t, dim])*14000/1e6) for t, dim in difLRt.keys())
     MODEL.addConstrs((difLRt[t, 0]*difLRt[t, 0] + difLRt[t, 1] * difLRt[t, 1] <= dLRt[t] * dLRt[t] for t in dLRt.keys()), name = 'difLRt')
 
 
@@ -478,6 +528,9 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
     MODEL.addConstrs(xLt[datos.m+1, dim] == datos.dest[dim] for dim in range(2))
     MODEL.addConstrs(xRt[datos.m+1, dim] == datos.dest[dim] for dim in range(2))
 
+    # for t in T_index_prima:
+    #     MODEL.addConstrs(xLt[t, dim] == datos.orig[dim] for dim in range(2))
+    #     MODEL.addConstrs(xRt[t, dim] == datos.orig[dim] for dim in range(2))
     # print(vals_xL)
     # for g in T_index_prima:
     #     MODEL.addConstrs(xLt[g, dim] == vals_xL[g][dim] for dim in range(2))
@@ -490,17 +543,19 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
     # objective = gp.quicksum(1*dRLt[g1] for g1 in dRLt.keys()) + gp.quicksum(zetat[t] for t in zetat.keys()) + gp.quicksum(1*dLRt[g] for g in dLRt.keys())
     
     objective = gp.quicksum(1*dRLt[g1]/datos.vC for g1 in dRLt.keys()) + gp.quicksum(1*dLRt[g]/datos.vC for g in dLRt.keys())
-
+    
+    MODEL.read('Synchronous_solution (simplified).sol')
+    
     MODEL.setObjective(objective, GRB.MINIMIZE)
     MODEL.Params.Threads = 6
     # MODEL.Params.FeasibilityTol = 1e-3
     # MODEL.Params.NonConvex = 2
     # MODEL.Params.MIPFocus = 3
-    MODEL.Params.timeLimit = datos.tmax
+    MODEL.Params.timeLimit = 1
 
     MODEL.update()
 
-    MODEL.write('./case_study/patios-{0}-{1}-{2}.lp'.format(datos.nD, datos.capacity, datos.vD))
+    # MODEL.write('./case_study/patios-{0}-{1}-{2}.lp'.format(datos.nD, datos.capacity, datos.vD))
     # MODEL.write('./AMMDRPGST-Init.mps')
     
     if datos.init:
@@ -561,7 +616,7 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
     # print('Selected_u')
     vals_u = MODEL.getAttr('x', uigt)
     selected_u = gp.tuplelist((i, g, t) for i, g, t in vals_u.keys() if vals_u[i, g, t] > 0.5)
-    print(selected_u)
+    # print(selected_u)
     # #
     # print('Selected_z')
     vals_z = MODEL.getAttr('x', zigjg)
@@ -575,6 +630,8 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
     #
     # path = []
     # path.append(0)
+    
+    return selected_u, selected_v, selected_z
     
     print('Total time: ' + str(MODEL.ObjVal/datos.vC))
     
@@ -751,19 +808,19 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
             
             # nx.draw_networkx_labels(grafo.G, grafo.pos, font_color = 'white', font_size=9)
         
-        # for g in grafos:
-        #     nx.draw(g.G, g.pos, node_size=10, width = 1, 
-        #             node_color = 'blue', alpha = 1, edge_color = 'blue')
-        #
-        # plt.savefig('Synchronous{b}-{c}-{d}-{e}.png'.format(b = datos.m, c = int(datos.alpha), d = datos.capacity, e = datos.nD))
-        # plt.show()
-        #
-        # import tikzplotlib
-        # import matplotlib
-        #
-        # matplotlib.rcParams['axes.unicode_minus'] = False
-        #
-        # tikzplotlib.save('synchronous.tex', encoding = 'utf-8')
+        for g in grafos:
+            nx.draw(g.G, g.pos, node_size=10, width = 1, 
+                    node_color = 'blue', alpha = 1, edge_color = 'blue')
+            
+        plt.savefig('Synchronous{b}-{c}-{d}-{e}.png'.format(b = datos.m, c = int(datos.alpha), d = datos.capacity, e = datos.nD))
+        plt.show()
+        
+        import tikzplotlib
+        import matplotlib
+        
+        matplotlib.rcParams['axes.unicode_minus'] = False
+        
+        tikzplotlib.save('synchronous.tex', encoding = 'utf-8')
             
         # plt.show()
         # plt.savefig('Synchronous{b}-{c}-{d}-{e}.png'.format(b = datos.m, c = int(datos.alpha), d = datos.capacity, e = datos.nD))
@@ -776,3 +833,6 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
     print()
     
     return result
+
+# SYNCHRONOUS(datos)
+    

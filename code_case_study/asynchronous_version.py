@@ -18,6 +18,7 @@ import estimacion_M as eM
 import networkx as nx
 from heuristic import heuristic
 import ast
+from prepro import SYNCHRONOUS
 
 # np.random.seed(30)
 #
@@ -332,93 +333,179 @@ def ASYNCHRONOUS(datos):
     
     MODEL.update()
     
-    ### INITIALIZATION ###
-    if datos.init:
+    ### INITIALIZATION ###        
+    hola = SYNCHRONOUS(datos)
+    
+    # print(hola)
+    
+    if hola != None:
+        uigtd_sol = hola[0]
+        vigtd_sol = hola[1]
+        z_sol = hola[2]
         
-        hola = heuristic(datos)
+        O_set = set()
         
-        # print(hola)
+        for e, g, o in uigtd_sol:
+            O_set.add(o)
         
-        if hola != None:
-            uigtd_sol = hola[0]
-            vigtd_sol = hola[1]
-            z_sol = hola[2]
-            heuristic_time = hola[3]
+        print(O_set)
+        
+        G_list = list()
+        for o in O_set:
+            Go_list = list()
+            for e, g, u in uigtd_sol:
+                if u == o:
+                    Go_list.append(g)
+            G_list.append(Go_list)
+        
+        print(G_list)
+        
+        to_list = [1]
+        
+        for o in list(O_set)[:-1]:
+            to_list.append(to_list[-1]+2*len(G_list[o-1]))
             
-            O_set = set()
-            
-            for e, g, o in uigtd_sol:
-                O_set.add(o)
-            
-            print(O_set)
-            
-            G_list = list()
-            for o in O_set:
-                Go_list = list()
-                for e, g, u in uigtd_sol:
-                    if u == o:
-                        Go_list.append(g)
-                G_list.append(Go_list)
-            
-            print(G_list)
-            
-            to_list = [1]
-            
-            for o in list(O_set)[:-1]:
-                to_list.append(to_list[-1]+2*len(G_list[o-1]))
-                
-            print(to_list)
-            
-            tuo_list = list()
-            for o in list(O_set):
-                tu_list = []
-                for t in O_index:
-                    if t >= to_list[o-1] and t <= to_list[o-1] + len(G_list[o-1]) - 1:
-                        tu_list.append(t)
-                tuo_list.append(tu_list)
-                
-            print(tuo_list)        
-                
-            
-            tvo_list = list()
-            for o in list(O_set):
-                tv_list = []
-                for t in O_index:
-                    if t - len(G_list[o-1]) >= to_list[o-1] and t <= to_list[o-1] + 2*len(G_list[o-1]) - 1:
-                        tv_list.append(t)
-                tvo_list.append(tv_list)
-            
-            print(tvo_list)
-            
-            indices = []
-                             
+        print(to_list)
+        
+        tuo_list = list()
+        for o in list(O_set):
+            tu_list = []
             for t in O_index:
-                for e, g, o in uigtd_sol:
-                    if t in tuo_list[o-1]:
-                        uego[e, g, t].start = 1
-                        indices.append((e, g, t))
-                        uigtd_sol.remove((e, g, o))
-                        
+                if t >= to_list[o-1] and t <= to_list[o-1] + len(G_list[o-1]) - 1:
+                    tu_list.append(t)
+            tuo_list.append(tu_list)
+            
+        print(tuo_list)        
+            
+        
+        tvo_list = list()
+        for o in list(O_set):
+            tv_list = []
             for t in O_index:
-                for e, g, o in vigtd_sol:
-                    if t in tvo_list[o-1]:
-                        vego[e, g, t].start = 1
-                        indices.append((e, g, t))
-                        vigtd_sol.remove((e, g, o))
-                        
-            for e, g, o in uego.keys():
-                if not(e, g, o in indices):
-                    uego[e, g, o].start = 0
-                    vego[e, g, o].start = 0
+                if t - len(G_list[o-1]) >= to_list[o-1] and t <= to_list[o-1] + 2*len(G_list[o-1]) - 1:
+                    tv_list.append(t)
+            tvo_list.append(tv_list)
+        
+        print(tvo_list)
+        
+        indices = []
+                         
+        for o in O_set:
+            filtro = [(a, b) for a, b, c in uigtd_sol if c == o]
+            for t, (e, g) in zip(tuo_list[o-1], filtro):
+                uego[e, g, t].start = 1
+                indices.append((e, g, t))
+                uigtd_sol.remove((e, g, o))
                     
+        for o in O_set:
+            filtro = [(a, b) for a, b, c in vigtd_sol if c == o]
+            for t, (e, g) in zip(tvo_list[o-1], filtro):
+                    vego[e, g, t].start = 1
+                    indices.append((e, g, t))
+                    vigtd_sol.remove((e, g, o))
                     
-            for i, j, g in zegeg.keys():
-                if (i, j, g) in z_sol:
-                    zegeg[i, j, g].start = 1
-                else:
-                    zegeg[i, j, g].start = 0                
+        for e, g, o in uego.keys():
+            if not(e, g, o in indices):
+                uego[e, g, o].start = 0
+                vego[e, g, o].start = 0
+                
+                
+        for i, j, g in zegeg.keys():
+            if (i, j, g) in z_sol:
+                zegeg[i, j, g].start = 1
+            else:
+                zegeg[i, j, g].start = 0                
 
-                        
+        
+        print(indices)              
+
+    # if datos.init:
+    #
+    #     hola = heuristic(datos)
+    #
+    #     # print(hola)
+    #
+    #     if hola != None:
+    #         uigtd_sol = hola[0]
+    #         vigtd_sol = hola[1]
+    #         z_sol = hola[2]
+    #         heuristic_time = hola[3]
+    #
+    #         O_set = set()
+    #
+    #         for e, g, o in uigtd_sol:
+    #             O_set.add(o)
+    #
+    #         print(O_set)
+    #
+    #         G_list = list()
+    #         for o in O_set:
+    #             Go_list = list()
+    #             for e, g, u in uigtd_sol:
+    #                 if u == o:
+    #                     Go_list.append(g)
+    #             G_list.append(Go_list)
+    #
+    #         print(G_list)
+    #
+    #         to_list = [1]
+    #
+    #         for o in list(O_set)[:-1]:
+    #             to_list.append(to_list[-1]+2*len(G_list[o-1]))
+    #
+    #         print(to_list)
+    #
+    #         tuo_list = list()
+    #         for o in list(O_set):
+    #             tu_list = []
+    #             for t in O_index:
+    #                 if t >= to_list[o-1] and t <= to_list[o-1] + len(G_list[o-1]) - 1:
+    #                     tu_list.append(t)
+    #             tuo_list.append(tu_list)
+    #
+    #         print(tuo_list)        
+    #
+    #
+    #         tvo_list = list()
+    #         for o in list(O_set):
+    #             tv_list = []
+    #             for t in O_index:
+    #                 if t - len(G_list[o-1]) >= to_list[o-1] and t <= to_list[o-1] + 2*len(G_list[o-1]) - 1:
+    #                     tv_list.append(t)
+    #             tvo_list.append(tv_list)
+    #
+    #         print(tvo_list)
+    #
+    #         indices = []
+    #
+    #         for o in O_set:
+    #             filtro = [(a, b) for a, b, c in uigtd_sol if c == o]
+    #             for t, (e, g) in zip(tuo_list[o-1], filtro):
+    #                 uego[e, g, t].start = 1
+    #                 indices.append((e, g, t))
+    #                 uigtd_sol.remove((e, g, o))
+    #
+    #         for o in O_set:
+    #             filtro = [(a, b) for a, b, c in vigtd_sol if c == o]
+    #             for t, (e, g) in zip(tvo_list[o-1], filtro):
+    #                     vego[e, g, t].start = 1
+    #                     indices.append((e, g, t))
+    #                     vigtd_sol.remove((e, g, o))
+    #
+    #         for e, g, o in uego.keys():
+    #             if not(e, g, o in indices):
+    #                 uego[e, g, o].start = 0
+    #                 vego[e, g, o].start = 0
+    #
+    #
+    #         for i, j, g in zegeg.keys():
+    #             if (i, j, g) in z_sol:
+    #                 zegeg[i, j, g].start = 1
+    #             else:
+    #                 zegeg[i, j, g].start = 0                
+    #
+    #
+    #         print(indices)                                      
             
                     
                     
@@ -836,7 +923,7 @@ def ASYNCHRONOUS(datos):
     MODEL.Params.Threads = 6
     MODEL.Params.TimeLimit = datos.tmax
     
-    # MODEL.read('solution.sol')
+    # MODEL.read('Synchronous_solution (simplified).sol')
 
     
     if datos.init:

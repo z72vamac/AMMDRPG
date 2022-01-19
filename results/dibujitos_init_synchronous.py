@@ -8,7 +8,7 @@ import matplotlib
 pd.set_option('display.max_rows', 500)
 
 
-datos = pd.read_csv('AMMDRPG_results_init.csv')
+datos = pd.read_csv('synchronous_withoutd_results_with.csv')
 datos = datos[['Size', 'Instance', 'Alpha_e', 'Capacity', 'Num_Drones', 'GAP', 'Runtime', 'NodeCount', 'ObjVal', 'HeurTime', 'HeurVal']]
 # datos['Runtime'] = np.log(datos['Runtime'])
 
@@ -21,7 +21,7 @@ import tikzplotlib
 
 matplotlib.rcParams['axes.unicode_minus'] = False
 
-tikzplotlib.save('gap_gurobi_with_initialization.tex', encoding = 'utf-8')
+tikzplotlib.save('gap_gurobi_withoutd_with.tex', encoding = 'utf-8')
 
 # plt.savefig('gap_gurobi_with_initialization.png')
 
@@ -31,8 +31,8 @@ sns.set(style="darkgrid")
 
 g = sns.catplot(x = 'Size', y = 'Difference', kind = 'box', col = 'Num_Drones', hue = 'Alpha_e', data = datos, aspect = 1, sharey = True, legend = True)
 
-tikzplotlib.save('gap_between_algorithms.tex')
-plt.savefig('gap_between_algorithms.png')
+tikzplotlib.save('gap_between_algorithms_synchronous_withoutd.tex')
+plt.savefig('gap_between_algorithms_synchronous_withoutd.png')
 
 
 

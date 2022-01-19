@@ -64,8 +64,8 @@ for i in range(1, 7):
 
 
 
-datos = Data(data, m=6, grid = True, tmax=600, alpha = False, nD = 2, capacity = 0.123672786,
-        init=True,
+datos = Data(data, m=6, grid = True, tmax=14400, alpha = False, nD = 2, capacity = 0.123672786,
+        init=False,
         show=True,
         vC = 30,
         vD = 43,

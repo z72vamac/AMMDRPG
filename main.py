@@ -78,7 +78,7 @@ np.random.seed(13)
 np.random.seed(6)
 ## 117.949
 
-lista = list(4*np.ones(2, int))
+lista = list(4*np.ones(10, int))
 nG = len(lista)
 datos = Data([], m=nG, grid = True, tmax=150, alpha = True, nD = 2,
              orig = [0, 0],

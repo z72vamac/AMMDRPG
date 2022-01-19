@@ -177,7 +177,7 @@ def grafo_problem(grafo, alpha, g):
     MODEL.setObjective(objective, GRB.MINIMIZE)
     MODEL.Params.Threads = 8
     # MODEL.Params.NonConvex = 2
-    MODEL.Params.timeLimit = 20
+    MODEL.Params.timeLimit = 60
     
     MODEL.update()
     

@@ -119,12 +119,12 @@ def heuristic(datos):
     
     # f.write(best_Ck)
     
-    print(best_Ck)
-    print(best_clusters)
+    # print(best_Ck)
+    # print(best_clusters)
     # print(best_objval)
-    print(paths)
-    print(z_sol)
-    print(best_path)
+    # print(paths)
+    # print(z_sol)
+    # print(best_path)
     
     # fig, ax = plt.subplots()
     #
