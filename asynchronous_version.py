@@ -60,7 +60,10 @@ def ASYNCHRONOUS(datos):
             if model.cbGet(GRB.Callback.MIPSOL_SOLCNT) == 0:
                 # creates new model attribute '_startobjval'
                 model._startobjval = model.cbGet(GRB.Callback.MIPSOL_OBJ)
-    
+                model._starttime = model.cbGet(GRB.Callback.RUNTIME)
+                
+                model.abort()
+
     grafos = datos.mostrar_datos()
     
     result = []
@@ -853,7 +856,7 @@ def ASYNCHRONOUS(datos):
         #
         # result.append('Stages')
         if datos.init:
-            result.append(heuristic_time)
+            result.append(heuristic_time + MODEL._starttime)
             result.append(MODEL._startobjval)
         
         return result
@@ -871,7 +874,7 @@ def ASYNCHRONOUS(datos):
 
         if datos.init:
             try:
-                result.append(heuristic_time)
+                result.append(heuristic_time + MODEL._starttime)
                 result.append(MODEL._startobjval)
             except:
                 result.append(np.nan)
@@ -888,7 +891,7 @@ def ASYNCHRONOUS(datos):
     
         if datos.init:
             try:
-                result.append(heuristic_time)
+                result.append(heuristic_time + MODEL._starttime)
                 result.append(MODEL._startobjval)
             except:
                 result.append(np.nan)
