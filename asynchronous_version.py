@@ -62,7 +62,7 @@ def ASYNCHRONOUS(datos):
                 model._startobjval = model.cbGet(GRB.Callback.MIPSOL_OBJ)
                 model._starttime = model.cbGet(GRB.Callback.RUNTIME)
                 
-                model.terminate()
+#                 model.terminate()
 
     grafos = datos.mostrar_datos()
     
@@ -334,7 +334,7 @@ def ASYNCHRONOUS(datos):
     droneg = MODEL.addVars(G_index, vtype = GRB.CONTINUOUS, lb = 0.0, name = 'droneg')
     
     MODEL.update()
-    
+
     ### INITIALIZATION ###      
     if datos.init:
         

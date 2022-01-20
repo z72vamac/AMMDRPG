@@ -35,7 +35,7 @@ else:
 
 # dataframe_h = pd.DataFrame(columns=['Obj', 'Time', 'Type'])
 # [158, 162, 173, 179, 231, 238, 239, 248, 250]
-lista = [205, 236, 238]
+lista = [254]
 
 for key, it in zip(instancias.keys(), range(len(instancias.keys()))):
     

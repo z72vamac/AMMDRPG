@@ -145,6 +145,10 @@ def grafo_problem(grafo, alpha, g):
         BigM_local = eM.estima_BigM_local(segm_i, segm_j)
         SmallM_local = eM.estima_SmallM_local(segm_i, segm_j)
         
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2437d9a030b0188810cd691e7c562151dc059f0b
         MODEL.addConstr((pij[i, j, g] <= BigM_local * zij[i, j, g]))
         MODEL.addConstr((pij[i, j, g] <= dij[i, j, g]))
         MODEL.addConstr((pij[i, j, g] >= SmallM_local * zij[i, j, g]))
