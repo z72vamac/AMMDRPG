@@ -643,7 +643,7 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
             paths_D.append((path_D, d))
 
     # print(paths_D)
-    log = True
+    log = False
     
     if log:
         fig, ax = plt.subplots()

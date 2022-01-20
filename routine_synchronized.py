@@ -14,7 +14,7 @@ import copy
 import estimacion_M as eM
 import networkx as nx
 import auxiliar_functions as af
-from synchronous_version import SYNCHRONOUS
+from synchronous_version_withoutd import SYNCHRONOUS
 from tsp_heuristic import heuristic
 import csv
 import pandas as pd
@@ -34,42 +34,55 @@ else:
 
 # dataframe_h = pd.DataFrame(columns=['Obj', 'Time', 'Type'])
 # [158, 162, 173, 179, 231, 238, 239, 248, 250]
-# lista = [231, 238, 239, 248, 250]
+lista = [84, 139, 201, 225, 232, 237, 239, 248, 252, 267, 277]
 
 for key, it in zip(instancias.keys(), range(len(instancias.keys()))):
     
-    # if it >= 18:
+    if it in lista:
         instance, size, alpha, capacity, nD = key
-        datos = instancias[key]
-        if init:
-            datos.init = True
-        else:
-            datos.init = False
-        # datos.tmax = 10
-        datos.tmax = 5
-
-        print()
-        print('--------------------------------------------')
-        print('Instance: {a}'.format(a = instance))
-        # print('--------------------------------------------')
-        print()
-        
-        sol_Stages = SYNCHRONOUS(datos)
+<<<<<<< HEAD
+        if capacity == 60:
+=======
+        if alpha == True or alpha == False:
+>>>>>>> f06ae896808db1d23ac9e63e94f899d927b588a4
+            datos = instancias[key]
+            if init:
+                datos.init = True
+            else:
+                datos.init = False
+            # datos.tmax = 10
+            datos.tmax = 5
     
-        # sol_SEC = PDSEC(datos)
-        if init:
-            dataframe = dataframe.append(pd.Series([instance, size, alpha, capacity, nD, sol_Stages[0], sol_Stages[1], sol_Stages[2], sol_Stages[3], sol_Stages[4], sol_Stages[5]], index=['Instance', 'Size', 'Alpha_e', 'Capacity', 'Num_Drones', 'GAP', 'Runtime', 'NodeCount', 'ObjVal', 'HeurTime', 'HeurVal']), ignore_index=True)
-        
-        else:
-            dataframe = dataframe.append(pd.Series([instance, size, alpha, capacity, nD, sol_Stages[0], sol_Stages[1], sol_Stages[2], sol_Stages[3]], index=['Instance', 'Size', 'Alpha_e', 'Capacity', 'Num_Drones', 'GAP', 'Runtime', 'NodeCount', 'ObjVal']), ignore_index=True)
+            print()
+            print('--------------------------------------------')
+            print('Instance: {a}'.format(a = instance))
+            # print('--------------------------------------------')
+            print()
             
-        # dataframe = dataframe.append(pd.Series([sol_MTZ[0], sol_MTZ[1], sol_MTZ[2],sol_MTZ[3], sol_MTZ[4], sol_MTZ[5]], index=['GAP', 'Time', 'Nodes', 'Obj', 'Type', 'Form']), ignore_index=True)
-    
-        # dataframe = dataframe.append(pd.Series([sol_SEC[0], sol_SEC[1], sol_SEC[2],sol_SEC[3], sol_SEC[4], sol_SEC[5]], index=['GAP', 'Time', 'Nodes', 'Obj', 'Type', 'Form']), ignore_index=True)
-        if init:
-            dataframe.to_csv('./results/synchronous_results_with_timeandobjval.csv', header = True, mode = 'w')
-        else:
-            dataframe.to_csv('./results/synchronous_results_without.csv', header = True, mode = 'w')
+            sol_Stages = SYNCHRONOUS(datos)
+        
+            # sol_SEC = PDSEC(datos)
+            if init:
+                dataframe = dataframe.append(pd.Series([instance, size, alpha, capacity, nD, sol_Stages[0], sol_Stages[1], sol_Stages[2], sol_Stages[3], sol_Stages[4], sol_Stages[5]], index=['Instance', 'Size', 'Alpha_e', 'Capacity', 'Num_Drones', 'GAP', 'Runtime', 'NodeCount', 'ObjVal', 'HeurTime', 'HeurVal']), ignore_index=True)
+            
+            else:
+                dataframe = dataframe.append(pd.Series([instance, size, alpha, capacity, nD, sol_Stages[0], sol_Stages[1], sol_Stages[2], sol_Stages[3]], index=['Instance', 'Size', 'Alpha_e', 'Capacity', 'Num_Drones', 'GAP', 'Runtime', 'NodeCount', 'ObjVal']), ignore_index=True)
+                
+            # dataframe = dataframe.append(pd.Series([sol_MTZ[0], sol_MTZ[1], sol_MTZ[2],sol_MTZ[3], sol_MTZ[4], sol_MTZ[5]], index=['GAP', 'Time', 'Nodes', 'Obj', 'Type', 'Form']), ignore_index=True)
+        
+            # dataframe = dataframe.append(pd.Series([sol_SEC[0], sol_SEC[1], sol_SEC[2],sol_SEC[3], sol_SEC[4], sol_SEC[5]], index=['GAP', 'Time', 'Nodes', 'Obj', 'Type', 'Form']), ignore_index=True)
+            if init:
+<<<<<<< HEAD
+                dataframe.to_csv('./results/synchronous_results_with_timeandobjval3.csv', header = True, mode = 'w')
+=======
+<<<<<<< HEAD
+                dataframe.to_csv('./results/synchronous_results_with_timeandobjval.csv', header = True, mode = 'w')
+=======
+                dataframe.to_csv('./results/synchronous_results_with_timeandobjval2.csv', header = True, mode = 'w')
+>>>>>>> f06ae896808db1d23ac9e63e94f899d927b588a4
+>>>>>>> b766e2e97673f6ee3e7cab086d4f2a9547cc8047
+            else:
+                dataframe.to_csv('./results/synchronous_results_without.csv', header = True, mode = 'w')
             
 
     # print()
