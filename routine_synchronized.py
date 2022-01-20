@@ -38,9 +38,13 @@ else:
 
 for key, it in zip(instancias.keys(), range(len(instancias.keys()))):
     
-    # if it >= 18:
+#    if it >= 56:
         instance, size, alpha, capacity, nD = key
+<<<<<<< HEAD
         if capacity == 60:
+=======
+        if alpha == True or alpha == False:
+>>>>>>> f06ae896808db1d23ac9e63e94f899d927b588a4
             datos = instancias[key]
             if init:
                 datos.init = True
@@ -68,7 +72,11 @@ for key, it in zip(instancias.keys(), range(len(instancias.keys()))):
         
             # dataframe = dataframe.append(pd.Series([sol_SEC[0], sol_SEC[1], sol_SEC[2],sol_SEC[3], sol_SEC[4], sol_SEC[5]], index=['GAP', 'Time', 'Nodes', 'Obj', 'Type', 'Form']), ignore_index=True)
             if init:
+<<<<<<< HEAD
                 dataframe.to_csv('./results/synchronous_results_with_timeandobjval.csv', header = True, mode = 'w')
+=======
+                dataframe.to_csv('./results/synchronous_results_with_timeandobjval2.csv', header = True, mode = 'w')
+>>>>>>> f06ae896808db1d23ac9e63e94f899d927b588a4
             else:
                 dataframe.to_csv('./results/synchronous_results_without.csv', header = True, mode = 'w')
             

@@ -145,8 +145,10 @@ def grafo_problem(grafo, alpha, g):
         BigM_local = eM.estima_BigM_local(segm_i, segm_j)
         SmallM_local = eM.estima_SmallM_local(segm_i, segm_j)
         
-        BigM_local = 10000
-        SmallM_local = 0
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2437d9a030b0188810cd691e7c562151dc059f0b
         MODEL.addConstr((pij[i, j, g] <= BigM_local * zij[i, j, g]))
         MODEL.addConstr((pij[i, j, g] <= dij[i, j, g]))
         MODEL.addConstr((pij[i, j, g] >= SmallM_local * zij[i, j, g]))
@@ -177,7 +179,7 @@ def grafo_problem(grafo, alpha, g):
     MODEL.setObjective(objective, GRB.MINIMIZE)
     MODEL.Params.Threads = 8
     # MODEL.Params.NonConvex = 2
-    MODEL.Params.TimeLimit = 60
+    MODEL.Params.TimeLimit = 120
     MODEL.Params.MIPGap = 0.5
     
     MODEL.update()

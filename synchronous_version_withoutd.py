@@ -543,7 +543,7 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
     result.append(MODEL.ObjVal)
     
     if datos.init:
-        result.append(heuristic_time)
+        result.append(heuristic_time + MODEL._starttime)
         result.append(MODEL._startobjval)
     
     # if datos.grid:
