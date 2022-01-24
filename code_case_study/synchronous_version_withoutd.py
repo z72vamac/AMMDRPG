@@ -501,6 +501,7 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
 
     # MODEL.write('./case_study/patios-{0}-{1}-{2}.lp'.format(datos.nD, datos.capacity, datos.vD))
     # MODEL.write('./AMMDRPGST-Init.mps')
+    MODEL.read('Synchronous_solution (simplified).sol')
     
     if datos.init:
         MODEL.optimize(callback)
@@ -770,7 +771,7 @@ def SYNCHRONOUS(datos): #, vals_xL, vals_xR):
 
         # plt.savefig('Prueba.png')
         
-        # plt.show()
+        plt.show()
     print(result)
     print()
     

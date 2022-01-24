@@ -64,7 +64,7 @@ for i in range(1, 7):
 
 
 
-datos = Data(data, m=6, grid = True, tmax=14400, alpha = False, nD = 2, capacity = 0.123672786,
+datos = Data(data, m=6, grid = True, tmax=5, alpha = False, nD = 2, capacity = 0.123672786,
         init=False,
         show=True,
         vC = 30,
@@ -101,6 +101,6 @@ print(sum([grafo.longitud for grafo in data])) #*14000/1e6)
                 # nx.draw_networkx_labels(grafo.G, grafo.pos, font_color = 'white', font_size=9)
             
 
-ASYNCHRONOUS(datos)
+SYNCHRONOUS(datos)
 
 # plt.show()

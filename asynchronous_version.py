@@ -836,8 +836,7 @@ def ASYNCHRONOUS(datos):
     MODEL.Params.Threads = 6
     MODEL.Params.TimeLimit = datos.tmax
     
-    MODEL.write('model.lp')
-
+    # MODEL.write('model.lp')
     
     if datos.init:
         MODEL.optimize(callback)

@@ -8,7 +8,7 @@ import matplotlib
 pd.set_option('display.max_rows', 500)
 
 
-datos = pd.read_csv('synchronous_withoutd_results_with.csv')
+datos = pd.read_csv('synchronous_withoutd_results_with_corrected.csv')
 datos = datos[['Size', 'Instance', 'Alpha_e', 'Capacity', 'Num_Drones', 'GAP', 'Runtime', 'NodeCount', 'ObjVal', 'HeurTime', 'HeurVal']]
 # datos['Runtime'] = np.log(datos['Runtime'])
 

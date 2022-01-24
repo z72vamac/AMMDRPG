@@ -34,7 +34,7 @@ datos['Unsolved'] = 5 - tabla_notnan_without['Gap wi']
 datos['TimeH'] = tabla_medias_with['TimeH']
 datos['Gap i'] = tabla_medias_with['Gap i']
 
-datos.pivot(index=['Size', 'Alpha_e', 'Num_Drones'], columns = ['Capacity']).to_excel('table_synchronous.xlsx')
+datos.pivot(index=['Capacity'], columns = ['Size', 'Num_Drones', 'Alpha_e']).to_excel('table_synchronous.xlsx')
 
 # datos = datos.pivot(index=['Size', 'Alpha_e', 'Num_Drones'], columns = ['Capacity'])
 # datos.groupby(['Size', 'Capacity', 'Num_Drones', 'Alpha_e']).to_excel('table_synchronous.xlsx')
