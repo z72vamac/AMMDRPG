@@ -1,0 +1,412 @@
+
+\section{Formulation draft}
+In the following formulation we use the concept of \emph{stage} to refer the action of receiving or launching a drone from the mothership. Each graph must be visited by a drone so that \LA{each operation} gives rise to two stages: one when the drone is launched and another one once the same drone is retrieved by the mothership. We denote by $\matchal{T}$ the set of stages. It is clear that $|\mathcal{T}|=2|\mathcal{G}|$. Using the concept of stage we can \LA{substitute the set of operations with the set of stages to} model the coordination between drones and mothership in the asynchronous \LA{version of the problem. Indeed, in this case, differently from the synchronized version of the problem, the launch of a drone it is not necessarily followed by its retrieving but, for example, by the launch of a different drone to visit another target graph, like shown in figure \ref{fig:}. For this reason, we need to } 
+
+\begin{comment}
+\begin{table}[h!]
+%\tiny
+\scriptsize
+\centering
+%\color{blue}
+\begin{tabular}{|l|}
+\hline 
+\textbf{Binary and Integer Decision Variables}\\
+\hline
+$\mu^{e_g} \in \{0,1\} \:\: \forall e_g \in E_g$ ($g \in \mathcal{G}$): equal to 1 if edge $e$ of graph $g$ (or a portion of it) is visited by the drone,\\ \hspace*{1cm} and  0 otherwise.\\
+$\gamma^{go}\in \{0,1\}$ \\
+$u^{go} \in \{0,1\} \:\: \forall g \in \mathcal{G} \: \forall o \in \Theta  \: \forall d \in \mathcal D$: equal to 1 if the visit of graph $g$ starts in operation $o$, 0 otherwise.\\
+$z^{e_{g}e^{'}_{g}} \in \{0,1\} \:\: \forall e_g, e_g' \in E_g$ ($g \in \mathcal{G}$): equal to 1 if the drone goes from $e_g$ to $e^{'}_{g}$, 0 otherwise.\\
+$v^{go} \in \{0,1\} \:\: \forall g \in \mathcal{G} \: \forall o \in \Theta$: equal to 1 if the the visit of graph $g$ ends in operation $o$, 0 otherwise.\\
+$in^{e_g} \in \{0,1\} \:\: \forall e_g \in E_g$ ($g \in \mathcal{G}$): equal to 1 if the the visit of graph $g$ starts from edge $e_g$, 0 otherwise.\\
+$out^{e_g} \in \{0,1\} \:\: \forall e_g \in E_g$ ($g \in \mathcal{G}$): equal to 1 if the the visit of graph $g$ ends in edge $e_g$, 0 otherwise.\\
+$y_{LL}^o \:\: \forall o \in \Theta$, equal to 1 if the mothership moves from a launching point to a launching point between operation $o$\\ \hspace*{1cm} and operation $o+1$, 0 otherwise.\\
+$y_{LR}^o \:\: \forall o \in \Theta$, equal to 1 if the mothership moves from a launching point to a retrieving point between operation $o$\\ \hspace*{1cm} and operation $o+1$, 0 otherwise.\\
+$y_{RL}^o \:\: \forall o \in \Theta$ equal to 1 if the mothership moves from a retrieving point to a launching point between operation $o$\\ \hspace*{1cm} and operation $o+1$, 0 otherwise.\\
+$y_{RR}^o \:\: \forall o \in \Theta$ equal to 1 if the mothership moves from a retrieving point to a retrieving point between operation $o$\\ \hspace*{1cm} and operation $o+1$, 0 otherwise.\\
+$\mathcal{K}(o) \:\: \forall o \in \Theta$, integer non-negative variable representing the number of available drones at operation $o$.\\
+\hline
+\textbf{Continuous Decision Variables}\\
+\hline
+$x_L^o \:\: \forall o \in \Theta$: coordinates representing the launching point visited by the mothership at operation $o$.\\
+$x_R^o \:\: \forall o \in \Theta$: coordinates representing the retrieving point visited by the mothership at operation $o$.\\
+$R^{e_g} \:\: \forall e_g \in E_g$ ($g \in \mathcal{G}$): coordinates representing the entry point on edge $e_g$ of graph $g$.\\
+$L^{e_g} \:\: \forall e_g \in E_g$ ($g \in \mathcal{G})$: coordinates representing the exit point on edge $e_g$ of graph $g$.\\
+$d_L^{e_g o} \geq 0, \:\: \forall e_g \in E_g$ ($g \in \mathcal{G}$) $\forall o \in \Theta$: representing the distance travelled by the drone from the launching\\
+\hspace*{1cm} point $x_L^o$ on the mothership at operation $o$ to the first visiting point $R^{e_g}$ on $e_g$.\\
+$d^{e_ge^\prime_g} \geq 0, \:\: \forall e_g, e^\prime_g \in E_g $ ($g \in \mathcal{G}$): representing the distance travelled by the drone from the launching point $L^{e_g}$ on $e_g$ to\\
+\hspace*{1cm}  the rendezvous point $R^{e^\prime_g}$ on $e^\prime_g$.\\
+$d^{e_g} \geq 0, \:\: \forall e_g \in E_g$ ($g \in \mathcal{G}$): representing the distance travelled by the drone from the rendezvous point $R^{e_g}$ to the \\
+\hspace*{1cm} launching point $L^{e_g}$ on $e_g$. \\
+$d_R^{e_g o} \geq 0 \:\: \forall e_g \in E_g$ ($g \in \mathcal{G}$) $\forall o \in \Theta$: representing the distance travelled by the drone from the last visiting point\\
+\hspace*{1cm} $L^{e_g}$ on $e_g$ to the rendezvous point $x_R^o$ on the mothership at operation $o$.\\
+$d_{LR}^g \geq 0 \:\: \forall g \in\mathcal G$: representing the distance travelled by the mothership from the launching point $x_L^o$ to the rendezvous\\
+\hspace*{1cm} point $x_R^o$ associated with graph $g$ for some $o \in \Theta$.\\
+\hline
+\end{tabular}
+\caption{Decision Variables for AMMDRPG}
+\label{table:t2}
+\end{table}
+
+
+\textbf{Drone Constraints}
+
+\begin{equation}
+    \sum_{o \in \Theta} u^{go} = 1 \:\: \forall g \in \mathcal{G}
+\end{equation}
+
+\begin{equation}
+    \sum_{o \in \Theta} v^{go} = 1 \:\: \forall g \in \mathcal{G}
+\end{equation}
+
+\begin{equation}
+    \sum_{e_g \in E_g} in^{e_g} \geq u^{go} \:\: \forall g \in \mathcal{G} \:\: \forall o \in \Theta
+\end{equation}
+
+\begin{equation}
+    \sum_{e_g \in E_g} out^{e_g} \geq v^{go} \:\: \forall g \in \mathcal{G} \:\: \forall o \in \Theta
+\end{equation}
+
+\begin{equation}
+    \sum_{e_g \in E_g} in^{e_g} = 1\:\: \forall g \in \mathcal{G}
+\end{equation}
+
+\begin{equation}
+    \sum_{e_g \in E_g} out^{e_g} = 1\:\: \forall g \in \mathcal{G}
+\end{equation}
+
+\begin{equation}
+    \sum_{g \in \mathcal{G}} (u^{go} + v^{go}) \leq \mathcal{K}(o) \:\: \forall o \in \Theta
+\end{equation}
+\begin{equation}
+    \sum_{g \in \mathcal{G}} (u^{go} + v^{go}) \leq 1 \:\: \forall o \in \Theta
+\end{equation}
+\begin{equation}
+    u^{go} \leq \gamma^{go} \:\:\ \forall g \in \mathcal{G} \:\: \forall o \in \Theta
+\end{equation}
+
+\begin{equation}
+    in^{e_go} + \sum_{e_g' \in E_g} z^{e_g' e_g} \leq \mu^{e_g} \:\:\ \forall e_g \in E_g: \:\: g \in \mathcal G
+\end{equation}
+
+\begin{equation}
+   out^{e_go} + \sum_{e_g' \in E_g} z^{e_g e_g'} \leq \mu^{e_g} \:\:\ \forall e_g \in E_g: \:\:  g \in \mathcal G
+\end{equation}
+
+\begin{equation}
+   \gamma^{g(o+1)} \geq \gamma^{go} - v^{go} \:\:\ \forall g \in \mathcal{G} \:\: \forall o \in \Theta: o < |\Theta|
+\end{equation}
+\begin{equation}
+   \mathcal{K}(1) = |\mathcal{D}|
+\end{equation}
+\begin{equation}
+   \mathcal{K}(o) = \mathcal{K}(o-1) + \sum_{g\in\mathcal G}v^{g(o-1)} - \sum_{g\in\mathcal G}u^{g(o-1)} \:\:\ \forall o \in \Theta: o>1
+\end{equation}
+
+\textbf{Mothership Constraints}
+
+\begin{equation}
+   y_{LL}^1 + y_{LR}^1 = 1
+\end{equation}
+\begin{equation}
+   y_{LL}^o + y_{LR}^o \geq y_{RL}^{o-1} + y_{LL}^{o-1} \:\: \forall o \in \Theta: o>1
+\end{equation}
+\begin{equation}
+   y_{RR}^o + y_{RL}^o \geq  y_{LR}^{o-1} + y_{RR}^{o-1} \:\: \forall o \in \Theta: o>1
+\end{equation}
+\begin{equation}
+   y_{LR}^{|\Theta|} + y_{RR}^{|\Theta|} = 1 
+\end{equation}
+
+\textbf{Mothership Distance}
+
+\begin{equation}
+   d_M = \sum_{o \in \Theta: o < |\Theta|} (\|x_L^o - x_L^{o+1}\|y_{LL}^o + \|x_L^o - x_R^{o+1}\|y_{LR}^o + \|x_R^o - x_L^{o+1}\|y_{RL}^o + \| x_R^o - x_R^{o+1}\|y_{RR}^o )
+\end{equation}
+
+\textbf{Distance associated to graph g}
+
+\begin{equation}
+   d_{LR}^g = \sum_{o \in \Theta: o < |\Theta|} (\|x_L^o - x_L^{o+1}\|y_{LL}^o + \|x_L^o - x_R^{o+1}\|y_{LR}^o + \|x_R^o - x_L^{o+1}\|y_{RL}^o + \| x_R^o - x_R^{o+1}\|y_{RR}^o )\gamma^{go} \:\:\ \forall g \in \mathcal{G}
+\end{equation}
+
+\textbf{Coordination Constraint}
+\begin{equation}
+\frac{1}{v_D}\left(\sum_{o \in \Theta} \sum_{e_g \in E_g} in^{e_g}d_L^{e_g o} + \sum_{e_g, e^\prime_g\in E_g}z^{e_ge^\prime_g}d^{e_ge^\prime_g} + \sum_{e_g\in E_g} \mu^{e_g}d^{e_g} + \sum_{o \in \Theta} \sum_{e_g \in E_g}out^{e_g}d_R^{e_g o}\right) \leq \frac{d_{LR}^g}{v_M} \:\: \forall g \in \mathcal{G}
+\end{equation}
+
+\textbf{Linearization Constraints}
+
+\begin{equation}
+   y_{LR}^o \leq \sum_{g \in \mathcal{G}} u^{go} \:\: \forall o \in \Theta
+\end{equation}
+\begin{equation}
+   y_{LR}^o \leq \sum_{g \in \mathcal{G}} v^{g(o+1)} \:\: \forall o \in \Theta: o < |\Theta|
+\end{equation}
+\begin{equation}
+   y_{LR}^o \geq \sum_{g \in \mathcal{G}} u^{go} + \sum_{g \in \mathcal{G}} v^{g(o+1)} -1 \:\: \forall o \in \Theta: o < |\Theta|
+\end{equation}
+
+\begin{equation}
+   y_{LL}^o \leq \sum_{g \in \mathcal{G}} u^{go} \:\: \forall o \in \Theta
+\end{equation}
+\begin{equation}
+   y_{LL}^o \leq \sum_{g \in \mathcal{G}} u^{g(o+1)} \:\: \forall i \in \Theta: o < |\Theta|
+\end{equation}
+\begin{equation}
+   y_{LL}^o \geq \sum_{g \in \mathcal{G}} u^{go} + \sum_{g \in \mathcal{G}} u^{g(o+1)} -1 \:\: \forall o \in \Theta: o < |\Theta|
+\end{equation}
+
+\begin{equation}
+   y_{RR}^o \leq \sum_{g \in \mathcal{G}} v^{go} \:\: \forall o \in \Theta
+\end{equation}
+\begin{equation}
+   y_{RR}^o \leq \sum_{g \in \mathcal{G}} v^{g(o+1)} \:\: \forall o \in \Theta: o < |\Theta|
+\end{equation}
+\begin{equation}
+   y_{RR}^o \geq \sum_{g \in \mathcal{G}} v^{go} + \sum_{g \in \mathcal{G}} v^{g(o+1)} -1 \:\: \forall o \in \Theta: o < |\Theta|
+\end{equation}
+
+\begin{equation}
+   y_{RL}^o \leq \sum_{g \in \mathcal{G}} v^{go} \:\: \forall o \in \Theta
+\end{equation}
+\begin{equation}
+   y_{RL}^o \leq \sum_{g \in \mathcal{G}} u^{g(o+1)} \:\: \forall o \in \Theta: o < |\Theta|
+\end{equation}
+\begin{equation}
+   y_{RL}^o \geq \sum_{g \in \mathcal{G}} v^{go} + \sum_{g \in \mathcal{G}} u^{g(o+1)} -1 \:\: \forall o \in \Theta: o < |\Theta|
+\end{equation}
+\end{comment}
+
+
+
+\begin{table}[h]
+%\tiny
+\scriptsize
+\centering
+%\color{blue}
+\begin{tabular}{|l|}
+\hline 
+\textbf{Binary and Integer Decision Variables}\\
+\hline
+$\mu^{e_g} \in \{0,1\} \:\: \forall e_g \in E_g$ ($g \in \mathcal{G}$): equal to 1 if edge $e$ of graph $g$ (or a portion of it) is visited by the drone,\\ \hspace*{1cm} and  0 otherwise.\\
+$\text{entry}^{e_g} \in \{0,1\} \:\: \forall e_g \in E_g$ ($g \in \mathcal{G}$): auxiliary binary variable used for linearizing expressions.\\
+$u^{e_g o} \in \{0,1\} \:\: \forall e_g \in E_g \:\: (g \in \mathcal{G}) \:\: \forall o \in \Theta$: equal to 1 if the visit of graph $g$ starts in event $o$ from edge $e_g$, 0 otherwise.\\
+$z^{e_{g}e^{'}_{g}} \in \{0,1\} \:\: \forall e_g, e_g' \in E_g$ ($g \in \mathcal{G}$): equal to 1 if the drone goes from $e_g$ to $e^{'}_{g}$, 0 otherwise.\\
+\LA{$\gamma^{go}\in \{0,1\}$: equal to 1 if the operation of visiting graph $g$ continues when event $o$ occurs, 0 otherwise.}\\
+$v^{e_g o} \in \{0,1\} \:\: \forall g \in E_g \:\: (g \in \mathcal{G}) \: \forall o \in \Theta$: equal to 1 if the the visit of graph $g$ ends in event $o$ on edge $e_g$, 0 otherwise.\\
+%$in^{e_g} \in \{0,1\} \:\: \forall e_g \in E_g$ ($g \in \mathcal{G}$): equal to 1 if the the visit of graph $g$ starts from edge $e_g$, 0 otherwise.\\
+%$out^{e_g} \in \{0,1\} \:\: \forall e_g \in E_g$ ($g \in \mathcal{G}$): equal to 1 if the the visit of graph $g$ ends in edge $e_g$, 0 otherwise.\\
+$y_{LL}^o \in \{0,1\}  \:\: \forall o \in \Theta:o<|\Theta|$: equal to 1 if the mothership moves from a launching point to a launching point between event $o$\\ \hspace*{1cm} and event $o+1$, 0 otherwise.\\
+$y_{LR}^o \in \{0,1\}  \:\: \forall o \in \Theta:o<|\Theta|$: equal to 1 if the mothership moves from a launching point to a retrieving point between event $o$\\ \hspace*{1cm} and event $o+1$, 0 otherwise.\\
+$y_{RL}^o \in \{0,1\}  \:\: \forall o \in \Theta:o<|\Theta|$: equal to 1 if the mothership moves from a retrieving point to a launching point between event $o$\\ \hspace*{1cm} and event $o+1$, 0 otherwise.\\
+$y_{RR}^o \in \{0,1\}  \:\: \forall o \in \Theta:o<|\Theta|$: equal to 1 if the mothership moves from a retrieving point to a retrieving point between event $o$\\ \hspace*{1cm} and event $o+1$, 0 otherwise.\\
+$\mathcal{K}(o) \in \{0, 1, 2, \ldots, |\mathcal D|\}  \:\: \forall o \in \Theta$: integer non-negative variable representing the number of available drones at event $o$.\\
+\hline
+\textbf{Continuous Decision Variables}\\
+\hline
+$s^{e_g} \:\: \forall e_g \in E_g$ ($g \in \mathcal{G}$): continuous non negative variable representing the order of visit of the edge $e$ of graph $g$.\\
+$x_L^o \:\: \forall o \in \Theta$: coordinates representing the launching point visited by the mothership at event $o$.\\
+$x_R^o \:\: \forall o \in \Theta$: coordinates representing the retrieving point visited by the mothership at event $o$.\\
+$R^{e_g} \:\: \forall e_g \in E_g$ ($g \in \mathcal{G}$): coordinates representing the entry point on edge $e_g$ of graph $g$.\\
+$L^{e_g} \:\: \forall e_g \in E_g$ ($g \in \mathcal{G})$: coordinates representing the exit point on edge $e_g$ of graph $g$.\\
+$d_L^{e_g o} \geq 0, \:\: \forall e_g \in E_g$ ($g \in \mathcal{G}$) $\forall o \in \Theta$: representing the distance travelled by the drone from the launching\\
+\hspace*{1cm} point $x_L^o$ on the mothership at event $o$ to the first visiting point $R^{e_g}$ on $e_g$.\\
+$d^{e_g} \geq 0, \:\: \forall e_g \in E_g$ ($g \in \mathcal{G}$): representing the distance travelled by the drone from the rendezvous point $R^{e_g}$ to the \\
+\hspace*{1cm} launching point $L^{e_g}$ on $e_g$. \\
+$d^{e_ge^\prime_g} \geq 0, \:\: \forall e_g, e^\prime_g \in E_g $ ($g \in \mathcal{G}$): representing the distance travelled by the drone from the launching point $L^{e_g}$ on $e_g$ to\\
+\hspace*{1cm}  the rendezvous point $R^{e^\prime_g}$ on $e^\prime_g$.\\
+$d_R^{e_g o} \geq 0 \:\: \forall e_g \in E_g$ ($g \in \mathcal{G}$) $\forall o \in \Theta$: representing the distance travelled by the drone from the last visiting point\\
+\hspace*{1cm} $L^{e_g}$ on $e_g$ to the rendezvous point $x_R^o$ on the mothership at event $o$.\\
+$d_{orig}\geq 0$: distance from the origin $orig$ to the first launching point $x_L^1$.\\
+$d_{LL}^o\geq 0 \:\: \forall o \in \Theta:o<|\Theta|$: distance from the launching point $x_L^o$ to the launching point $x_L^{o+1}$.\\
+$d_{LR}^o\geq 0 \:\: \forall o \in \Theta:o<|\Theta|$: distance from the launching point $x_L^o$ to the retrieving point $x_R^{o+1}$.\\
+$d_{RL}^o\geq 0 \:\: \forall o \in \Theta:o<|\Theta|$: distance from the retrieving point $x_R^o$ to the launching point $x_L^{o+1}$.\\
+$d_{RR}^o\geq 0 \:\: \forall o \in \Theta:o<|\Theta|$: distance from the retrieving point $x_R^o$ to the retrieving point $x_R^{o+1}$.\\
+$d_{dest}\geq 0$: distance from the last retrieving point $x_R^{|\Theta|}$ to the destination $dest$.\\
+$d_{LR}^g\geq 0 \:\: \forall g \in\mathcal G$: representing the distance travelled by the mothership from the launching point $x_L^o$ to the rendezvous\\
+\hspace*{1cm} point $x_R^{o'}$ associated with graph $g$ for some $o, o' \in \Theta$.
+\hline
+\end{tabular}
+\caption{Decision Variables for AMMDRPG - asynchronous version }
+\label{table:t3}
+\end{table}
+
+\clearpage
+
+%\textbf{Alternative formulation with less constraints}
+
+
+\CV{
+In the following, we arrange the constraints that model the coordination system in the following subsections: drone constraints, mothership constraints, distance constraints, coordination and endurance constraints and linearization constraints.
+
+\subsection*{Drone Constraints}
+\noindent
+\LA{Similarly to the synchronous version of the problem, we model the route followed by the drone by using the binary variables $u^{e_g o}$, $v^{e_g o}$ and $z^{e_g e_g'}$. However, in this case, the variables $u^{e_g o}$ and $v^{e_g o}$ are associated  with the event $o$ and because of the problem assumptions, we need to introduce the additional binary variables $\gamma^{go}$ .} 
+\LA{Thus,} the following constraints model the route followed by the drone while it is operating in a graph $g\in \mathcal G$:
+}
+\begin{footnotesize}
+\begin{align}
+\sum_{o \in \Theta} \sum_{e_g\in E_g} u^{e_g o} &= 1, &\forall g \in \mathcal{G}, \label{eq:drone1}\\ 
+\sum_{o \in \Theta} \sum_{e_g\in E_g} v^{e_g o} &= 1, &\forall g \in \mathcal{G}, \label{eq:drone2}\\
+\sum_{g\in\mathcal {G}} \sum_{e_g \in E_g} u^{e_g o} &\leq \mathcal{K}(o), &\forall o \in \Theta, \label{eq:drone3}\\
+\sum_{g\in\mathcal {G}} \sum_{e_g \in E_g} (u^{e_g o} + v^{e_g o}) &\leq 1, &\forall o \in \Theta, \label{eq:drone4}\\
+\sum_{e_g \in E_g} u^{e_g o} &\leq \sum_{e_g \in E_g} \sum_{o' \in \Theta: o'>o} v^{e_g o'}, &\forall g\in\mathcal G, \:\: \forall o \in \Theta, \label{eq:drone5}\\
+\sum_{o \in \Theta} u^{e_g o} + \sum_{e_g' \in E_g}z^{e_g'e_g} &= \mu^{e_g}, &\forall e_g \in E_g: \:\:  g \in \mathcal{G}, \label{eq:drone6}\\
+\sum_{o \in \Theta} v^{e_g o} + \sum_{e_g' \in E_g}z^{e_g e_g'} &= \mu^{e_g}, &\forall e_g \in E_g: \:\: g \in \mathcal{G}, \label{eq:drone7}\\
+\gamma^{go} &\geq \sum_{e_g \in E_g} u^{e_g o}, &\forall g \in \mathcal{G}, \:\: \forall o \in \Theta, \label{eq:drone8}\\
+\gamma^{g(o+1)} &\geq \gamma^{go} - \sum_{e_g \in E_g} v^{e_g (o+1)},  &\forall g \in \mathcal{G}, \:\: \forall o \in \Theta: o < |\Theta|, \label{eq:drone9}\\
+\sum_{o'\in\Theta : o' < o} \gamma^{go'} &\leq (o-1)(1- \sum_{e_g\in E_g} u^{e_g o}), &\forall g\in\mathcal G, \:\: \forall o \in \Theta, \label{eq:drone10}\\
+\sum_{o' \in \Theta: o' \geq o} \gamma^{go'} &\leq \left(|\Theta| - o + 1\right) (1- \sum_{e_g\in E_g}v^{e_g o}), &\forall g\in\mathcal G, \:\: \forall o \in \Theta, \label{eq:drone11}\\
+\mathcal{K}(1) &= |\mathcal{D}|, \label{eq:drone12}\\
+\mathcal{K}(o+1) &= \mathcal{K}(o) + \sum_{g\in\mathcal {G}} \sum_{e_g \in E_g} v^{e_g o} - \sum_{g\in\mathcal G}\sum_{e_g \in E_g} u^{e_g o}, &\forall o \in \Theta: o<|\Theta|. \label{eq:drone13}
+\end{align}
+\end{footnotesize}
+
+\CV{Constraints \eqref{eq:drone1} and \eqref{eq:drone2} ensure that a launching and a retrieving points are associated to each graph $g$. Constraints \eqref{eq:drone3} allow the mothership to launch a drone in the event $o$ if only a drone is available when the event $o$ occurs. Constraints \eqref{eq:drone4} guarantee that a launching or a retrieving occurs in each event $o\in\Theta$. Constraints \eqref{eq:drone5} indicate that the retrieving event associated to the graph $g$ happens after the launching event associated to the same graph $g$. Equations \eqref{eq:drone6} (resp. \eqref{eq:drone7}) state that the number of exterior edges plus the number of interior edges that enter (resp. exit) to the edge $e_g$ is given by $\mu^{e_g}$.
+Constraints \eqref{eq:drone8} ensure that the operation associated with graph $g$ starts when the drone is launched during the event $o$. Inequalities \eqref{eq:drone9} state that the drone is still operating in graph $g$ for successive events until it is retrieved in the event $o$. Constraints \eqref{eq:drone10} ensure that the drone is not operating in $g$ until the event of launching occurs. Constraints \eqref{eq:drone11} guarantee that the drone finishes operating in the graph $g$ when the event of retrieving happens. Finally, constraints \eqref{eq:drone12} and \eqref{eq:drone13} model the number of available drones at the event $o$.
+
+}
+
+\CV{
+\subsection*{Mothership Constraints}
+In this subsection, we model all the configurations that the mothership can follow in the succession of events in terms of launching and retrieving:
+}
+\begin{align}
+   y_{LL}^1 + y_{LR}^1 & = 1, \label{eq:mother1}\\
+   y_{LL}^{o+1} + y_{LR}^{o+1} & \geq y_{RL}^{o} + y_{LL}^{o}, &\forall o \in \Theta: o<|\Theta|,\label{eq:mother2}\\
+   y_{RR}^{o+1} + y_{RL}^{o+1} & \geq  y_{LR}^{o} + y_{RR}^{o}, &\forall o \in \Theta: o<|\Theta|,\label{eq:mother3}\\
+   y_{LR}^{|\Theta|-1} + y_{RR}^{|\Theta|-1} & = 1. \label{eq:mother4}
+\end{align}
+
+\CV{Constraints \eqref{eq:mother1} state that in event 1 the mothership must depart from the launching point $x_L^1$. Constraints \eqref{eq:mother2} (resp. \eqref{eq:mother3}) ensure that if the mothership go to the launching (resp. retrieving) point $x_L^{o+1}$ (resp. $x_R^{o+1}$) then in the next event it must depart from $x_L^{o+1}$ (resp. $x_R^{o+1}$). Constraint \eqref{eq:mother4} guarantee that the path followed by the mothership finishes in the retrieving point $x_R^{|\Theta|}$.}
+
+\CV{
+\subsection*{Distance Constraints}
+This subsection considers the second-order cone constraints that model the distances covered either by the drone and mothership:
+}
+\begin{align*}
+\|x_L^o- R^{e_g}\| & \leq  d_L^{e_go},  &\forall e_g:g\in \mathcal{G}, \:\:\forall o\in \Theta, \tag{Drone DIST$_{1}$} \label{eq:drone-d1-async}\\
+\|R^{e_g}- L^{e_g}\| & \leq  d^{e_g},  &\forall e_g:g\in \mathcal{G}, \tag{Drone DIST$_{2}$} \label{eq:drone-d2-async}\\
+\|R^{e_g}- L^{e'_g}\| & \leq  d^{e_ge'_g}, &\forall e_g\neq e_g'\in E_g:g\in \mathcal{G}, \tag{Drone DIST$_{3}$} \label{eq:drone-d3-async}\\
+\|L^{e_g}- x_R^o\| & \leq  d_R^{e_go}, &\forall e_g:g\in \mathcal{G},\:\:\forall o\in \Theta. \tag{Drone DIST$_{4}$} \label{eq:drone-d4-async}\\\\
+\|orig - x_L^1\| & \leq d_{orig}, \tag{Mothership DIST$_1$}\label{eq:mothership-d1-async}\\
+\|x_L^o - x_L^{o+1}\| & \leq d_{LL}^{o}, &\forall o\in\Theta:o<|\Theta|, \tag{Mothership DIST$_{2}$}\label{eq:mothership-d2-async}\\
+\|x_L^o - x_R^{o+1}\| & \leq d_{LR}^{o}, &\forall o\in\Theta:o<|\Theta|, \tag{Mothership DIST$_{3}$}\label{eq:mothership-d3-async}\\
+\|x_R^o - x_L^{o+1}\| & \leq d_{RL}^{o}, &\forall o\in\Theta:o<|\Theta|, \tag{Mothership DIST$_{4}$}\label{eq:mothership-d4-async}\\
+\|x_R^o - x_R^{o+1}\| & \leq d_{RR}^{o}, &\forall o\in\Theta:o<|\Theta|, \tag{Mothership DIST$_{5}$}\label{eq:mothership-d5-async}\\
+\|x_R^{|\Theta|} - dest\| & \leq d_{dest}. \tag{Mothership DIST$_6$}\label{eq:mothership-d6-async}
+\end{align*}
+
+\CV{
+Drone distance variables $d_L^{e_go}$, $d^{e_g}$, $d^{e_g'e_g}$ and $d_R^{e_go}$ as well as mothership distance variables $d_{orig}$, $d_{LL}^o$, $d_{LR}^o$, $d_{RL}^o$, $d_{RR}^o$ and $d_{dest}$ are all defined in Table \ref{table:t3}. 
+
+The time spent by the drone to make the operation of visiting graph $g$ is given by:
+}
+
+\begin{footnotesize}
+\begin{equation}\tag{Time$^g_D$}\label{eq:time-g-d}
+time_D^g = \frac{1}{v_D}\left(\sum_{o \in \Theta}\sum_{e_g \in E_g} u^{e_g o}d_L^{e_g o} + \sum_{e_g, e^\prime_g\in E_g}z^{e_ge^\prime_g}d^{e_ge^\prime_g} + \sum_{e_g\in E_g} \mu^{e_g}d^{e_g} + \sum_{o \in \Theta}\sum_{e_g \in E_g} v^{e_g o}d_R^{e_g o}\right).
+\end{equation}
+\end{footnotesize}
+
+\CV{
+The time spent by the mothership while the drone is operating in the graph $g$ is given by:
+}
+
+\begin{footnotesize}
+\begin{equation}\tag{Time$^g_M$}\label{eq:time-g-m}
+   time_M^g = \frac{1}{v_M} d_{LR}^g = \frac{1}{v_M}\sum_{o \in \Theta: o < |\Theta|} (\|x_L^o - x_L^{o+1}\|y_{LL}^o + \|x_L^o - x_R^{o+1}\|y_{LR}^o + \|x_R^o - x_L^{o+1}\|y_{RL}^o + \| x_R^o - x_R^{o+1}\|y_{RR}^o )\gamma^{go}, \:\:\ \forall g \in \mathcal{G}.
+\end{equation}
+\end{footnotesize}
+
+\CV{
+Finally, the overall time spent by the mothership can be described as follows:
+}
+\begin{footnotesize}
+\begin{equation}\tag{Time$_M$}\label{eq:time-m}
+time_M = \frac{1}{v_M}\left(d_{orig} + \sum_{o \in \Theta: o < |\Theta|} \left(\|x_L^o - x_L^{o+1}\|y_{LL}^o + \|x_L^o - x_R^{o+1}\|y_{LR}^o + \|x_R^o - x_L^{o+1}\|y_{RL}^o + \| x_R^o - x_R^{o+1}\|y_{RR}^o\right) + d_{dest} \right).
+\end{equation}
+\end{footnotesize}
+
+\CV{
+\subsection*{Coordination and endurance constraints}
+Once defined the time spent by the drone to visit the graph $g$ and the time spent by the mothership while the drone is visiting this graph $g$, we can model the coordination constraint simply as:
+}
+\begin{equation}\label{eq:DCW-Overlapping}\tag{DCW-Overlapping}
+    time_D^g \leq time_M^g,\quad\forall g\in\mathcal G.
+\end{equation}
+
+In addition, the time spent by the drone to operate in the graph $g$ must not exceed its endurance:
+
+\begin{equation}\label{eq:Endurance-Overlapping}\tag{Endurance-Overlapping}
+    time_D^g \leq N_D
+\end{equation}
+
+
+\CV{
+\subsection*{Linearization Constraints}
+This subsection is devoted to linearize the relationship between the decision variables that model the route of the mothership and the drones. For each $o\in\Theta\setminus \{|\Theta|\}$, the relationship of these variables is given by the products
+}
+\begin{align*}
+    y_{LL}^o & = \sum_{g\in\mathcal G}\sum_{e_g\in E_g} u^{e_go} \sum_{g\in\mathcal G}\sum_{e_g\in E_g} u^{e_g(o+1)},\\
+    y_{LR}^o & = \sum_{g\in\mathcal G}\sum_{e_g\in E_g} u^{e_go} \sum_{g\in\mathcal G}\sum_{e_g\in E_g} v^{e_g(o+1)},\\
+    y_{RL}^o & = \sum_{g\in\mathcal G}\sum_{e_g\in E_g} v^{e_go} \sum_{g\in\mathcal G}\sum_{e_g\in E_g} u^{e_g(o+1)},\\
+    y_{RR}^o & = \sum_{g\in\mathcal G}\sum_{e_g\in E_g} v^{e_go} \sum_{g\in\mathcal G}\sum_{e_g\in E_g} v^{e_g(o+1)}.\\
+\end{align*}
+
+\CV{
+These products can be linearized, respectively, by means of these constraints:
+}
+
+\begin{align}
+   y_{LL}^o &\leq \sum_{g\in\mathcal {G}} \sum_{e_g \in E_g} u^{e_g o},\label{eq:yLL-1}\\%{$y_{LL}$-1}\\
+   y_{LL}^o &\leq \sum_{g\in\mathcal {G}} \sum_{e_g \in E_g} u^{e_g (o+1)},\\%{$y_{LL}$-2}\\
+   y_{LL}^o &\geq \sum_{g\in\mathcal {G}} \sum_{e_g \in E_g} u^{e_g o} + \sum_{g\in\mathcal {G}} \sum_{e_g \in E_g} u^{e_g (o+1)} -1,\\%{$y_{LL}$-3}\\\\
+   y_{LR}^o &\leq \sum_{g\in\mathcal {G}} \sum_{e_g \in E_g} u^{e_g o},\\%{$y_{LR}$-1}\\
+   y_{LR}^o &\leq \sum_{g\in\mathcal {G}} \sum_{e_g \in E_g} v^{e_g (o+1)},\\%{$y_{LR}$-2}\\
+   y_{LR}^o &\geq \sum_{g\in\mathcal {G}} \sum_{e_g \in E_g} u^{e_g o} + \sum_{g\in\mathcal {G}} \sum_{e_g \in E_g} v^{e_g (o+1)} -1,\\%{$y_{LR}$-3}\\\\
+   y_{RL}^o &\leq \sum_{g\in\mathcal {G}} \sum_{e_g \in E_g} v^{e_g o},\\%{$y_{RL}$-1}\\
+   y_{RL}^o &\leq \sum_{g\in\mathcal {G}} \sum_{e_g \in E_g} u^{e_g (o+1)},\\%{$y_{RL}$-2}\\
+   y_{RL}^o &\geq \sum_{g\in\mathcal {G}} \sum_{e_g \in E_g} v^{e_g o} +\sum_{g\in\mathcal {G}} \sum_{e_g \in E_g} u^{e_g (o+1)} -1,\\%{$y_{RL}$-3}\\\\
+   y_{RR}^o &\leq \sum_{g\in\mathcal {G}} \sum_{e_g \in E_g} v^{e_g o},\\%{$y_{RR}$-1}\\
+   y_{RR}^o &\leq \sum_{g\in\mathcal {G}} \sum_{e_g \in E_g} v^{e_g (o+1)},\\%{$y_{RR}$-2}\\
+   y_{RR}^o &\geq \sum_{g\in\mathcal {G}} \sum_{e_g \in E_g}v^{e_g o} +\sum_{g\in\mathcal {G}} \sum_{e_g \in E_g} v^{e_g (o+1)} -1.\label{eq:yRR-3}%{$y_{RR}$-3}
+\end{align}
+
+\CV{Hence, the formulation of the \AMD\xspace with overlapping operations is:}
+\begin{mini*}|s|
+ {}{time_M}{}{} \label{AMMDRPG-Overlapping} \tag{AMMDRPG-Partial Overlapping}
+ \addConstraint{\eqref{eq:drone1}-\eqref{eq:drone13}}{}{}
+ \addConstraint{\eqref{eq:mother1}-\eqref{eq:mother4}}{}{}
+ \addConstraint{\eqref{eq:yLL-1}-\eqref{eq:yRR-3}}{}{}
+ \addConstraint{\eqref{MTZ1}-\eqref{MTZ2}} \text{ or }  \eqref{SEC}
+ \addConstraint{\eqref{eq:alpha-E} \text{ or } \eqref{eq:alpha-G}}{}{}
+ \addConstraint{\eqref{eq:drone-d1-async}-\eqref{eq:drone-d1-async}}{}{} \addConstraint{\eqref{eq:mothership-d1-async}-\eqref{eq:mothership-d6-async}}{}{}
+ \addConstraint{\eqref{eq:time-g-d}, \eqref{eq:time-g-m}, \eqref{eq:time-m}}{}{}
+ \addConstraint{\eqref{eq:DCW-Overlapping}, \eqref{eq:Endurance-Overlapping}}{}{}
+\end{mini*}
+
+% The variables associated with each of the considered distances are described in Table \ref{table:t3}:
+
+
+% \textbf{Mothership Distance}
+
+% \begin{equation}
+%   d_M = \sum_{o \in \Theta: o < |\Theta|} (\|x_L^o - x_L^{o+1}\|y_{LL}^o + \|x_L^o - x_R^{o+1}\|y_{LR}^o + \|x_R^o - x_L^{o+1}\|y_{RL}^o + \| x_R^o - x_R^{o+1}\|y_{RR}^o )
+% 
+
+
+
+% \textbf{Distance associated to graph g}
+
+% \begin{equation}
+%   d_{LR}^g = \sum_{o \in \Theta: o < |\Theta|} (\|x_L^o - x_L^{o+1}\|y_{LL}^o + \|x_L^o - x_R^{o+1}\|y_{LR}^o + \|x_R^o - x_L^{o+1}\|y_{RL}^o + \| x_R^o - x_R^{o+1}\|y_{RR}^o )\gamma^{go} \:\:\ \forall g \in \mathcal{G}
+% 
+
+% \textbf{Coordination Constraint}
+% \begin{equation}
+% \frac{1}{v_D}\left(\sum_{o \in \Theta}\sum_{e_g \in E_g} u^{e_g o}d_L^{e_g o} + \sum_{e_g, e^\prime_g\in E_g}z^{e_ge^\prime_g}d^{e_ge^\prime_g} + \sum_{e_g\in E_g} \mu^{e_g}d^{e_g} + \sum_{o \in \Theta}\sum_{e_g \in E_g} v^{e_g o}d_R^{e_g o}\right) \leq \frac{d_{LR}^g}{v_M} \:\: \forall g \in \mathcal{G}
+% \end{equation}
+
+
+

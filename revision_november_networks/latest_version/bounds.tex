@@ -1,0 +1,130 @@
+\section{Strengthening the formulations}\label{bounds} % of \ref{AMMDRPG}}\label{bounds}
+\noindent
+In this section\CV{,} we present some valid inequalities for \CV{\eqref{AMMDRPG}} that reinforce the formulation given in Subsection \ref{subsec:CO}. Moreover, the \eqref{DCW} and \eqref{eq:DCW-Overlapping} constraints have products of binary and continuous variables that, when they are linearized, produce \CV{bigM} constants that have to be tightened. This section also provides some bounds for these constants whenever it is possible. 
+
+%\CV{*** This last sentence is not done yet -JUSTO dixit- ***}
+
+%Notation here is not very good: we use C for clusters, centroids and the drone endurance. This must be improved.
+
+\subsection{Valid inequalities for the \ref{AMMDRPG}}
+\noindent
+In this problem, we assume that the fleet has more than one drone since otherwise the problem reduces to \RE{the \textit{All Terrain Mothership and Drone routing problem with graphs}} that was already studied in \cite{art:Amorosi2021}. Therefore, if there exists \JP{an operation} in which more than one drone is launched, the mothership does not need to perform $|\mathcal G|$ different operations. Hence, most likely the model does not need to deal with those operations that are numbered at the end. By exploiting this idea, it is possible to concentrate all \RE{drone activities on the first operations, avoiding empty operations in $\mathcal{O}$.}
+\noindent
+Let $\beta^o$ be a binary variable that assumes the value one if all the target graphs are visited when the operation $o$ begins, and zero, otherwise. Note that, if all the graphs are already visited before the operation $o$ then they are also completed before the operation $o+1$. Hence, $\beta$ variables must satisfy the following constraints:
+
+\begin{equation}\tag{Monotonicity}\label{eq:Monotonicity}
+\beta^o \leq \beta^{o+1}, \mbox{ for all } o=1,\ldots, |\mathcal{G}|-1.
+\end{equation}
+
+\noindent
+Let $k^o$ denote the number of graphs that are visited in the operation $o$. This number can be computed using the $u$ variables since $u^{e_go}$ takes the value 1 if the graph $g$ is visited in operation $o$. Thus:
+
+$$k^o=\sum_{g\in\mathcal G}\sum_{e_g\in E_g} u^{e_go}.$$
+
+\noindent
+Hence, if $\beta^o$ equals one, the entire set of graphs in $\mathcal G$ must have been visited before the operation $o$:
+
+\begin{equation}\tag{VI-1}\label{eq:VI-1}
+\sum_{o'=1}^{o-1} k^{o'} \geq |\mathcal G|\beta^o, \quad\forall \RE{o\in\mathcal{O}},
+\end{equation}
+where $|\mathcal G|$ denotes the number of graphs of $\mathcal G$.
+
+\noindent
+To reduce the space of feasible solutions, we can assume without loss of generality that it is not permitted to have an operation $o$ without any visiting graphs if some of them are still to be visited. This can be enforced by the following constraints:
+
+\begin{equation}\tag{VI-2}\label{eq:VI-2}
+k^o \geq 1 - \beta^o, \quad\forall \RE{o\in\mathcal{O}}.
+\end{equation}
+
+\noindent
+The model that we have proposed includes \RE{bigM} constants. We have defined different \RE{bigM} constants along this work. \CV{To} strengthen the formulations\RE{,} we provide tight upper and lower bounds for those constants. In this section\RE{,} we present some results that adjust them for each one of the models. \CV{The reader may note that the same bounds can be used for both models. Therefore, wlog, we focus on the bigM constants that appear in \eqref{AMMDRPG}.}
+
+
+\subsubsection*{Big $M$ constants bounding the distance from the launching / rendezvous point on the path followed by the mothership to the rendezvous / launching point on the target graph $g\in \mathcal{G}$}
+
+%\CV{Maybe BigM can be more adjusted taking into account the endurance of the drone\ldots}
+% \begin{itemize}
+% \item \underline{\AMD}. 
+\noindent
+\RE{To linearize the first addend in \eqref{DCW}}, we define the auxiliar\CV{y} non-negative continuous variables $p_L^{e_go}$ (resp. $p_R^{e_go}$) and we model the product by including the following constraints:
+\begin{align*}
+\RE{p_L^{e_go}} & \RE{\leq  M_L^{e_go}u^{e_go},}\\
+\RE{p_L^{e_go}} & \RE{\leq d_L^{e_go},} \\
+p_L^{e_go} & \geq m_L^{e_go} u^{e_go}, \\
+p_L^{e_go} & \geq d_L^{e_go} - M_L^{e_go}(1-u^{e_go}).
+\end{align*}
+\RE{Note that, among all graph nodes and the origin and destination points, it is possible to identify the pair of points at the maximum distance. From this pair of points, we can build a circle whose diameter is the segment joining them. Hence, because we are minimizing the distance travelled by the mothership, every launching  or rendezvous point is inside this circle and the best upper bound $M_L^{e_go}$ or $M_R^{e_go}$ can be described as:}
+
+$$
+M_R^{e_go} = \max_{\{v\in V_g\cup\{\text{orig}, \text{dest}\}, v'\in V_{g'}\cup\{\text{orig}, \text{dest}\} : g, g'\in\mathcal G\}} \|v - v'\| = M_L^{e_go}.
+$$
+
+\noindent
+On the other hand, the minimum distance in this case can be zero. This bound is attainable whenever the launching or rendezvous points of the mothership are the same that the rendezvous or launching point on the target graph $g\in \mathcal{G}$.
+
+% \item \underline{\NMD}. In this case, the best upper bounds for $M_R^{e_gt}$ or $M_L^{e_gt}$ is the maximum distance between the polygonal chain $\mathcal{P}$ or the graph $\mathcal{N}$ and any of the target graphs $g\in \mathcal{G}$:
+% $$
+% M_R^{e_gt} = \max_{\{v\in V_g, w\in \mathcal N\}}\|v - w\| = M_L^{i_gt}.
+% $$
+% On the other hand, the minimum distance can be computed by taking the closest points between the graph $g$ and the network $\mathcal{N}$:
+% $$
+% m_R^{e_gt} = \min_{\{v\in V_g, w\in \mathcal N\}}\|v - w\| = m_L^{e_gt}.
+% $$
+% \end{itemize}
+
+% \subsubsection*{Bounds on the big $M$ constants for the distance from the launching point to the rendezvous points for the MTZ/SEC formulations in \AMD}
+
+% We can compute a tighter upper bound for the distance $d_{RL}^{gg'}$ between each pair of graphs $g,g'$ for the constraints obtained by the linearization of its product:
+% \begin{align*}
+% p^{gg'} & \geq m_{RL}^{gg'} d_{RL}^{gg'}, \\
+% p^{gg'} & \leq d_{RL}^{gg'} - M_{RL}^{gg'}(1-w^{gg'}).
+% \end{align*}
+% This upper bound $M_{RL}^{gg'}$ is given by the diameter of $g\cup g'$:
+% $$
+% M_{RL}^{gg'} = \max_{\{v\in V_g, v'\in V_{g'}\}}\|v - v'\|.
+% $$
+
+
+\subsubsection*{Bounds on the big$M$ constants for the distance from the launching to the rendezvous points on the target graph $g\in \mathcal{G}$.} 
+\noindent
+When the drone visits a graph $g$, it has to go from one edge $e_g$ to another edge $e'_g$ depending on the order given by $z^{e_ge_g'}$. This fact produces a product of variables linearized by the following constraints:
+\begin{align*}
+p^{e_ge'_g} & \leq M^{e_ge_g'} z^{e_ge_g'}, \\
+p^{e_ge'_g} & \leq d^{e_ge_g'}, \\
+p^{e_ge'_g} & \geq m^{e_ge_g'} d^{e_ge_g'}, \\
+p^{e_ge_g'} & \geq d^{e_ge_g'} - M^{e_ge_g'}(1-z^{e_ge_g'}).
+\end{align*}
+
+\noindent
+Since we are taking into account the distance between two edges $e\RE{_g}=(B^{e_g},C^{e_g}), \, e\RE{_g}'=(B^{e^\prime_g},C^{e^\prime_g})\in E_g$, the maximum distance between their vertices gives us the upper bound:
+\begin{align*}
+M^{e_g e^\prime_g} = & \max\{\|B^{e_g} - C^{e^\prime_g}\|, \|B^{e_g} - B^{e^\prime_g}\|, \|C^{e_g} - B^{e^\prime_g}\|, \|C^{e_g} - C^{\RE{e'_g}}\|\}. 
+%m^{e_g e^\prime_g} = & \min\{\|B^{e_g} - C^{e^\prime_g}\|, \|B^{e_g} - B^{e^\prime_g}\|, \|C^{e_g} - B^{e^\prime_g}\|, \|C^{e_g} - C^{e^\prime_g}\|\}.
+\end{align*}
+We observe that the minimum distance between edges $m^{e_g e^\prime_g}$ can be easily obtained computing the minimum distance between two edges, which results in a simple second-order cone program.
+
+
+% \subsubsection*{Bounds on the big $M$ constants for the distance covered by the mothership on the polygonal for the \PMD \ model during one drone operation.}
+% In the case of \PMD, we can also set tighter upper bounds for the distance covered by the drone inside the polygonal during an operation that starts in $e$ and finishes at $e'$ (or vice versa) (see \eqref{pol:dLRt} and \eqref{pol:dRLt}). This is clearly bounded from above by the total length of the line segments where the mothership is located. 
+% \begin{equation*}
+% M_{LR}^{ee't} = M_{RL}^{ee't} = \left\{\begin{matrix}
+% \mathcal L(e), & \text{if } e = e',\\ 
+% \displaystyle \sum_{e<e''<e'}\mathcal L(e'') & \text{if } e < e', \\
+% \displaystyle \sum_{e'<e''<e}\mathcal L(e'') & \text{if } e > e'.
+% \end{matrix}\right.
+% \end{equation*}
+
+\begin{comment}
+\subsubsection*{Bounds on the big $M$ constants for the distance covered by the drone during an operation for all the models by stages}
+\noindent
+To compute the time spent by the drone to visit a graph $g$, we have defined the constraint
+\begin{equation}\tag{Time$_D^o$}
+time_D^o \geq \frac{1}{v_D}\left(\sum_{e_g\in E_g} u^{e_go}d_L^{e_go} + \sum_{e_g, e^\prime_g\in E_g}z^{e_ge^\prime_g}d^{e_ge^\prime_g} + \sum_{e_g\in E_g} \mu^{e_g}d^{e_g} + \sum_{e_g\in E_g} v^{e_go}d_R^{e_go}\right) - M(1 - \sum_{e_g\in E_g} u^{e_go}), %\:\: \forall g \in \mathcal G \:\: \forall o \in \mathcal O
+\label{eq:timeD}
+\end{equation}
+\noindent
+that includes another \RE{bigM} constant. 
+\CV{DISCUSS IF OMITTING THIS SUBSUBSECTION AND DIRECTLY PUT AS M THE DRONE ENDURANCE}
+
+$$M = \mathcal{L}(g) + M_L^{e_gtd} + M_R^{e_gtd} + \sum_{e_g, e_g'\in E_g}M^{e_ge_g'}.$$
+\end{comment}

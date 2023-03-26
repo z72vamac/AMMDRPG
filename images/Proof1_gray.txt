@@ -1,0 +1,41 @@
+\documentclass[10pt]{article}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+\pagestyle{empty}
+\begin{document}
+\definecolor{cqcqcq}{rgb}{0.7529411764705882,0.7529411764705882,0.7529411764705882}
+\definecolor{wwwwww}{rgb}{0.4,0.4,0.4}
+\definecolor{aqaqaq}{rgb}{0.6274509803921569,0.6274509803921569,0.6274509803921569}
+\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=0.5cm,y=.5cm]
+\begin{axis}[
+x=1cm,y=1cm,
+axis lines=middle,
+xmin=-2.2000000000000015,
+xmax=20.44000000000001,
+ymin=-2.0400000000000005,
+ymax=15.480000000000002,
+xtick={-2,-1,...,20},
+ytick={-2,-1,...,15},]
+\clip(-2.2,-2.04) rectangle (20.44,15.48);
+\draw [line width=2pt,color=cqcqcq] (4,5)-- (6,9)-- (12,7);
+\draw [line width=2pt,color=cqcqcq] (9,7)-- (14,11)-- (17,5);
+\draw [line width=2pt] (4,5)-- (9,7)-- (12,7)-- (17,5);
+\draw (3.26,5.08) node[anchor=north west] {$\mathbf{x_L^1}$};
+\draw (8.76,7.24) node[anchor=north west] {\mathbf{$x_L^2$}};
+\draw (11.58,7.2) node[anchor=north west] {\mathbf{$x_R^1$}};
+\draw (16.74,5.22) node[anchor=north west] {\mathbf{$x_R^2$}};
+\draw [color=cqcqcq](5.48,9.96) node[anchor=north west] {\mathbf{$P_1$}};
+\draw [color=cqcqcq](13.66,12.06) node[anchor=north west] {\mathbf{$P_2$}};
+\begin{scriptsize}
+\draw [fill=aqaqaq] (6,9) circle (2.5pt);
+\draw [fill=aqaqaq] (14,11) circle (2.5pt);
+\draw [fill=wwwwww] (4,5) circle (2.5pt);
+\draw [fill=wwwwww] (12,7) circle (2.5pt);
+\draw [fill=wwwwww] (9,7) circle (2.5pt);
+\draw [fill=wwwwww] (17,5) circle (2.5pt);
+\end{scriptsize}
+\end{axis}
+\end{tikzpicture}
+\end{document}
