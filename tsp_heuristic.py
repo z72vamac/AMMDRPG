@@ -1,69 +1,53 @@
 """Tenemos un conjunto E de entornos y un conjunto de poligonales P de las que queremos recorrer un porcentaje alfa p . Buscamos
    un tour de mínima distancia que alterne poligonal-entorno y que visite todas las poligonales"""
 
-
 # Incluimos primero los paquetes
-import gurobipy as gp
-import pdb
-from gurobipy import GRB
-import numpy as np
-from itertools import product
-import random
-import matplotlib.pyplot as plt
-from matplotlib.patches import Circle, Polygon
-from matplotlib.collections import PatchCollection
-import matplotlib.lines as mlines
-from data import *
-from entorno import *
-import copy
-import estimacion_M as eM
-import networkx as nx
-import auxiliar_functions as af
-from MTZ import *
+from neighbourhood import *
+from mtz import *
+
 
 # np.random.seed(2)
-# orig = [50, 50]
-# dest = orig
+# origin = [50, 50]
+# destination = origin
 #
-# nG = 20
-# datos = Data([], m=nG, r=3, modo=4, tmax=120, alpha = True,
-#              init=True,
+# graphs_number = 20
+# data = Data([], m=graphs_number, r=3, modo=4, time_limit=120, alpha = True,
+#              initialization=True,
 #              show=True,
 #              seed=2)
-# datos.generar_grafos()
-# grafos = datos.mostrar_datos()
+# data.generate_graphs()
+# grafos = data.graphs_numberostrar_data()
 #
-# T_index = range(datos.m + 2)
-# T_index_prima = range(1, datos.m+1)
-# T_index_primaprima = range(datos.m+1)
+# T_index = range(data.graphs_number + 2)
+# T_index_prima = range(1, data.graphs_number+1)
+# T_index_primaprima = range(data.graphs_number+1)
 #
-# vD = 2
+# drone_speed = 2
 #
 # vC = 1
 
-def heuristic(datos):
+def heuristic(data):
+    grafos = data.graphs_numberostrar_data()
 
-    grafos = datos.mostrar_datos()
+    T_index = range(data.graphs_number + 2)
+    T_index_prima = range(1, data.graphs_number + 1)
+    T_index_primaprima = range(data.graphs_number + 1)
 
-    T_index = range(datos.m + 2)
-    T_index_prima = range(1, datos.m+1)
-    T_index_primaprima = range(datos.m+1)
-
-    orig= [50,50]
-    dest = orig
+    origin = [50, 50]
+    destination = origin
 
     first_time = time.time()
     results = []
     centroides = {}
 
     for g in T_index_prima:
-        centroides[g] = np.mean(grafos[g-1].V, axis = 0)
+        centroides[g] = np.mean(grafos[g - 1].V, axis=0)
 
     centros = []
-    centros.append(orig)
+    centros.append(origin)
     for g in centroides.values():
         centros.append(g)
-    centros.append(dest)
+    centros.append(destination)
 
     elipses = []
 
@@ -71,23 +55,23 @@ def heuristic(datos):
 
     for c in centros:
         P = np.identity(2)
-        q = -2*np.array(c)
-        r = c[0]**2 + c[1]**2 - radio**2
-        elipse = Elipse(P, q, r)
+        q = -2 * np.array(c)
+        r = c[0] ** 2 + c[1] ** 2 - radio ** 2
+        elipse = Ellipsoid(P, q, r)
         elipses.append(elipse)
 
-    elipse = Data(elipses, m = 6, r = 2, grid = True, alpha = True, tmax = 1200, init = 0, prepro = 0, refor = 0, show = True, seed = 2)
+    elipse = Data(elipses, graphs_number=6, r=2, grid_mode=True, alpha=True, time_limit=1200, initialization=0, prepro=0, refor=0, show=True, seed=2)
 
-    path_1, path_P, obj  = MTZ(elipse)
+    path_1, path_P, obj = mtz(elipse)
 
     # prim = path[1]
-    # seg = path[2]
-    # path[1] = seg
+    # s_eg = path[2]
+    # path[1] = s_eg
     # path[2] = prim
 
     z = af.path2matrix(path_1)
 
-    xL, xR, obj = af.XPPNZ(datos, z, orig, dest, 0)
+    xL, xR, obj = af.XPPNZ(data, z, origin, destination, 0)
 
     xL_dict = {}
     xR_dict = {}
@@ -108,7 +92,7 @@ def heuristic(datos):
     #     elipse = Elipse(P, q, r)
     #     elipses.append(elipse)
     #
-    # elipse = Data(elipses, m = 6, r = 2, modo  = 4, alpha = True, tmax = 1200, init = 0, prepro = 0, refor = 0, show = True, seed = 2)
+    # elipse = Data(elipses, m = 6, r = 2, modo  = 4, alpha = True, time_limit = 1200, initialization = 0, prepro = 0, refor = 0, show = True, seed = 2)
     # path, path_P, obj  = MTZ(elipse)
     # print(path)
     # path = tsp(points)
@@ -119,7 +103,7 @@ def heuristic(datos):
     #
     # for g in path[1:-1]:
     #     print('PROBLEMA del Grafo: ' + str(path[g]))
-    #     vals_u, vals_zgij, vals_v, obj = af.XPPND(datos, xL_dict[g], grafos[g-1], xL_dict[g+1])
+    #     vals_u, vals_zgij, vals_v, obj = af.XPPND(data, xL_dict[g], grafos[g-1], xL_dict[g+1])
     #     for key, value in vals_u.items():
     #         u_dict[(g, key)] = value
     #     for key, value in vals_zgij.items():
@@ -132,7 +116,7 @@ def heuristic(datos):
     # z = af.path2matrix(path)
     # print(z)
 
-    xL, xR, obj, path_2 = af.XPPNxl(datos, xL_dict, xR_dict, orig, dest, 0)
+    xL, xR, obj, path_2 = af.XPPNxl(data, xL_dict, xR_dict, origin, destination, 0)
 
     # print()
     # print('--------------------------------------------')
@@ -147,8 +131,8 @@ def heuristic(datos):
 
     print(path_app)
     iter = 1
-    while not(all([i == j for i, j in zip(path_1, path_2)]) or all([i == j for i, j in zip(path_app, path_2)])):
-        path_1=path_2
+    while not (all([i == j for i, j in zip(path_1, path_2)]) or all([i == j for i, j in zip(path_app, path_2)])):
+        path_1 = path_2
 
         z = af.path2matrix(path_1)
 
@@ -158,14 +142,13 @@ def heuristic(datos):
         # print('--------------------------------------------')
         # print()
 
-        xL, xR, obj = af.XPPNZ(datos, z, orig, dest, 0)
+        xL, xR, obj = af.XPPNZ(data, z, origin, destination, 0)
 
         for g in T_index:
             xL_dict[g] = [xL[(g, 0)], xL[(g, 1)]]
             xR_dict[g] = [xR[(g, 0)], xR[(g, 1)]]
 
-
-        xL, xR, obj, path_2 = af.XPPNxl(datos, xL_dict, xR_dict, orig, dest, 0)
+        xL, xR, obj, path_2 = af.XPPNxl(data, xL_dict, xR_dict, origin, destination, 0)
 
         path_app = path_1.copy()
         path_app.reverse()
@@ -178,7 +161,7 @@ def heuristic(datos):
     second_time = time.time()
     runtime = second_time - first_time
 
-    if datos.init:
+    if data.initialization:
         z = af.path2matrix(path_2)
 
         for g in T_index:
@@ -192,7 +175,7 @@ def heuristic(datos):
 
         results.append(obj)
         results.append(runtime)
-        if datos.grid:
+        if data.grid:
             results.append('Grid')
         else:
             results.append('Delauney')
@@ -211,8 +194,7 @@ def heuristic(datos):
 #     elipse = Elipse(P, q, r)
 #     elipses.append(elipse)
 #
-# elipse = Data(elipses, m = 6, r = 2, modo  = 4, alpha = True, tmax = 1200, init = 0, prepro = 0, refor = 0, show = True, seed = 2)
-
+# elipse = Data(elipses, m = 6, r = 2, modo  = 4, alpha = True, time_limit = 1200, initialization = 0, prepro = 0, refor = 0, show = True, seed = 2)
 
 
 # objective = []
@@ -236,18 +218,18 @@ def heuristic(datos):
 #         elipse = Elipse(P, q, r)
 #         elipses.append(elipse)
 #
-#     elipse = Data(elipses, m = 6, r = 2, modo  = 4, alpha = True, tmax = 1200, init = 0, prepro = 0, refor = 0, show = True, seed = 2)
+#     elipse = Data(elipses, m = 6, r = 2, modo  = 4, alpha = True, time_limit = 1200, initialization = 0, prepro = 0, refor = 0, show = True, seed = 2)
 #
 #     path, path_P, obj  = MTZ(elipse)
 #
 #     elipses = [elipses[a] for a in path]
 #     grafos = [grafos[a-1] for a in path[1:-1]]
-#     datos = Data(grafos, m=nG, r=3, modo=4, tmax=120, alpha = True,
-#                  init=True,
+#     data = Data(grafos, m=graphs_number, r=3, modo=4, time_limit=120, alpha = True,
+#                  initialization=True,
 #                  show=True,
 #                  seed=2)
 #
-#     #xL, xR, obj, path = af.XPPNe(datos, orig, dest, elipses, i)
+#     #xL, xR, obj, path = af.XPPNe(data, origin, destination, elipses, i)
 #
 #     z = af.path2matrix(path)
 #
@@ -265,7 +247,7 @@ def heuristic(datos):
 #     #     elipse = Elipse(P, q, r)
 #     #     elipses.append(elipse)
 #     #
-#     # elipse = Data(elipses, m = 6, r = 2, modo  = 4, alpha = True, tmax = 1200, init = 0, prepro = 0, refor = 0, show = True, seed = 2)
+#     # elipse = Data(elipses, m = 6, r = 2, modo  = 4, alpha = True, time_limit = 1200, initialization = 0, prepro = 0, refor = 0, show = True, seed = 2)
 #     #
 #     # path, path_P, obj = MTZ(elipse)
 #     # z = af.path2matrix(path)
@@ -273,15 +255,15 @@ def heuristic(datos):
 #     # grafos = [grafos[a-1] for a in path[1:-1]]
 #     # elipses = [elipses[a] for a in path]
 #     #
-#     # datos = Data(grafos, m=nG, r=3, modo=4, tmax=120, alpha = True,
-#     #              init=True,
+#     # data = Data(grafos, m=graphs_number, r=3, modo=4, time_limit=120, alpha = True,
+#     #              initialization=True,
 #     #              show=True,
 #     #              seed=2)
 #
 #
 #
 #     # xL_dict = dict(sorted(xL_dict.items(), key=lambda x: x[0]))
-#     xL, xR, obj = af.XPPNZ(datos, z, orig, dest, i, elipses)
+#     xL, xR, obj = af.XPPNZ(data, z, origin, destination, i, elipses)
 #
 #
 #
@@ -291,7 +273,7 @@ def heuristic(datos):
 #
 #
 #
-#     # elipse = Data(elipses, m = 6, r = 2, modo  = 4, alpha = True, tmax = 1200, init = 0, prepro = 0, refor = 0, show = True, seed = 2)
+#     # elipse = Data(elipses, m = 6, r = 2, modo  = 4, alpha = True, time_limit = 1200, initialization = 0, prepro = 0, refor = 0, show = True, seed = 2)
 #
 #
 #     # radio = 3
@@ -303,9 +285,9 @@ def heuristic(datos):
 #     #     elipse = Elipse(P, q, r)
 #     #     elipses.append(elipse)
 #     #
-#     # elipse = Data(elipses, m = 6, r = 2, modo = 4, alpha = True, tmax = 1200, init = 0, prepro = 0, refor = 0, show = True, seed = 2)
+#     # elipse = Data(elipses, m = 6, r = 2, modo = 4, alpha = True, time_limit = 1200, initialization = 0, prepro = 0, refor = 0, show = True, seed = 2)
 #     #
-#     # xL, xR, obj = af.XPPNZ(datos, z, orig, dest, i+1, elipses)
+#     # xL, xR, obj = af.XPPNZ(data, z, origin, destination, i+1, elipses)
 #     #
 #     #
 #     # # print(xL)
@@ -325,7 +307,7 @@ def heuristic(datos):
 #     #     elipse = Elipse(P, q, r)
 #     #     elipses.append(elipse)
 #
-#     # elipse = Data(elipses, m = 6, r = 2, modo  = 4, alpha = True, tmax = 1200, init = 0, prepro = 0, refor = 0, show = True, seed = 2)
+#     # elipse = Data(elipses, m = 6, r = 2, modo  = 4, alpha = True, time_limit = 1200, initialization = 0, prepro = 0, refor = 0, show = True, seed = 2)
 #
 #     # path, path_P, obj = MTZ(elipse)
 #
@@ -348,7 +330,7 @@ def heuristic(datos):
 # #         elipse = Elipse(P, q, r)
 # #         elipses.append(elipse)
 # #
-# #     elipse = Data(elipses, m = 6, r = 2, modo = 4, alpha = True, tmax = 1200, init = 0, prepro = 0, refor = 0, show = True, seed = 2)
+# #     elipse = Data(elipses, m = 6, r = 2, modo = 4, alpha = True, time_limit = 1200, initialization = 0, prepro = 0, refor = 0, show = True, seed = 2)
 #     if obj >= min(objective) and i >= 5:
 #         objective.append(obj)
 #         break

@@ -81,8 +81,8 @@ Therefore, the following formulation minimizes the overall distance traveled by 
  \addConstraint{\|x_R^t- x_L^{t+1}\|}{\leq d_{RL}^t,\quad}{\forall i_g,t}{}
  \addConstraint{\|x_L^t- x_R^t\|}{\leq d_{LR}^t,\quad}{\forall i_g,t}{}
  \addConstraint{\left(\sum_{i_g} u^{i_gt}d_L^{i_gt} + \sum_{i_g, j_g}z^{i_gj_g}d^{i_gj_g} + \sum_{i_g} \mu^{i_g}d^{i_g} + \sum_{i_g} v^{i_gt}d_R^{i_gt}\right)/v_D}{\leq d_{RL}^t/v_M + M(1 - \sum_{i_g} u^{i_gt}), \quad}{\forall g, t}{}\label{ACW}\tag{DCW}
- \addConstraint{x_L^0}{= orig}{}
- \addConstraint{x_R^0}{= orig}{}
+ \addConstraint{x_L^0}{= origin}{}
+ \addConstraint{x_R^0}{= origin}{}
  \addConstraint{x_L^{|\mathcal G|+1}}{= dest}{}
  \addConstraint{x_R^{|\mathcal G|+1}}{= dest.}{}
 \end{mini*}
@@ -128,7 +128,7 @@ By using these binary variables, we can model the route that follows the drone i
 
 On the other hand, to model the tour followed by the mothership, we have to include the following new constraints:
 \begin{align}
-    \sum_{g\in\mathcal G} w^{g0} & = 0, \label{TOrig}\\
+    \sum_{g\in\mathcal G} w^{g0} & = 0, \label{Torigin}\\
     \sum_{g'\in\mathcal G} w^{(n_G+1) g'} & = 0, \label{TDest}\\
     \sum_{g'\in\mathcal G'\setminus\{g\}} w^{gg'} & = 1, \label{TExt} &\quad\forall g\in \mathcal G\\
     \sum_{g\in\mathcal G'\setminus\{g'\}} w^{gg'} & = 1, &\quad\forall g'\in \mathcal G\label{TEnt}\\
@@ -165,7 +165,7 @@ The mothership begins at its starting point $x_L^0$. Then, it moves to $x_L^1$ w
 \begin{mini*}|s|
  {}{\sum_{i_g} (u^{i_g}d_L^{i_g} + v^{i_g}d_R^{i_g}) + \sum_{i_g} d^{i_g} + \sum_{i_g,j_g}z^{i_gj_g}d^{i_gj_g} + \sum_g d_{LR}^g + \sum_{g,g'}d_{RL}^{gg'}w^{gg'}}{}{}\label{AMDRPG-MTZ}\tag{AMDRPG-MTZ}
  \addConstraint{\eqref{DEnt2}-\eqref{DInv2}}{}{}
- \addConstraint{\eqref{TOrig}-\eqref{TEnt}}{}{}
+ \addConstraint{\eqref{Torigin}-\eqref{TEnt}}{}{}
  \addConstraint{\eqref{MTZ1} - \eqref{MTZ2} \text{ or } \eqref{SEC} }{}{}
 %\addConstraint{\eqref{MTZ3} - \eqref{MTZ6} \text{ or } \eqref{SEC} }{}{}   
  \addConstraint{\eqref{MTZ3} - \eqref{MTZ6}}{}{}   
@@ -177,8 +177,8 @@ The mothership begins at its starting point $x_L^0$. Then, it moves to $x_L^1$ w
  \addConstraint{\|x_R^g- x_L^{g'}\|}{\leq d^{gg'}_{RL},\quad}{\forall g,g'}{}
  \addConstraint{\|x_L^g- x_R^g\|}{\leq d^g_{LR},\quad}{\forall g}{}
  \addConstraint{\left(\sum_{i_g} u^{i_g}d_L^{i_g} + \sum_{i_g, j_g}z^{i_gj_g}d^{i_gj_g} + \sum_{i_g} \mu^{i_g} d^{i_g} + \sum_{i_g}v^{i_g}d_R^{i_g}\right)/v_D}{\leq d_{RL}^{g}/v_M, \quad}{\forall g}{}\label{ACW}\tag{DCW}
- \addConstraint{x_L^0}{= orig}{}
- \addConstraint{x_R^0}{= orig}{}
+ \addConstraint{x_L^0}{= origin}{}
+ \addConstraint{x_R^0}{= origin}{}
  \addConstraint{x_L^{|\mathcal G|+1}}{= dest}{}
  \addConstraint{x_R^{|\mathcal G|+1}}{= dest.}{}
 \end{mini*}
@@ -265,8 +265,8 @@ The goal of the (\PMD) is, once again, to find a feasible solution that minimize
  \addConstraint{\|R^{i_g}- L^{j_g}\|}{\leq d^{i_gj_g},\quad}{\forall i_g,j_g}{}
  \addConstraint{\|L^{i_g}- x_R^t\|}{\leq d_R^{i_gt},\quad}{\forall i_g,t}{}
  \addConstraint{\hspace*{-1.5cm} \left(\sum_{i_g} u^{i_gt}d_L^{i_gt} + \sum_{i_g, j_g}z^{i_gj_g}d^{i_gj_g} + \sum_{i_g} \mu^{i_g}d^{i_g} + \sum_{i_g} v^{i_gt}d_R^{i_gt}\right)/v_D}{\leq d_{RL}^t/v_M + M(1 - \sum_{i_g} u^{i_gt}), \,}{\forall g, t}{}\label{ACW}\tag{{\scriptsize DCW}}
- \addConstraint{x_L^0}{= orig}{}
- \addConstraint{x_R^0}{= orig}{}
+ \addConstraint{x_L^0}{= origin}{}
+ \addConstraint{x_R^0}{= origin}{}
  \addConstraint{x_L^{|\mathcal G|+1}}{= dest}{}
  \addConstraint{x_R^{|\mathcal G|+1}}{= dest.}{}
 \end{mini*}
@@ -316,7 +316,7 @@ The goal of the (\PMD) is to find a feasible solution that minimizes the total d
 \begin{mini*}|s|
  {}{\sum_{i_g} (u^{i_g}d_L^{i_g} + v^{i_g}d_R^{i_g}) + \sum_{i_g} d^{i_g} + \sum_{i_g,j_g}z^{i_gj_g}d^{i_gj_g} + \sum_g d_{LR}^g + \sum_{g,g'}d_{RL}^{gg'}w^{gg'}}{}{}\label{PMDRPG-MTZ}\tag{PMDRPG-MTZ}
  \addConstraint{\eqref{DEnt2}-\eqref{DInv2}}{}{}
- \addConstraint{\eqref{TOrig}-\eqref{TEnt}}{}{}
+ \addConstraint{\eqref{Torigin}-\eqref{TEnt}}{}{}
  \addConstraint{\eqref{MTZ1} - \eqref{MTZ2} \text{ or } \eqref{SEC} }{}{}
  \addConstraint{\eqref{MTZ3} - \eqref{MTZ6} \text{ or } \eqref{SEC} }{}{}   
  \addConstraint{\eqref{param1g}-\eqref{dRLgg}}{}{}
@@ -327,8 +327,8 @@ The goal of the (\PMD) is to find a feasible solution that minimizes the total d
  \addConstraint{\|R^{i_g}- L^{j_g}\|}{\leq d^{i_gj_g},\quad}{\forall i_g}{}
  \addConstraint{\|L^{i_g}- x_R^i\|}{\leq d_R^{i_g},\quad}{\forall i_g}{}
  \addConstraint{\left(\sum_{i_g} u^{i_g}d_L^{i_g} + \sum_{i_g, j_g}z^{i_gj_g}d^{i_gj_g} + \sum_{i_g} \mu^{i_g} d^{i_g} + \sum_{i_g}v^{i_g}d_R^{i_g}\right)/v_D}{\leq d_{RL}^{g}/v_M, \quad}{\forall g}{}\label{ACW}\tag{DCW}
- \addConstraint{x_L^0}{= orig}{}
- \addConstraint{x_R^0}{= orig}{}
+ \addConstraint{x_L^0}{= origin}{}
+ \addConstraint{x_R^0}{= origin}{}
  \addConstraint{x_L^{|\mathcal G|+1}}{= dest}{}
  \addConstraint{x_R^{|\mathcal G|+1}}{= dest.}{}
 \end{mini*}
@@ -416,8 +416,8 @@ Hence, once the distances inside the graph are set with the above two families o
  \addConstraint{\|R^{i_g}- L^{j_g}\|}{\leq d^{i_gj_g},\quad}{\forall i_g,j}{}
  \addConstraint{\|L^{i_g}- x_R^i\|}{\leq d_R^{i_gt},\quad}{\forall i_g,t}{}
  \addConstraint{\hspace*{-2cm}\left(\sum_{i_g} u^{i_gt}d_L^{i_gt} + \sum_{i, j}z^{i_gj_g}d^{i_gj_g} + \sum_{i_g} \mu^{i_gt}d^{i_g} + \sum_{i_g} v^{i_gt}d_R^{i_gt}\right)/v_D}{\leq d_{RL}^t/v_M + M(1 - \sum_{i_g} u^{i_gt}),\ }{\forall g, t}{}\label{ACW}\tag{DCW}
- \addConstraint{x_L^0}{= orig}{}
- \addConstraint{x_R^0}{= orig}{}
+ \addConstraint{x_L^0}{= origin}{}
+ \addConstraint{x_R^0}{= origin}{}
  \addConstraint{x_L^{|\mathcal G|+1}}{= dest}{}
  \addConstraint{x_R^{|\mathcal G|+1}}{= dest.}{}
 \end{mini*}
@@ -494,8 +494,8 @@ Hence, once the distances inside the graph are set with the above two families o
  \addConstraint{\|R^{i_g}- L^{j_g}\|}{\leq d^{i_gj_g},\quad}{\forall i_g,j}{}
  \addConstraint{\|L^{i_g}- x_R^i\|}{\leq d_R^{i_gt},\quad}{\forall i_g,t}{}
  \addConstraint{\left(\sum_{i_g} u^{i_g}d_L^{i_g} + \sum_{i, j}z^{i_gj_g}d^{i_gj_g} + \sum_{i_g} \mu^{i_g}d^{i_g} + \sum_{i_g} v^{i_g}d_R^{i_g}\right)/v_D}{\leq d_g^{RL}/v_M, \quad}{\forall g}{}\label{ACW}\tag{DCW}
- \addConstraint{x_L^0}{= orig}{}
- \addConstraint{x_R^0}{= orig}{}
+ \addConstraint{x_L^0}{= origin}{}
+ \addConstraint{x_R^0}{= origin}{}
  \addConstraint{x_L^{|\mathcal G|+1}}{= dest}{}
  \addConstraint{x_R^{|\mathcal G|+1}}{= dest.}{}
 \end{mini*}

@@ -1,0 +1,157 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{mathtools,amssymb}
+\usepackage{subfigure}
+\usepackage{optidef}
+\usepackage{xcolor}
+\usepackage{amsthm}
+\usepackage{comment}
+\usepackage[ruled]{algorithm2e}
+\usepackage{xspace}
+\usepackage{ulem}
+\newtheorem*{remark}{Remark}
+
+\usepackage[margin=1in]{geometry}
+\def\MDR{{\sf MDRPG\xspace}}
+\def\AMD{{\sf AMDRPG \xspace }}
+\def\NMD{{\sf NMDRPG\xspace}}
+\def\PMD{{\sf PMDRPG\xspace}}
+\definecolor{armygreen}{rgb}{0.19, 0.53, 0.43}
+\definecolor{atomictangerine}{rgb}{1.0, 0.6, 0.4}
+\newcommand{\JP}[1]{{\color{armygreen}#1}}
+\newcommand{\CV}[1]{{\color{atomictangerine}#1}}
+\newcommand{\LA}[1]{{\color{blue}#1}}
+\renewcommand{\arraystretch}{1.5}
+
+\title{Coordinating drones with mothership vehicles: The mothership and multiple drone routing problem}
+\author{Lavinia Amorosi \and Justo Puerto \and Carlos Valverde}
+\date{\today}
+
+
+\begin{document}
+\section{Introduction}
+
+\section{Description}
+\section{Description of the Problem}
+In the Mothership and Multiple Drone Routing Problem with Graphs (MMDRPG), there is one mothership (the base vehicle) and some drones, and the problem consists on the coordination between the drones and the base vehicle to minimize the total distance travelled by both vehicles. In this case, for the sake of simplicity, \LA{it is assumed} that there exist no obstacles to prevent drone travelling in straight line. Nevertheless, that extension is interesting to be further considered although is beyond the scope of this paper.
+
+The mothership and the drones begin at a starting location, denoted $origin$ \LA{and a set $\mathcal G$ of target locations modeled by graphs, that must be visited by the drones, are located in the plane. These assumptions permit to model several real situations like roads or wired networks inspection.}
+%The natural application for this situation comes from road or wired network inspection.
+For each stage $t \in \{1, \ldots, |\mathcal G|\}$, we require that the drones are launched from the current mothership location, that at stage $t$ is a decision variable denoted by $x_L^t$, fly to one of the graphs $g$ that has to be visited, traverse the required portion of $g$ and then return to the current position of the mothership, that most likely is different from the launching point $x_L^t$, and that is another decision variable denoted by $x_R^t$. Once all targets graphs have been visited, the mothership and drones return to a final location (depot), denoted by $dest$.
+
+Let $g = (V_g, E_g)$ be a graph in $\mathcal G$ whose total length is denoted by $\mathcal L(g)$ and $e_g$ that denotes the edge $e$ of this graph $g$. This edge is parametrized by its endpoints $B^{e_g}, C^{e_g}$ and its length $\|\overline{B^{e_g}C^{e_g}}\|$ is denoted by $\mathcal L(e_g)$. For each line segment, we assign a binary variable $\mu^{e_g}$ that indicates whether or not the drone visits the segment $e_g$ and define entry and exit points $(R^{e_g}, \rho^{e_g})$ and $(L^{e_g}, \lambda^{e_g})$, respectively, that determine the portion of the edge visited by the drone.
+
+We have considered two modes of visit to the targets graphs $g\in \mathcal{G}$:
+\begin{itemize}
+    \item Visiting a percentage $\alpha^{e_g}$ of each edge $e_g$ which can be modeled by using the following constraints:
+    \begin{equation}\label{eq:alphaE}\tag{$\alpha$-E}
+    |\lambda^{e_g} - \rho^{e_g}|\mu^{e_g}\geq \alpha^{e_g}, \quad \forall e_g\in E_g.
+    \end{equation}
+    \item Visiting a percentage $\alpha_g$ of the total length of the graph:
+    \begin{equation}\label{eq:alphaG}\tag{$\alpha$-G}
+    \sum_{e_g\in E_g} \mu^{e_g}|\lambda^{e_g} - \rho^{e_g}|\mathcal L(e_g) \geq \alpha^g\mathcal L(g),
+    \end{equation}
+    where $\mathcal L(g)$ denotes the total length of the graph.
+\end{itemize}
+
+\bigskip
+
+In both cases, we need to introduce a binary variable \CV{$\text{entry}^{e_g}$} that determines the traveling direction on the edge $e_g$ as well as the definition of the parameter values $\nu_\text{min}^{e_g}$ and $\nu_\text{max}^{e_g}$ of the access and exit points to that segment. Then, for each edge $e_g$, the absolute value constraint \eqref{eq:alphaE} can be represented by:
+
+\begin{equation}\label{eq:alpha-E}\tag{$\alpha$-E}
+ \mu^{e_g}|\rho^{e_g}-\lambda^{e_g}|\geq \alpha^{e_g} \Longleftrightarrow
+ \left\{
+ \begin{array}{ccl}
+  \rho^{e_g} - \lambda^{e_g}                       & =    & \nu_\text{max}^{e_g} - \nu_\text{min}^{e_g}                                     \\
+  \nu_\text{max}^{e_g}                         & \leq & 1-{\text{entry}^{e_g}}                                    \\
+  \nu_\text{min}^{e_g}                      & \leq & {  \text{entry}^{e_g}},                                        \\
+  \mu^{e_g}(\nu_\text{max}^{e_g} + \nu_\text{min}^{e_g} ) & \geq & \alpha^{e_g}
+  \\
+ \end{array}
+ \right.
+\end{equation}
+
+The linearization of \eqref{eq:alphaG} is similar to \eqref{eq:alphaE} by changing the last inequality in \eqref{eq:alpha-E} for
+
+\begin{equation}\label{eq:alpha-G}\tag{$\alpha$-G}
+\sum_{e_g\in E_g} \mu^{e_g}(\nu_\text{max}^{e_g} + \nu_\text{min}^{e_g})\mathcal L(e_g)\geq \alpha_g\mathcal L(g).
+\end{equation}
+
+\JP{In our model wlog, we assume  that the mothership and drones do not need to arrive at a rendezvous location at the same time: the faster arriving vehicle may wait for the other at the rendezvous location. In addition, we also assume that vehicles move at constant speeds, although this hypothesis could be relaxed. The mothership travels at $v_M$ speed whereas the drone has a speed of $v_D$ > $v_M$. The mothership and the drone must travel together from $origin$ to the first launching point. Similarly, after the drone visits the last target location, the mothership and the drone must meet at the final rendezvous location before traveling together back to $dest$. The first launching location and final rendezvous location are allowed to be $origin$ and $dest$, respectively, but it is not mandatory. For the ease of presentation, in this paper we will assume that $origin$ and $dest$ are the same location. However, all results extend easily to the case that $origin$ and $dest$ are different locations.
+
+The goal is to find a minimum time path that begins at $origin$, ends at $dest$, and where every $g \in \mathcal G$ is visited by the drones.
+
+Depending on the assumptions made on the movements of the mothership vehicle this problem gives rise to two different versions: a) the mothership vehicle can move freely on the continuous space (all terrain ground vehicle, boat on the water or aircraft vehicle); and b) the mothership vehicle must move on a \LA{road} network (that is, it is a normal truck or van). In the former case, that we will call All terrain Mothership-Drone Routing Problem with Graphs (\AMD), each launch and rendezvous location may be chosen from a continuous space (the Euclidean 2-or-3 dimension space). In the latter case, that we will call Network Mothership-Drone Routing Problem with Graphs (\NMD) from now on, each launch and rendezvouz location must be chosen on a given graph embedded in the considered space. For the sake of presentation and length  of the paper, we will focus in this paper, mainly, on the first model \AMD. The second model, namely \NMD, is addressed using similar techniques but providing slightly less details.}
+
+\section{Formulation}
+To formulate the AMMDRPGST we need to introduce the following variables:
+
+\textbf{Binary Variables}
+\begin{itemize}
+  \item $u^{{e_g}td} = 1$ if the visit of graph $g$ starts from edge $e$ at stage $t$ by the drone $d$.
+  \item $v^{{e_g}td}= 1$ if the visit of graph $g$ finishes in edge $e$ at stage $t$ by the drone $d$.
+  \item $z^{e_ge'_g}= 1$ if we go from $e$ to $e'$ in the graph $g$.
+\end{itemize}
+
+By using these binary variables, we can model the route that follows the drone:
+\begin{align}
+    \sum_{g\in \mathcal G}\sum_{e_g\in E_g} \sum_d u^{e_gtd} & \leq 1, &\forall t\in T \label{st:DEnt}\\%\tag{DEn}\\
+    \sum_{g\in\mathcal G}\sum_{e_g\in E_g} \sum_d v^{e_gtd} & \leq 1, &\forall t\in T \label{st:DExt}\\%\tag{DEx}\\
+    \sum_{e_g\in E_g} \sum_{t\in T} \sum_{d} u^{e_gtd} & = 1, &\forall g\in\mathcal G \label{st:DEng}\\%\tag{D
+    \sum_{e_g\in E_g} \sum_{t\in T} \sum_{d} v^{e_gtd} & = 1, &\forall g\in\mathcal G \label{st:DExg}\\%\tag{D
+    \sum_{e_g\in E_g} u^{e_gtd} & = \sum_{e_g\in E_g} v^{e_gtd}, &\forall g\in\mathcal G, \forall t\in T, \forall d \label{st:Duv}\\%\tag{D
+    \sum_{e^\prime_g\in E_g} z_g^{e^\prime_ge_g} + \sum_{t\in T} \sum_{d} u^{e_gtd} & = \mu^{e_g}, &\forall e_g\in E_g:g\in\mathcal G \label{st:DInu}\\
+    \sum_{e^\prime_g\in E_g} z_g^{e_ge^\prime_g} + \sum_{t\in T} \sum_{d} v^{e_gtd} & = \mu^{e_g}, &\forall e_g\in E_g:g\in\mathcal G \label{st:DInv}
+\end{align}
+
+Equations \eqref{st:DEnt} and \eqref{st:DExt} state that for each stage the maximum of drones that exits from $x_L^t$ is the number of available drones. Constraints \eqref{st:DEng} and \eqref{st:DExg} assure that each graph is visited at some stage for some drone $d$. Equalities \eqref{st:Duv} ensure that the enter and exit from the graph $g$ occurs in the same stage $t$ by the same drone $d$. Constraints \eqref{st:DInu} (resp. \eqref{st:DInv}) \LA{state} that the number of exterior edges plus the number of interior edges that enter (resp. exit) to the edge $e_g$ is given by $\mu^{e_g}$.
+
+\textbf{Continuous Variables}
+  The goal of the \AMD is to find a feasible solution that minimizes the total distance traveled  by the drone and  the mothership. \sout{Hence, assuming that lengths are given by the Euclidean distance, $\|\cdot\|_2$, between their endpoints, }to account for the different distances among the decision variables of the model we need to define the following instrumental variables:
+\begin{itemize}
+    \item $d_L^{e_gtd} = \|x_L^t - R^{e_g}\|$. Distance traveled by the drone $d$ from the launch point at the stage $t$ to the first visiting point in the segment $e_g$.
+    \item $d^{e_ge^\prime_g} = \|R^{e_g} - L^{e^\prime_g}\|$. Distance traveled by the drone $d$ from the launch point in $e_g$ to the rendezvous point in $e^\prime_g$.
+    \item $d^{e_g} = \|R^{e_g} - L^{e_g}\|$. Distance traveled by the drone from the retrieve point  to the next launch point in $e_g$.
+    \item $d_R^{e_gtd} = \|L^{e_g} - x_R^t\|$. Distance traveled by the drone $d$ from the launch point in the segment $e_g$ to the retrieve point on the mothership at the stage $t$.
+    \item $d_{LR}^t = \|x_L^t - x_R^t\|$. Distance traveled by the mothership from the launch point to the retrieve point at the stage $t$.
+    \item $d_{RL}^t = \|x_R^t - x_L^{t+1}\|$. Distance traveled by the mothership from the retrieve point at the stage $t$ to the launch point at the stage $t+1$.
+\end{itemize}
+
+To ensure that the time spent by the drone to visit the graph $g$ at the stage $t$ is less than or equal to the time that the mothership needs to move from the launch point to the retrieve point at the stage $t$, we need to define the following constraint for each graph $g\in \mathcal G$, stage $t\in T$ and drone $d$:
+
+\begin{equation}\tag{DCW-t}\label{DCW-t}
+\left(\sum_{e_g\in E_g} u^{e_gtd}d_L^{e_gtd} + \sum_{e_g, e^\prime_g\in E_g}z^{e_ge^\prime_g}d^{e_ge^\prime_g} + \sum_{e_g\in E_g} \mu^{e_g}d^{e_g} + \sum_{e_g\in E_g} v^{e_gtd}d_R^{e_gtd}\right)/v_D \leq d_{RL}^t/v_M + M(1 - \sum_{e_g\in E_g} u^{e_gtd})
+\end{equation}
+
+% \end{itemize}
+
+
+% \JP{A natural approach to model this problem is to consider stages which are identified with the targets that the drone has to visit. This way the problem needs to considers $|\mathcal{G}|$ stages that are indexed by $t=1,\ldots, |\mathcal{G}|$. To provide a valid formulation for the model under this approach, we introduce the following variables:
+% \begin{itemize}
+
+
+Therefore, the following formulation minimizes the overall distance traveled by the mothership and drone coordinating their movements and ensuring the required coverage of the targets.
+\begin{mini*}|s|
+ {}{\sum_{g\in\mathcal G}\sum_{e_g\in E_g}\sum_{t\in T}\sum_d (u^{e_gtd}d_L^{e_gtd} + v^{e_gtd}d_R^{e_gtd}) + \sum_{g\in\mathcal G}\sum_{e_g\in E_g} \mu^{e_g}d^{e_g} + \sum_{g\in\mathcal G}\sum_{e_g,e^\prime_g\in E_g}z^{e_ge^\prime_g}d^{e_ge^\prime_g} + \sum_{t\in T} (d_{RL}^t + d_{LR}^t)}{}{} \label{AMDRPG-ST} \tag{AMMDRPG-ST}
+ \addConstraint{\eqref{st:DEnt}-\eqref{st:DInv}}{}{}
+ \addConstraint{\eqref{eq:alpha-E} \text{ or } \eqref{eq:alpha-G}}{}{}
+ \addConstraint{\eqref{DCW-t}}{}{}
+ \addConstraint{\|x_L^t- R^{e_g}\|}{\leq d_L^{e_gtd},\quad}{\forall e_g:g\in\mathcal G, \forall t\in T}{}
+ \addConstraint{\|R^{e_g}- L^{e_g}\|}{\leq d^{e_g},\quad}{\forall e_g:g\in\mathcal G,\forall t\in T}{}
+ \addConstraint{\|R^{e_g}- L^{e^\prime_g}\|}{\leq d^{e_ge^\prime_g},\quad}{\forall e_g\neq e_g'\in E_g:g\in\mathcal G}{}
+ \addConstraint{\|L^{e_g}- x_R^t\|}{\leq d_R^{e_gtd},\quad}{\forall e_g:g\in\mathcal G,\forall t\in T}{}
+ \addConstraint{\|x_R^t- x_L^{t+1}\|}{\leq d_{RL}^t,\quad}{\forall e_g:g\in\mathcal G,\forall t\in T}{}
+ \addConstraint{\|x_L^t- x_R^t\|}{\leq d_{LR}^t,\quad}{\forall e_g:g\in\mathcal G,\forall t\in T}{}
+ \addConstraint{x_L^0}{= origin}{}
+ \addConstraint{x_R^0}{= origin}{}
+ \addConstraint{x_L^{|\mathcal G|+1}}{= dest}{}
+ \addConstraint{x_R^{|\mathcal G|+1}}{= dest.}{}
+\end{mini*}
+
+\end{document}

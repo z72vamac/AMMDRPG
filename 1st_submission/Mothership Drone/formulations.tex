@@ -18,7 +18,7 @@ In the following, we introduce the parameters or input data that formally descri
 \hline
 \textbf{Problem Parameters}\\
 \hline
-$orig$: coordinates of the point defining the origin of the mothership path (or tour).\\
+$origin$: coordinates of the point defining the origin of the mothership path (or tour).\\
 $dest$: coordinates of the point defining the destination of the mothership path (or tour).\\
 $\mathcal{G}$: set of the target graphs.\\
 $g = (V_g, E_g)$: set of nodes and edges of each target graph $g \in \mathcal{G}$.\\
@@ -141,7 +141,7 @@ $$
 
 \noindent
 Figure \ref{fig:illustrative} shows an example of the notation over a configuration with four target graphs that have four nodes and four edges. Here, it is supposed that the number of available drones is two. %: one with six nodes and 7 edges and the other one with four nodes and edges%. 
-The mothership begins at its starting point $orig$. Then, it moves to $x_L^1$ where two drones are launched to visit two graphs. There, each drone follows a route (represented by the orange and green paths) that ensures the coverage of $50 \%$ of each edge of the graph. The red dots on the visited graphs are the intermediate points $R^{e_g}$ and $L^{e_g}$ used by the drones in their visit to the edges of the different graphs. After finishing the visit of the first two graphs the drones return to the point $x_R^1$ from where they are launched again to visit the remaining two graphs. Once these graphs are visited, the drones return to the mothership at the rendezvous point $x_R^2$ and then the mothership ends its route at the destination point $dest$.
+The mothership begins at its starting point $origin$. Then, it moves to $x_L^1$ where two drones are launched to visit two graphs. There, each drone follows a route (represented by the orange and green paths) that ensures the coverage of $50 \%$ of each edge of the graph. The red dots on the visited graphs are the intermediate points $R^{e_g}$ and $L^{e_g}$ used by the drones in their visit to the edges of the different graphs. After finishing the visit of the first two graphs the drones return to the point $x_R^1$ from where they are launched again to visit the remaining two graphs. Once these graphs are visited, the drones return to the mothership at the rendezvous point $x_R^2$ and then the mothership ends its route at the destination point $dest$.
 
 
 % \JP{ ************************ 
@@ -184,7 +184,7 @@ Inequalities \eqref{st:DEnt} and \eqref{st:DExt} state that for each stage at mo
 if edge $e$ of graph $g$ is visited by the drone $d$, one of two alternative situations must occur: either $e$ is the first edge of graph $g$ visited by the drone $d$ at stage $t$, or edge $e$ is visited by the drone $d$ after visiting another edge $e^\prime$ of graph $g$. Similarly, constraints \eqref{st:DInv} state that if edge $e$ of graph $g$ is visited by the drone $d$, either $e$ is the last edge of graph $g$ visited by the drone at stage $t$, or the drone $d$ must move to another edge $e^\prime$ of graph $g$ after visiting edge $e$.
 % Constraints \eqref{st:DInu} (resp. \eqref{st:DInv}) state that if the edge $e_g$ is visited, $\mu^{e_g}=1$, then either the drone enters coming from (leaves to) the mothership, $\sum_{t\in \mathcal T} \sum_{d \in \mathcal D} u^{e_gtd}=1$ ($\sum_{t\in \mathcal T} \sum_{d \in \mathcal D} v^{e_gtd}=1$), or it enters from (leaves to) another edge $e^\prime_g$, $\sum_{e^\prime_g\in E_g} z_g^{e^\prime_ge_g}=1$ ($\sum_{e^\prime_g\in E_g} z_g^{e_ge^\prime_g} =1$).
 
-% A first attempt to model this problem uses stages identified with the order in which the different elements in the problem are visited. We identify each visit to one of the target graphs with a stage of the process. Then, by using the notation below, we define the stages set associated to graphs $T:=\{1,\ldots,|\mathcal G|\}$ and those associated to the launching and rendezvous points including $orig$ and $dest$ $T'=\{0,\ldots,|\mathcal G|+1\}$. For each stage $t\in T$, the drone follows the following path starting from the mothership, visiting the required edges of $g$ and returning to the mothership:
+% A first attempt to model this problem uses stages identified with the order in which the different elements in the problem are visited. We identify each visit to one of the target graphs with a stage of the process. Then, by using the notation below, we define the stages set associated to graphs $T:=\{1,\ldots,|\mathcal G|\}$ and those associated to the launching and rendezvous points including $origin$ and $dest$ $T'=\{0,\ldots,|\mathcal G|+1\}$. For each stage $t\in T$, the drone follows the following path starting from the mothership, visiting the required edges of $g$ and returning to the mothership:
 
 % $$
 % x_L^t\rightarrow R^{e_g}\rightarrow L^{e_g}\rightarrow\ldots\rightarrow R^{e^\prime_g}\rightarrow L^{e^\prime_g}\rightarrow \ldots \rightarrow R^{e''_g} \rightarrow x_R^t\rightarrow x_L^{t+1}.
@@ -269,19 +269,19 @@ The coordination between the drones and the mothership must ensure that the time
 
 
 \noindent
-Eventually, we have to impose that the tour of the mothership, together with the drones, starts from the origin $orig$ and ends at the destination $dest$. To this end, we define the following constraints:
+Eventually, we have to impose that the tour of the mothership, together with the drones, starts from the origin $origin$ and ends at the destination $dest$. To this end, we define the following constraints:
 
 \begin{align*}
-x_L^0 & =  orig,  \tag{ORIG$_1$} \label{eq:O1} \\
-x_R^0 & =  orig,  \tag{ORIG$_2$} \label{eq:O2} \\
+x_L^0 & =  origin,  \tag{origin$_1$} \label{eq:O1} \\
+x_R^0 & =  origin,  \tag{origin$_2$} \label{eq:O2} \\
 x_L^{|\mathcal{G}|+1} & =  dest,  \tag{DEST$_1$} \label{eq:D1} \\
 x_R^{|\mathcal{G}|+1} & =  dest.  \tag{DEST$_2$} \label{eq:D2} 
 \end{align*}
 
 \noindent
-Note that, since the objective function of this problem minimizes the right-hand-side of \eqref{DCW}, this constraint will become an equality and we can model the time capacity constraint for a particular stage $t\in \mathcal T$ by limiting the distance traveled by the mothership for this task $t$:
+Note that, since the objective function of this problem minimizes the right-hand-side of \eqref{DCW}, this constraint will become an equality and we can model the time endurance constraint for a particular stage $t\in \mathcal T$ by limiting the distance traveled by the mothership for this task $t$:
 
-\begin{equation}\tag{Capacity}\label{CAP}
+\begin{equation}\tag{endurance}\label{CAP}
     d_{LR}^t \leq N^d.
 \end{equation}
 
@@ -371,7 +371,7 @@ Finally, we present a result that links the two models presented before. Note th
 \end{figure}
 
 \noindent
-In order to present our next result, wlog,  we restrict ourselves to the degenerate case where graphs reduce to points. The reader may note that we could reduce the general case to this one reducing the available capacity so that is possible to traverse the required percentage of these graphs. We simplify the proof considering a generic solution between two consecutive target points.
+In order to present our next result, wlog,  we restrict ourselves to the degenerate case where graphs reduce to points. The reader may note that we could reduce the general case to this one reducing the available endurance so that is possible to traverse the required percentage of these graphs. We simplify the proof considering a generic solution between two consecutive target points.
 
 
 \begin{theorem}

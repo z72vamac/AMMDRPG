@@ -17,7 +17,7 @@ In the following, we introduce the parameters or input data that formally descri
 \hline
 \textbf{Problem Parameters}\\
 \hline
-$orig$: coordinates of the point defining the origin of the mothership path (or tour).\\
+$origin$: coordinates of the point defining the origin of the mothership path (or tour).\\
 $dest$: coordinates of the point defining the destination of the mothership path (or tour).\\
 $\mathcal{G}$: set of the target graphs.\\
 $g = (V_g, E_g)$: set of nodes and edges of each target graph $g \in \mathcal{G}$.\\
@@ -62,7 +62,7 @@ $x_L^\RE{o}\in\mathbb R^2, \:\: \forall \RE{o} \in \RE{\mathcal O}$: coordinates
 $x_R^\RE{o}\in\mathbb R^2, \:\: \forall \RE{o} \in \RE{\mathcal O}$: coordinates representing the point where the mothership retrieves the drone\RE{s} at \RE{operation $o$}.\\
 $R^{e_g}\in\mathbb R^2, \:\: \forall e_g \in E_g \:\: (g \in \mathcal{G})$: coordinates representing the entry point on edge \RE{$e_g$} of graph $g$.\\
 $L^{e_g}\in\mathbb R^2, \:\: \forall e_g \in E_g \:\: (g \in \mathcal{G})$: coordinates representing the exit point on edge \RE{$e_g$} of graph $g$.\\
-\CV{$d_{orig}\geq 0$: distance from the origin $orig$ to the first launching point $x_L^1$.}\\
+\CV{$d_{origin}\geq 0$: distance from the origin $origin$ to the first launching point $x_L^1$.}\\
 $d_L^{e_g\RE{o}} \geq 0, \:\: \forall e_g \in E_g \:\:(g \in \mathcal{G}), \:\:\forall \RE{o} \in \RE{\mathcal O}$: representing the distance travelled by \RE{one} drone from the launching\\
 \hspace*{1cm} point $x_L^\RE{o}$ on the mothership at \RE{operation $o$} to the first visiting point $R^{e_g}$ on $e_g$.\\
 \RE{$p_L^{e_g\RE{o}} \geq 0, \:\: \forall e_g \in E_g \:\: (g \in \mathcal{G}), \:\:\forall \RE{o} \in \RE{\mathcal O}$: auxiliary variable used for modelling the product of $d_L^{e_g\RE{o}}$ and $u^{e_g\RE{o}}$.}\\
@@ -205,7 +205,7 @@ $$
 \noindent
 Figure \ref{fig:illustrative} shows an example of the notation over a configuration with four target graphs that have four nodes and four edges. Here, it is supposed that the number of available drones is equal to two. %: one with six nodes and 7 edges and the other one with four nodes and edges%. 
 \LA{In particular, figure \ref{fig:illustrative}[a] represents a feasible solution of the problem for this configuration.
-The mothership begins at its starting point $orig$ which coincides with the first launching point $x_L^1$ where two drones (the green one and the orange one) are launched to visit two graphs. There, each drone follows a route (represented by the orange and green paths) that ensures the coverage of \RE{one half of the length of} each edge of the graph. The red dots on the visited graphs are the intermediate points $R^{e_g}$ and $L^{e_g}$ used by the drones in their visit to the edges of the different graphs. After finishing the visit of the first two graphs\RE{,} the drones return to the point $x_R^1$. The mothership moves from this point to the second launching point $x_L^2$ from where only one drone (the green one) is launched to visit the third graph. Once this graph is visited, the drone returns to the mothership at the rendezvous point $x_R^2$. Finally, the mothership moves to the point $x_L^3$ from where one drone is launched for the last visit to the fourth graph. Then, the drone is retrieved by the mothership at the point $x_R^3$ and then the mothership ends its route at the destination point $dest$.\\
+The mothership begins at its starting point $origin$ which coincides with the first launching point $x_L^1$ where two drones (the green one and the orange one) are launched to visit two graphs. There, each drone follows a route (represented by the orange and green paths) that ensures the coverage of \RE{one half of the length of} each edge of the graph. The red dots on the visited graphs are the intermediate points $R^{e_g}$ and $L^{e_g}$ used by the drones in their visit to the edges of the different graphs. After finishing the visit of the first two graphs\RE{,} the drones return to the point $x_R^1$. The mothership moves from this point to the second launching point $x_L^2$ from where only one drone (the green one) is launched to visit the third graph. Once this graph is visited, the drone returns to the mothership at the rendezvous point $x_R^2$. Finally, the mothership moves to the point $x_L^3$ from where one drone is launched for the last visit to the fourth graph. Then, the drone is retrieved by the mothership at the point $x_R^3$ and then the mothership ends its route at the destination point $dest$.\\
 Figure \ref{fig:illustrative}[b] represents the optimal solution for the same instance of the problem. We can observe that, in this case, from the first launching point $x_L^1$ only one drone is launched, while from the second $x_L^2$ two drones are launched to visit the second and the third graph. The different position in the space of this latter point, with respect to the feasible solution reported in figure \ref{fig:illustrative}[a] whose total time is 158.36, ensures that the total traveling time of the optimal solution equals to 152.39, which is shorter.}
 
 
@@ -253,21 +253,21 @@ We model the route that the drone follows by using the binary variables $u^{e_go
 
 \subsubsection*{Distance and Time Constraints}
 \noindent
-The goal of the \AMDCO\xspace is to find a feasible solution that minimizes the total \RE{time} traveled by the mothership. To account for the different distances \RE{between} the decision variables of the model we need to set the continuous variables $d_L^{e_go}$, $d^{e_g}$, $d^{e_ge^\prime_g}$, $d_R^{e_go}$, $d_{orig}$, $d_{RL}^o$, $d_{LR}^o$ and $d_{dest}$ defined in Table \ref{table:t2}. This can be done by means of the following constraints:
+The goal of the \AMDCO\xspace is to find a feasible solution that minimizes the total \RE{time} traveled by the mothership. To account for the different distances \RE{between} the decision variables of the model we need to set the continuous variables $d_L^{e_go}$, $d^{e_g}$, $d^{e_ge^\prime_g}$, $d_R^{e_go}$, $d_{origin}$, $d_{RL}^o$, $d_{LR}^o$ and $d_{dest}$ defined in Table \ref{table:t2}. This can be done by means of the following constraints:
 
 \begin{align*}
 \|x_L^o- R^{e_g}\| & \leq  d_L^{e_go},  &\forall e_g\in E_g:g\in \mathcal{G}, \:\:\forall o\in \mathcal O, \tag{Drone DIST$_{1}$-CO} \label{eq:drone-d1-async-CO}\\
 \|R^{e_g}- L^{e_g}\| & \leq  d^{e_g},  &\forall e_g\in E_g:g\in \mathcal{G}, \tag{Drone DIST$_{2}$-CO} \label{eq:drone-d2-async-CO}\\
 \|R^{e_g}- L^{e'_g}\| & \leq  d^{e_ge'_g}, &\forall e_g\neq e_g'\in E_g:g\in \mathcal{G}, \tag{Drone DIST$_{3}$-CO} \label{eq:drone-d3-async-CO}\\
 \|L^{e_g}- x_R^o\| & \leq  d_R^{e_o}, &\forall e_g\in E_g:g\in \mathcal{G},\:\:\forall o\in \mathcal O. \tag{Drone DIST$_{4}$-CO} \label{eq:drone-d4-async-CO}\\\\
-\|orig - x_L^1\| & \leq d_{orig}, \tag{Mothership DIST$_1$-CO}\label{eq:mothership-d1-async-CO}\\
+\|origin - x_L^1\| & \leq d_{origin}, \tag{Mothership DIST$_1$-CO}\label{eq:mothership-d1-async-CO}\\
 \|x_L^o - x_R^{o}\| & \leq d_{LR}^{o}, &\forall o\in\mathcal O, \tag{Mothership DIST$_{2}$-CO}\label{eq:mothership-d3-async-CO}\\
 \|x_R^o - x_L^{o+1}\| & \leq d_{RL}^{o}, &\forall o\in\mathcal O:o<|\mathcal O|, \tag{Mothership DIST$_{3}$-CO}\label{eq:mothership-d4-async-CO}\\
 \|x_R^{|\mathcal O|} - dest\| & \leq d_{dest}. \tag{Mothership DIST$_4$-CO}\label{eq:mothership-d6-async-CO}
 \end{align*}
 
 \noindent
-All variables modelling \RE{the} distances covered by drones, namely $d_L^{e_go}$, $d^{e_g}$, $d^{e_g'e_g}$ and $d_R^{e_go}$,  as well as those modelling the distance travelled by the mothership, namely $d_{orig}$, $d_{LR}^o$, $d_{RL}^o$ and $d_{dest}$, are defined in \JP{Table \ref{table:t2}.} 
+All variables modelling \RE{the} distances covered by drones, namely $d_L^{e_go}$, $d^{e_g}$, $d^{e_g'e_g}$ and $d_R^{e_go}$,  as well as those modelling the distance travelled by the mothership, namely $d_{origin}$, $d_{LR}^o$, $d_{RL}^o$ and $d_{dest}$, are defined in \JP{Table \ref{table:t2}.} 
  
  
  
@@ -316,7 +316,7 @@ time_M^o = \frac{d_{LR}^o}{v_M}, \quad \forall o \in \mathcal O.
 Thus, the overall time spent by the mothership to move from the origin to the destination can be expressed as follows:
 
 \begin{equation}\tag{Time$_M$}
-time_M = \frac{1}{v_M} (d_{orig} + \sum_{o \in \mathcal O} d_{LR}^o + \CV{\sum_{o \in \mathcal O:o<|\mathcal O|} d_{RL}^o} + d_{dest}).
+time_M = \frac{1}{v_M} (d_{origin} + \sum_{o \in \mathcal O} d_{LR}^o + \CV{\sum_{o \in \mathcal O:o<|\mathcal O|} d_{RL}^o} + d_{dest}).
 \label{eq:timeM}
 \end{equation}
 
@@ -399,7 +399,7 @@ $d^{e_ge^\prime_g} \geq 0, \:\: \forall e_g, e^\prime_g \in E_g \:\: (g \in \mat
 \hspace*{1cm}  the rendezvous point $R^{e^\prime_g}$ on $e^\prime_g$.\\
 $d_R^{e_g t} \geq 0, \:\: \forall e_g \in E_g\:\: (g \in \mathcal{G}), \:\:\forall t \in \mathcal T$: representing the distance travelled by the drone from the last visiting point\\
 \hspace*{1cm} $L^{e_g}$ on $e_g$ to the rendezvous point $x_R^o$ on the mothership at stage $t$.\\
-$d_{orig}\geq 0$: distance from the origin $orig$ to the first launching point $x_L^1$.\\
+$d_{origin}\geq 0$: distance from the origin $origin$ to the first launching point $x_L^1$.\\
 $d_{LL}^t\geq 0, \:\: \forall t \in \mathcal T:t<|\mathcal T|$: distance from the launching point $x_L^t$ to the launching point $x_L^{t+1}$.\\
 $d_{LR}^t\geq 0, \:\: \forall t \in \mathcal T:t<|\mathcal T|$: distance from the launching point $x_L^t$ to the retrieving point $x_R^{t+1}$.\\
 $d_{RL}^t\geq 0, \:\: \forall t \in \mathcal T:t<|\mathcal T|$: distance from the retrieving point $x_R^t$ to the launching point $x_L^{t+1}$.\\
@@ -662,7 +662,7 @@ This subsection considers the second-order cone constraints that model the dista
 \|R^{e_g}- L^{e_g}\| & \leq  d^{e_g},  &\forall e_g\in E_g:g\in \mathcal{G}, \tag{Drone DIST$_{2}$} \label{eq:drone-d2-async}\\
 \|R^{e_g}- L^{e'_g}\| & \leq  d^{e_ge'_g}, &\forall e_g\neq e_g'\in E_g:g\in \mathcal{G}, \tag{Drone DIST$_{3}$} \label{eq:drone-d3-async}\\
 \|L^{e_g}- x_R^t\| & \leq  d_R^{e_gt}, &\forall e_g\in E_g:g\in \mathcal{G},\:\:\forall t\in \mathcal T. \tag{Drone DIST$_{4}$} \label{eq:drone-d4-async}\\\\
-\|orig - x_L^1\| & \leq d_{orig}, \tag{Mothership DIST$_1$}\label{eq:mothership-d1-async}\\
+\|origin - x_L^1\| & \leq d_{origin}, \tag{Mothership DIST$_1$}\label{eq:mothership-d1-async}\\
 \|x_L^t - x_L^{t+1}\| & \leq d_{LL}^{t}, &\forall t\in\mathcal T:t<|\mathcal T|, \tag{Mothership DIST$_{2}$}\label{eq:mothership-d2-async}\\
 \|x_L^t - x_R^{t+1}\| & \leq d_{LR}^{t}, &\forall t\in\mathcal T:t<|\mathcal T|, \tag{Mothership DIST$_{3}$}\label{eq:mothership-d3-async}\\
 \|x_R^t - x_L^{t+1}\| & \leq d_{RL}^{t}, &\forall t\in\mathcal T:t<|\mathcal T|, \tag{Mothership DIST$_{4}$}\label{eq:mothership-d4-async}\\
@@ -672,7 +672,7 @@ This subsection considers the second-order cone constraints that model the dista
 
 \RE{
 \noindent
-All the variables modelling the distances covered by drones, namely, $d_L^{e_gt}$, $d^{e_g}$, $d^{e_g'e_g}$ and $d_R^{e_gt}$,  as well as those modelling the distance travelled by the mothership, namely, $d_{orig}$, $d_{LL}^t$, $d_{LR}^t$, $d_{RL}^t$, $d_{RR}^t$ and $d_{dest}$, are  defined in Table \ref{table:t3}. 
+All the variables modelling the distances covered by drones, namely, $d_L^{e_gt}$, $d^{e_g}$, $d^{e_g'e_g}$ and $d_R^{e_gt}$,  as well as those modelling the distance travelled by the mothership, namely, $d_{origin}$, $d_{LL}^t$, $d_{LR}^t$, $d_{RL}^t$, $d_{RR}^t$ and $d_{dest}$, are  defined in Table \ref{table:t3}. 
 \noindent
 The time spent by the drone to perform the operation of visiting graph $g$ is given by:
 }
@@ -700,7 +700,7 @@ Finally, the overall time spent by the mothership can be described as follows:
 }
 \begin{footnotesize}
 \begin{equation}\tag{Time$_M$}\label{eq:time-m}
-time_M = \frac{1}{v_M}\left(d_{orig} + \sum_{t \in \mathcal T: t < |\mathcal T|} \left(\|x_L^t - x_L^{t+1}\|y_{LL}^t + \|x_L^t - x_R^{t+1}\|y_{LR}^t + \|x_R^t - x_L^{t+1}\|y_{RL}^t + \| x_R^t - x_R^{t+1}\|y_{RR}^t\right) + d_{dest} \right).
+time_M = \frac{1}{v_M}\left(d_{origin} + \sum_{t \in \mathcal T: t < |\mathcal T|} \left(\|x_L^t - x_L^{t+1}\|y_{LL}^t + \|x_L^t - x_R^{t+1}\|y_{LR}^t + \|x_R^t - x_L^{t+1}\|y_{RL}^t + \| x_R^t - x_R^{t+1}\|y_{RR}^t\right) + d_{dest} \right).
 \end{equation}
 \end{footnotesize}
 

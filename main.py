@@ -1,24 +1,8 @@
 # Incluimos primero los paquetes
-import gurobipy as gp
-import pdb
-from gurobipy import GRB
-import numpy as np
-from itertools import product
-import random
-import matplotlib.pyplot as plt
-from matplotlib.patches import Circle, Polygon
-from matplotlib.collections import PatchCollection
-import matplotlib.lines as mlines
-from data import *
-from entorno import *
-import copy
-import estimacion_M as eM
-import networkx as nx
-from synchronous_version_withoutd import SYNCHRONOUS
 # from synchronous_version import SYNCHRONOUS
-from asynchronous_version import ASYNCHRONOUS
-from heuristic import heuristic
-from heuristicSINC import heuristicSINC
+from asynchronous_version import asynchronous
+from neighbourhood import *
+from data import *
 
 # from PDSEC import PDSEC
 # from TDST import TDST
@@ -26,7 +10,7 @@ from heuristicSINC import heuristicSINC
 # from TDSEC import TDSEC
 # from tsp_heuristic import heuristic
 
-# Definicion de los datos
+# Definicion de los data
 """ P: conjunto de poligonales a agrupar
     E: conjunto de entornos
     T: sucesion de etapas
@@ -42,35 +26,34 @@ from heuristicSINC import heuristicSINC
 # np.random.seed(7)
 np.random.seed(13)
 
-
 # Experimento para ver diferencias
-# datos = Data([], m=2, grid = True, tmax=600, alpha = False, nD = 2, capacity = 5.2,
-#             init=False,
+# data = Data([], m=2, grid = True, time_limit=600, alpha = False, fleet_size2, time_endurance = 5.2,
+#             initialization=False,
 #             show=True, 
-#             vD = 5.11,
-#             orig = [0, 5],
-#             dest = [20, 5],
+#             drone_speed = 5.11,
+#             origin = [0, 5],
+#             destination = [20, 5],
 #             seed=2)
 #
-# datos.generar_grafo_personalizado(1)
+# data.generar_grafo_personalizado(1)
 
 
 # lista = list(4*np.ones(10, int))
 #
-# nG = len(lista)
+# graphs_number = len(lista)
 #
-# datos = Data([], m=nG, grid = True, tmax=3600, alpha = True, nD = 2, capacity = 30,
-#             init=True,
+# data = Data([], m=graphs_number, grid = True, time_limit=3600, alpha = True, fleet_size2, time_endurance = 30,
+#             initialization=True,
 #             show=True,
-#             vD = 2,
-#             orig = [0, 0],
-#             dest = [100, 0],
+#             drone_speed = 2,
+#             origin = [0, 0],
+#             destination = [100, 0],
 #             seed=2)
 #
-# datos.generar_grid()
-# datos.generar_grafos(lista)
+# data.generate_grid()
+# data.generate_graphs(lista)
 
-# for g in datos.data:
+# for g in data.instances:
 #     print(g.V)
 
 # np.random.seed(30)
@@ -78,32 +61,31 @@ np.random.seed(13)
 np.random.seed(6)
 ## 117.949
 
-lista = list(4*np.ones(10, int))
-nG = len(lista)
-datos = Data([], m=nG, grid = True, tmax=150, alpha = True, nD = 2,
-             orig = [0, 0],
-             dest = [100, 0],
-             vD = 1.3,
-             init=True,
-             show=True,
-             capacity = 46,
+lista = list(4 * np.ones(4, int))
+graphs_number = len(lista)
+data = Data([], graphs_number=graphs_number, grid_mode=True, time_limit=150, alpha=True, fleet_size
+             origin=[0, 0],
+             destination=[100, 0],
+             drone_speed=1.3,
+             initialization=True,
+             time_endurance=46,
              seed=2)
 
-datos.generar_grid()
+data.generate_grid()
 
-datos.generar_grafos(lista)
+data.generate_graphs(lista)
 
-# SYNCHRONOUS(datos)
+# SYNCHRONOUS(data)
 
-ASYNCHRONOUS(datos)
-# AMMDRPGSTSINC(datos)
+asynchronous(data)
+# AMMDRPGSTSINC(data)
 
 
-# result1 = AMMDRPGSTSINC(datos) # 153.82 a los 150 segundos
+# result1 = AMMDRPGSTSINC(data) # 153.82 a los 150 segundos
 # Sin solucion inicial: 104.104 a los 600 segundos
 # Con solucion inicial: 94.66
-# result2 = synchronous_version(datos) # 195.7856
-# heuristicSINC(datos)
+# result2 = synchronous_version(data) # 195.7856
+# heuristicSINC(data)
 
 # print([result1[-3], result2[-1]])
 # print(result2[-1])

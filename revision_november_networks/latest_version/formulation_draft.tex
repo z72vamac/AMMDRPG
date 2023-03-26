@@ -217,7 +217,7 @@ $d^{e_ge^\prime_g} \geq 0, \:\: \forall e_g, e^\prime_g \in E_g $ ($g \in \mathc
 \hspace*{1cm}  the rendezvous point $R^{e^\prime_g}$ on $e^\prime_g$.\\
 $d_R^{e_g o} \geq 0 \:\: \forall e_g \in E_g$ ($g \in \mathcal{G}$) $\forall o \in \Theta$: representing the distance travelled by the drone from the last visiting point\\
 \hspace*{1cm} $L^{e_g}$ on $e_g$ to the rendezvous point $x_R^o$ on the mothership at event $o$.\\
-$d_{orig}\geq 0$: distance from the origin $orig$ to the first launching point $x_L^1$.\\
+$d_{origin}\geq 0$: distance from the origin $origin$ to the first launching point $x_L^1$.\\
 $d_{LL}^o\geq 0 \:\: \forall o \in \Theta:o<|\Theta|$: distance from the launching point $x_L^o$ to the launching point $x_L^{o+1}$.\\
 $d_{LR}^o\geq 0 \:\: \forall o \in \Theta:o<|\Theta|$: distance from the launching point $x_L^o$ to the retrieving point $x_R^{o+1}$.\\
 $d_{RL}^o\geq 0 \:\: \forall o \in \Theta:o<|\Theta|$: distance from the retrieving point $x_R^o$ to the launching point $x_L^{o+1}$.\\
@@ -289,7 +289,7 @@ This subsection considers the second-order cone constraints that model the dista
 \|R^{e_g}- L^{e_g}\| & \leq  d^{e_g},  &\forall e_g:g\in \mathcal{G}, \tag{Drone DIST$_{2}$} \label{eq:drone-d2-async}\\
 \|R^{e_g}- L^{e'_g}\| & \leq  d^{e_ge'_g}, &\forall e_g\neq e_g'\in E_g:g\in \mathcal{G}, \tag{Drone DIST$_{3}$} \label{eq:drone-d3-async}\\
 \|L^{e_g}- x_R^o\| & \leq  d_R^{e_go}, &\forall e_g:g\in \mathcal{G},\:\:\forall o\in \Theta. \tag{Drone DIST$_{4}$} \label{eq:drone-d4-async}\\\\
-\|orig - x_L^1\| & \leq d_{orig}, \tag{Mothership DIST$_1$}\label{eq:mothership-d1-async}\\
+\|origin - x_L^1\| & \leq d_{origin}, \tag{Mothership DIST$_1$}\label{eq:mothership-d1-async}\\
 \|x_L^o - x_L^{o+1}\| & \leq d_{LL}^{o}, &\forall o\in\Theta:o<|\Theta|, \tag{Mothership DIST$_{2}$}\label{eq:mothership-d2-async}\\
 \|x_L^o - x_R^{o+1}\| & \leq d_{LR}^{o}, &\forall o\in\Theta:o<|\Theta|, \tag{Mothership DIST$_{3}$}\label{eq:mothership-d3-async}\\
 \|x_R^o - x_L^{o+1}\| & \leq d_{RL}^{o}, &\forall o\in\Theta:o<|\Theta|, \tag{Mothership DIST$_{4}$}\label{eq:mothership-d4-async}\\
@@ -298,7 +298,7 @@ This subsection considers the second-order cone constraints that model the dista
 \end{align*}
 
 \CV{
-Drone distance variables $d_L^{e_go}$, $d^{e_g}$, $d^{e_g'e_g}$ and $d_R^{e_go}$ as well as mothership distance variables $d_{orig}$, $d_{LL}^o$, $d_{LR}^o$, $d_{RL}^o$, $d_{RR}^o$ and $d_{dest}$ are all defined in Table \ref{table:t3}. 
+Drone distance variables $d_L^{e_go}$, $d^{e_g}$, $d^{e_g'e_g}$ and $d_R^{e_go}$ as well as mothership distance variables $d_{origin}$, $d_{LL}^o$, $d_{LR}^o$, $d_{RL}^o$, $d_{RR}^o$ and $d_{dest}$ are all defined in Table \ref{table:t3}. 
 
 The time spent by the drone to make the operation of visiting graph $g$ is given by:
 }
@@ -324,7 +324,7 @@ Finally, the overall time spent by the mothership can be described as follows:
 }
 \begin{footnotesize}
 \begin{equation}\tag{Time$_M$}\label{eq:time-m}
-time_M = \frac{1}{v_M}\left(d_{orig} + \sum_{o \in \Theta: o < |\Theta|} \left(\|x_L^o - x_L^{o+1}\|y_{LL}^o + \|x_L^o - x_R^{o+1}\|y_{LR}^o + \|x_R^o - x_L^{o+1}\|y_{RL}^o + \| x_R^o - x_R^{o+1}\|y_{RR}^o\right) + d_{dest} \right).
+time_M = \frac{1}{v_M}\left(d_{origin} + \sum_{o \in \Theta: o < |\Theta|} \left(\|x_L^o - x_L^{o+1}\|y_{LL}^o + \|x_L^o - x_R^{o+1}\|y_{LR}^o + \|x_R^o - x_L^{o+1}\|y_{RL}^o + \| x_R^o - x_R^{o+1}\|y_{RR}^o\right) + d_{dest} \right).
 \end{equation}
 \end{footnotesize}
 

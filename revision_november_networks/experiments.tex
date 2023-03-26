@@ -10,6 +10,7 @@
 In this section\RE{,} we discuss the experimental results obtained testing the formulations presented in Section \ref{Form} and the matheuristic procedure proposed in Section \ref{Math} on a testbed of instances. In particular, we consider instances like the ones used in \cite{art:Amorosi2021}\RE{,} where the targets to be visited by the drones are represented by grid graphs.
 \RE{We have generated one set of 5 instances with 5 graphs and \RE{another} set of 5 instances with 10 graphs.} More precisely, each instance is composed of 20$\%$ graphs with 4 nodes, 20$\%$ graphs of 6 nodes, 20$\%$ graphs of 8 nodes, 20$\%$ graphs of 10 nodes and \RE{and 20$\%$ graphs with 12 nodes}. Moreover, we assume that the velocity of the drones is twice that of the mothership and that a random \RE{fraction} of each target graph, or of each of its edges, must be visited by the fleet of drones. \RE{These fractions are uniform randomly sampled in the interval $(0, 1)$.}\\
 
+\noindent
 %\subsection{\CV{ADD TITLE TO THE FIRST EXPERIMENT}} 
 We consider in our experiments that the number of drones varies between 1 and 3 and that the drone endurance (expressed as \RE{the} maximum time that the drone can operate when it is fully recharged) ranges between 20 and 60. \RE{Note that the case of a single drone is also included in our experiments to compare the results and complexity of using one and more than one drones. \RE{The interested reader is referred to \cite{art:Amorosi2021} for analyzing} the complexity in terms of gap of the model with a single drone.}
 Table \ref{table:tab1} reports a summary of the characteristics of our instances.
@@ -35,40 +36,44 @@ Table \ref{table:tab1} reports a summary of the characteristics of our instances
 \end{table}
 
 \noindent
-Table \ref{table:tab2} reports the results obtained solving the \AMMDRPG model on the instances previously described, by adopting the commercial solver Gurobi. We consider the exact solution both providing and not providing an initial solution computed by the matheuristic described in Section \ref{Math}. More precisely, the first column of Table \ref{table:tab2} indicates the number of target graphs to be visited by the fleet of drones, the second column reports the \RE{endurance} of the drones, the third column distinguishes between the visit of a \RE{fraction} of each edge (e) and a \RE{fraction} of each target graph (g). The fourth column reports the size of the fleet of drones. \RE{This last column contains three subcolumns reporting, for each cardinality of the set $\mathcal D$, respectively, the average percentage gap with initialization by the solution provided by the matheuristic (i), the solution time, in seconds, of the matheuristic (TimeH) and the average percentage gap without initialization by the solution obtained by the matheuristic (wi) for each combination of the listed parameters. The time limit of these experiments is set equal to 2 hours.}\\
-
-We can observe that the value of the average percentage gap ranges between a minimum of 66.9\% and a maximum of 97.43\%. This shows that the model is hard to be solved even with small size instances. Moreover, we can see that in most of the cases, the average percentage gap associated with the variant of the model consisting in visiting a given \RE{fraction} of each edge, is higher than the one associated with the variant imposing to visit a given \RE{fraction} of each target graph. Another thing that we can observe is that the average percentage gap increases with the number of drones and decreases with the drone endurance.\\
+We coded the matheuristic and the exact resolution of the model in Python 3.8.10. The mathematical programming formulation has been implemented in Gurobi 9.1.2. All the tests have been run on a machine AMD® Epyc 7402p with 24-core processor × 8.
+Table \ref{table:tab2} reports the results obtained solving \LA{both variants} of the \AMMDRPG model on the instances previously described, by adopting the commercial solver Gurobi. We consider the exact solution both providing and not providing an initial solution computed by the matheuristic described in Section \ref{Math}. More precisely, the first \LA{row} of Table \ref{table:tab2} indicates \LA{the model variant and the second row reports the number of target graphs to be visited by the fleet of drones (5 or 10). From the third row, we split each column in three sub-columns. The first three sub-columns report respectively, the endurance of the drones, the size of the fleet of drones and the indication on the visit of a \RE{fraction} of each edge (e) or a \RE{fraction} of each target graph (g). From sub-column 4 to sub-column 15, we report, for each combination of the listed parameters characterizing the instances, respectively, the average gap without initialization by the solution provided by the matheuristic (wi), the average gap with initialization by the solution obtained by the matheuristic (i) and the solution time, in seconds, of the matheuristic (TimeH). The time limit of these experiments is set equal to 1 hour.}\\
 \noindent
-As regards the number of target graphs, we can see that by increasing it from 5 to 10, the exact method without initialization \RE{of} the solution obtained with the \RE{matheuristic}, becomes even harder. Indeed, the red entries of the table mean that some instances could not find a feasible solution within the time limit (note that in the brackets we indicate the number of these instances). The number of not \RE{solved} instances increases with the number of drones. Moreover, for the minimum level of endurance, the exact solution of the model without initialization provided by the matheuristic, does not provide any solution within the time limit for instances with 10 graphs and 2 or 3 drones.\\
-Considering the comparison with the exact method starting from the solution provided by the matheuristic, we can note that the values of the average percentage gap are very close to the ones related to the exact solution method without initialization. Thus\RE{,} the initialization does not speed up the convergence of the solver. However, we can see that the matheuristic is always able to find a feasible solution of the problem, even for the cases in which the solver is not. \RE{The boxplots in Figure \ref{fig:gap_boxplot_synchronous} represent the relative gap of the solution provided by the matheuristic with respect to the one provided by the exact solution of the \RE{mathematical programming} model within the time limit, with the initialization of the solution found by the matheuristic.}
+\LA{We can observe that the value of the average percentage gap ranges between a minimum of 58\% and a maximum of 100\%. This shows that the model is hard to be solved even with small size instances. Moreover, we can see that for the complete overlapping version of the model, in most of the cases, the average gap associated with the variant of the model consisting in visiting a given \RE{fraction} of each edge, is higher than the one associated with the variant imposing to visit a given \RE{fraction} of each target graph. 
+%The opposite behaviour can be observed for the partial overlapping version of the model.
+Another thing that we can observe is that the average percentage gap increases with the number of target graphs for both problem variants.\\
+\noindent
+Moreover, the reader may note that the partial overlapping version of the problem is harder to solve than the complete overlapping version by looking at the values of the average gap. This is an expected behaviour due to the fact that the feasible region of the partial overlapping variant contains the one associated with the complete overlapping variant, as proven in Theorem \ref{th:relaxation}. 
+We can see that for both versions of the problem, by increasing the number of target graphs from 5 to 10, the exact method without initialization \RE{of} the solution obtained with the \RE{matheuristic}, becomes even harder. Indeed, the red entries of the table mean that some instances could not find a feasible solution within the time limit (note that in the brackets we indicate the number of these instances).} %The number of not \RE{solved} instances increases with the number of drones.
+\LA{In addition, for the minimum level of endurance, the exact solution of the partial overlapping model without initialization provided by the matheuristic, does not find any solution within the time limit for instances with 10 graphs, 3 drones and a given fraction of each edge to be visited. The same can be observed also for the exact solution of the complete overlapping model without initialization provided by the matheuristic, for a level of endurance equal to 30, a fleet of 3 drones and a given fraction of each edge to be visited.}\\
+Considering the comparison with the exact method starting from the solution provided by the matheuristic, we can note that the values of the average percentage gap are very close to the ones related to the exact solution method without initialization. Thus\RE{,} the initialization does not speed up the convergence of the solver. However, we can see that the matheuristic is always able to find a feasible solution of the problem, even for the cases in which the solver is not. 
 
-\input{figures/gap_between_algorithms_synchronous_withoutd}
-\input{figures/gap_between_algorithms_asynchronous_withoutd}
-
-\RE{INCLUDE EXPLANATION OF THE BOXPLOTS}
-
-Moreover, the average solution times of the matheuristic range between a minimum of 37 seconds to a maximum of 3 minutes. They increase with the drone \RE{endurance} for the variant of the model in which a given \RE{fraction} of each edge must be visited, while they decrease by increasing the number of drones for the variant of the model in which a given \RE{fraction} of each target graph must \RE{be} visited. By increasing the number of target graphs from 5 to 10, the average solution times of the matheuristic become more than double for both model variants.
+%\RE{INCLUDE EXPLANATION OF THE BOXPLOTS}
+\noindent
+\LA{Furthermore, the average solution times of the matheuristic range between a minimum of 4 seconds to a maximum of 9.5 minutes. In particular, we can observe that, in most of the cases, for the complete overlapping version of the problem, the matheuristic running time is shorter for the instances where a fraction of the length of each graph is required to be visited. The same behaviour can be noticed for the partial overlapping version of the problem for which the difference in terms of running time is even bigger. Indeed, when a given fraction of the length of each edge is required, STEP 1 of the matheuristic (computation of the TSP over the graph edges) takes more time.} %They increase with the drone \RE{endurance} for the variant of the model in which a given \RE{fraction} of each edge must be visited, while they decrease by increasing the number of drones for the variant of the model in which a given \RE{fraction} of each target graph must \RE{be} visited. 
+\LA{By increasing the number of target graphs from 5 to 10, the average solution times of the matheuristic increases for both model variants.}
 Summing up, the results obtained show that the exact solution method given by solving the formulation is very challenging even for small size instances. However, exploiting it, the matheuristic is able to provide  solutions for all instances rather quickly.
 % Please add the following required packages to your document preamble:
 % Table generated by Excel2LaTeX from sheet 'Hoja2'
-\begin{table}[htbp]
+\begin{table}[h!]
   \centering
-  \caption{Add caption}
+  \caption{\JP{Comparison between the partial and complete overlapping models}}
     \resizebox{\textwidth}{!}{
-    \begin{tabular}{|c|c|c|ccc|ccc|ccc|ccc|}
+    \begin{tabular}{|c|c|c||ccc|ccc||ccc|ccc|}
     \hline
     \multicolumn{3}{|c|}{\textbf{Model}} & \multicolumn{6}{c|}{Complete Overlapping}     & \multicolumn{6}{c|}{Partial Overlapping} \bigstrut\\
     \hline
     \multicolumn{3}{|c|}{$|\mathcal G|$} & \multicolumn{3}{c|}{5} & \multicolumn{3}{c|}{10} & \multicolumn{3}{c|}{5} & \multicolumn{3}{c|}{10} \bigstrut\\
     \hline
-    $N_D$ & $|\mathcal D|$ & $\alpha$ & Gap wi & Gap i & TimeH & Gap wi & Gap i & TimeH & Gap wi & Gap i & TimeH & Gap wi & Gap i & TimeH \bigstrut\\
+    $N_D$ & $|\mathcal D|$ & $\alpha$ & Gap (wi) & Gap (i) & TimeH & Gap (wi) & Gap (i) & TimeH & Gap (wi) & Gap (i) & TimeH & Gap (wi) & Gap (i) & TimeH \bigstrut\\
+    \hline
     \hline
     \multirow{6}[6]{*}{20} & \multirow{2}[2]{*}{1} & g     & 0,78  & 0,79  & 6,01  & \textcolor[rgb]{ 1,  0,  0}{0,91 (2)} & 0,86  & 177,69 & 0,65  & 0,63  & 16,53 & 1     & 1     & 215,59 \bigstrut[t]\\
           &       & e     & 0,81  & 0,81  & 15,41 & \textcolor[rgb]{ 1,  0,  0}{0,89 (2)} & 0,84  & 148,95 & 0,84  & 0,83  & 52,36 & \textcolor[rgb]{ 1,  0,  0}{0,88 (3)} & 0,87  & 440,93 \bigstrut[b]\\
 \cline{2-15}          & \multirow{2}[2]{*}{2} & g     & 0,81  & 0,87  & 5,76  & \textcolor[rgb]{ 1,  0,  0}{0,96 (3)} & 0,96  & 139,24 & 0,97  & 0,96  & 13,91 & \textcolor[rgb]{ 1,  0,  0}{1 (3)} & 1     & 76,77 \bigstrut[t]\\
-          &       & e     & 0,93  & 0,92  & 33,99 & \textcolor[rgb]{ 1,  0,  0}{0,97 (3)} & 0,97  & 163,41 & 0,86 (2) & 0,85  & 66,38 & \textcolor[rgb]{ 1,  0,  0}{0,89 (4)} & 0,85  & 578,31 \bigstrut[b]\\
+          &       & e     & 0,93  & 0,92  & 33,99 & \textcolor[rgb]{ 1,  0,  0}{0,97 (3)} & 0,97  & 163,41 & \textcolor[rgb]{ 1,  0,  0}{0,86 (2)} & 0,85  & 66,38 & \textcolor[rgb]{ 1,  0,  0}{0,89 (4)} & 0,85  & 578,31 \bigstrut[b]\\
 \cline{2-15}          & \multirow{2}[2]{*}{3} & g     & 0,88  & 0,89  & 4,83  & \textcolor[rgb]{ 1,  0,  0}{0,95 (3)} & 0,94  & 67,76 & 0,97  & 0,97  & 17,87 & \textcolor[rgb]{ 1,  0,  0}{1 (2)} & 1     & 18,88 \bigstrut[t]\\
-          &       & e     & 0,92  & 0,91  & 14,08 & \textcolor[rgb]{ 1,  0,  0}{0,97 (2)} & 0,97  & 125,89 & 0,81 (3) & 0,84  & 61,83 & \textcolor[rgb]{ 1,  0,  0}{- (5)} & 0,82  & 237,33 \bigstrut[b]\\
+          &       & e     & 0,92  & 0,91  & 14,08 & \textcolor[rgb]{ 1,  0,  0}{0,97 (2)} & 0,97  & 125,89 & \textcolor[rgb]{ 1,  0,  0}{0,81 (3)} & 0,84  & 61,83 & \textcolor[rgb]{ 1,  0,  0}{- (5)} & 0,82  & 237,33 \bigstrut[b]\\
     \hline
     \hline
     \multirow{6}[6]{*}{30} & \multirow{2}[2]{*}{1} & g     & 0,71  & 0,7   & 9,66  & \textcolor[rgb]{ 1,  0,  0}{0,82 (4)} & 0,82  & 87,4  & 0,77  & 0,75  & 15,43 & 1     & 1     & 39,83 \bigstrut[t]\\
@@ -103,12 +108,16 @@ Summing up, the results obtained show that the exact solution method given by so
           &       & e     & 0,72  & 0,7   & 15,39 & \textcolor[rgb]{ 1,  0,  0}{0,91 (2)} & 0,96  & 96,52 & 0,78  & 0,78  & 49,39 & 0,81  & 0,81  & 259,34 \bigstrut[b]\\
     \hline
     \end{tabular}}%
-  \label{tab:addlabel}%
+  \label{table:tab2}%
 \end{table}%
 
+\noindent
+\LA{The boxplots in Figure \ref{fig:gap_boxplot_synchronous}  represent the relative gap of the solution provided by the matheuristic for the complete overlapping version of the problem, with respect to the one provided by the exact solution of the \RE{mathematical programming} model within the time limit, with the initialization of the solution found by the matheuristic. Similarly, Figure \ref{fig:gap_boxplot_asynchronous} reports the same information for the partial overlapping version of the problem.}
 
-
-
+\input{figures/gap_between_algorithms_synchronous_withoutd}
+\input{figures/gap_between_algorithms_asynchronous_withoutd}
+\noindent
+\LA{From Figure \ref{fig:gap_boxplot_synchronous}, we can see that for the complete overlapping version of the problem, the relative gap of the solution provided by the matheuristic tends to be higher when a given fraction of each graph must be visited, independently by the size of the fleet of drones. Moreover, its values decrease with the number of target graphs. A similar behaviour can be observed also for the partial overlapping variant of the problem, from Figure \ref{fig:gap_boxplot_asynchronous}. In this latter case, we can notice a bigger difference between the values of the relative gap related to the case in which a given fraction of each graph must be visited, and the one in which a given fraction of each edge must be visited. Indeed, in the first case the relative gap ranges between 0 and 50, while in the second case, between 0 and 20. Thus, we can conclude that the matheuristic provides very good quality solutions in short computing time, especially for the version of the problem in which a given fraction of each edge must be visited.}
 % \begin{table}[!h]
 % \caption{Comparison between exact solution with and without initialization by the matheuristic solution \JP{*** OJO 3 drones and 10 graphs i>wi ***} }
 % \centering
@@ -158,6 +167,7 @@ Summing up, the results obtained show that the exact solution method given by so
 \noindent
 \RE{
 \subsection{Comparing the solutions for different configurations of the problem}
+\noindent
  In this subsection, we compare the relationship between the number of available drones and their \RE{endurance} and the objective function value \RE{obtained with the exact algorithm} of the problem. In this experiment, we have generated a single instance with three target graphs for each combination of the parameters listed in Table \ref{table:tab3}.
 
 \renewcommand{\arraystretch}{0.7}
@@ -178,6 +188,7 @@ $N^d$ & (10, 20,30,40,50,60)\\
 \label{table:tab3}
 \end{table}
 
+\noindent
 Figure \ref{fig:heatmap} reports the objective value varying these parameters. The darker color intensity\RE{,} the smaller the objective value. As expected, our experiment confirms that both(,) a greater number of drones and larger endurance reduce \RE{the} total time of the mothership route.
 
 }

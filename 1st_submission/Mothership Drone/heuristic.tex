@@ -20,7 +20,7 @@ Initialization: set $it=1$, define one cluster for each target graph and set $ni
 Select randomly two clusters $K_i$ and $K_j$ (where $i<j$).\\
 Check if the number of graphs belonging to the union of $K_i$ and $K_j$ is less than the number of available drones $n_D$.\\
 If this condition is satisfied:\\
-search for point $P$ satisfying the following capacity constraint:
+search for point $P$ satisfying the following endurance constraint:
 $$
 \frac{d(P, R^{e_g}) + \mathcal L(e_{g}, e^{'}_{g}) + d(L^{e^{'}_{g}}, P)}{v_D} \leq N^d, \quad \forall R^{e_g}, L^{e^{'}_{g}} \in K_i, \:\: K_j.
 $$
@@ -29,7 +29,7 @@ Set $nit=nit+1$.\\
 Repeat the same procedure on the new cluster structure while $nit < maxit$.
 \item[STEP 3] (Computation of Reference Points) 
 %\JP{This step is not well-defined: The term centroid defines exactly the points we should use another term that allows to minimize something!!!} \\
-% Compute the centroids of the clusters generated at STEP 2, by minimizing the distance between them and the origin always imposing that the capacity constraint is satisfied.
+% Compute the centroids of the clusters generated at STEP 2, by minimizing the distance between them and the origin always imposing that the endurance constraint is satisfied.
 Compute a reference point for each cluster generated at STEP 2. This computation seeks for the minimization of the distance between each pair of reference points and the distance between them and the origin, always imposing that the \eqref{CAP} constraint is satisfied.
 
 
@@ -141,14 +141,14 @@ Initialization: define one cluster for each target graph and set $nit=1$ \\
 Select randomly two clusters $C_i$ and $C_j$ (where $i<j$).\\
 Check if the number of graphs belonging to the union of $C_i$ and $C_j$ is less than or equal to the number of available drones $n_D$.\\
 If this condition is satisfied:\\
-search for the point $C$ satisfying the following capacity constraint:
+search for the point $C$ satisfying the following endurance constraint:
 $$
 \frac{[d(C, R^{e_g}) + C^{e_{g}e^{'}_{g}} + d(C,L^{e^{'}_{g}})]}{v_D} \leq cap \:\: \forall R^{e_g}, L^{e^{'}_{g}} \in C_i, \:\: C_j
 $$
 If such a point exists, merge the two clusters and assign to the resulting cluster so obtained the label $C_i$.\\
 
 \item[STEP 3](Launch/rendezvous points exchanges)
-Set $i=1$ and $x_L=orig$\\
+Set $i=1$ and $x_L=origin$\\
 For each cluster $C_i$ generated at STEP 2:\\
 - solve the \AMD\space model with first launching point equal to $x_L$.\\
 - let $x_R$ be the last rendezvous point associated with the cluster under analysis, set $x_L = x_R$.\\

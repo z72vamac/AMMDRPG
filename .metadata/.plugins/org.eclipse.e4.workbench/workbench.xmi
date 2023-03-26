@@ -494,7 +494,7 @@
     <bindings xmi:id="_55OEB2S3EeyTNc2d_d9dvw" keySequence="ALT+CTRL+SHIFT+O" command="_547wQGS3EeyTNc2d_d9dvw"/>
     <bindings xmi:id="_55OEDmS3EeyTNc2d_d9dvw" keySequence="CTRL+SHIFT+P" command="_548-QGS3EeyTNc2d_d9dvw"/>
     <bindings xmi:id="_55OrG2S3EeyTNc2d_d9dvw" keySequence="CTRL+2" command="_54_aymS3EeyTNc2d_d9dvw"/>
-    <bindings xmi:id="_55OrIGS3EeyTNc2d_d9dvw" keySequence="CTRL+SHIFT+T" command="_547JI2S3EeyTNc2d_d9dvw"/>
+    <bindings xmi:id="_55originS3EeyTNc2d_d9dvw" keySequence="CTRL+SHIFT+T" command="_547JI2S3EeyTNc2d_d9dvw"/>
     <bindings xmi:id="_55PSImS3EeyTNc2d_d9dvw" keySequence="CTRL+4" command="_548-XmS3EeyTNc2d_d9dvw"/>
     <bindings xmi:id="_55PSJWS3EeyTNc2d_d9dvw" keySequence="CTRL+5" command="_547wM2S3EeyTNc2d_d9dvw"/>
     <bindings xmi:id="_55P5PmS3EeyTNc2d_d9dvw" keySequence="CTRL+/" command="_55AouWS3EeyTNc2d_d9dvw"/>
@@ -1906,7 +1906,7 @@
   <commands xmi:id="_54_agmS3EeyTNc2d_d9dvw" elementId="org.eclipse.egit.ui.team.submodule.add" commandName="Add Submodule" category="_545T_WS3EeyTNc2d_d9dvw"/>
   <commands xmi:id="_54_ag2S3EeyTNc2d_d9dvw" elementId="org.eclipse.ui.edit.text.cut.line.to.end" commandName="Cut to End of Line" description="Cut to the end of a line of text" category="_545T52S3EeyTNc2d_d9dvw"/>
   <commands xmi:id="_54_ahGS3EeyTNc2d_d9dvw" elementId="org.eclipse.jdt.ui.correction.convertAnonymousToLocal.assist" commandName="Quick Assist - Convert anonymous to local class" description="Invokes quick assist and selects 'Convert anonymous to local class'" category="_545UAWS3EeyTNc2d_d9dvw"/>
-  <commands xmi:id="_54_ahWS3EeyTNc2d_d9dvw" elementId="org.eclipse.compare.copyLeftToRight" commandName="Copy from Left to Right" description="Copy Current Change from Left to Right" category="_545T8GS3EeyTNc2d_d9dvw"/>
+  <commands xmi:id="_54_ahWS3EeyTNc2d_d9dvw" elementId="org.eclipse.compare.copyLeftToriginht" commandName="Copy from Left to Right" description="Copy Current Change from Left to Right" category="_545T8GS3EeyTNc2d_d9dvw"/>
   <commands xmi:id="_54_ahmS3EeyTNc2d_d9dvw" elementId="org.eclipse.ui.file.newQuickMenu" commandName="New menu" description="Open the New menu" category="_545T7WS3EeyTNc2d_d9dvw"/>
   <commands xmi:id="_54_ah2S3EeyTNc2d_d9dvw" elementId="org.eclipse.ui.project.openProject" commandName="Open Project" description="Open a project" category="_545T9mS3EeyTNc2d_d9dvw"/>
   <commands xmi:id="_54_aiGS3EeyTNc2d_d9dvw" elementId="org.eclipse.debug.ui.actions.WatchCommand" commandName="Watch" description="Create a watch expression from the current selection and add it to the Expressions view" category="_545UA2S3EeyTNc2d_d9dvw"/>
@@ -2242,7 +2242,7 @@
     <parameters xmi:id="_55ApFWS3EeyTNc2d_d9dvw" elementId="filePath" name="File Path" typeId="org.eclipse.ui.ide.resourcePath"/>
   </commands>
   <commands xmi:id="_55ApFmS3EeyTNc2d_d9dvw" elementId="org.eclipse.eclemma.ui.commands.CoverageLast" commandName="Coverage" description="Coverage" category="_545T-mS3EeyTNc2d_d9dvw"/>
-  <commands xmi:id="_55ApF2S3EeyTNc2d_d9dvw" elementId="org.eclipse.compare.copyAllLeftToRight" commandName="Copy All from Left to Right" description="Copy All Changes from Left to Right" category="_545T8GS3EeyTNc2d_d9dvw"/>
+  <commands xmi:id="_55ApF2S3EeyTNc2d_d9dvw" elementId="org.eclipse.compare.copyAllLeftToriginht" commandName="Copy All from Left to Right" description="Copy All Changes from Left to Right" category="_545T8GS3EeyTNc2d_d9dvw"/>
   <commands xmi:id="_6Ad7gGS3EeyTNc2d_d9dvw" elementId="AUTOGEN:::org.eclipse.ant.ui.actionSet.presentation/org.eclipse.ant.ui.toggleAutoReconcile" commandName="Toggle Ant Editor Auto Reconcile" description="Toggle Ant Editor Auto Reconcile" category="_545UA2S3EeyTNc2d_d9dvw"/>
   <commands xmi:id="_6AeikGS3EeyTNc2d_d9dvw" elementId="AUTOGEN:::org.eclipse.debug.ui.launchActionSet/org.eclipse.debug.internal.ui.actions.RunWithConfigurationAction" commandName="Run As" category="_545UA2S3EeyTNc2d_d9dvw"/>
   <commands xmi:id="_6AfJoGS3EeyTNc2d_d9dvw" elementId="AUTOGEN:::org.eclipse.debug.ui.launchActionSet/org.eclipse.debug.internal.ui.actions.RunHistoryMenuAction" commandName="Run History" category="_545UA2S3EeyTNc2d_d9dvw"/>

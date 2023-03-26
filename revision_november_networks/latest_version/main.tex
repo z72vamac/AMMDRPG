@@ -157,7 +157,7 @@ For both problem variants, we present  mathematical programming formulations, va
 The work is structured as follows: Section \ref{section:desc} provides a detailed description of the problem under consideration. Section \ref{Form}  develops valid mixed integer nonlinear programming formulations for the two versions of the \EN{problem considered}. Here, we also show the relationship between the two models and prove that the second model is a relaxation of the first. Section \ref{bounds} provides some valid inequalities that strengthen the formulations and derives upper and lower bounds on the bigM constants introduced in the proposed formulations. Section \ref{Math} presents details of the matheuristic algorithms designed to handle large sized instances. In Section \ref{section:results} we report the results obtained testing the formulations and the matheuristic algorithm on different classes of planar graphs to assess \EN{their} effectiveness. In Section \ref{section:CS}, we introduce an illustrative example applying the coordination models to the Courtyards Festival of Cordoba. Section \ref{section:CR} concludes the paper. Finally, for the sake of completeness, we have included an appendix with an extension of the model of complete overlapping where the drones are not assumed to be homogeneous. 
 \section{Problem description}\label{section:desc}
 \noindent
-In the All Terrain Mothership and \EN{Multiple-Drone} Routing Problem with Graphs (\AMD), there is one mothership (the base vehicle) and a fleet of homogeneous drones $\mathcal D$ that have to coordinate \EN{between each other} and with the mothership to perform a number of operations consisting \EN{of} visiting given fractions of the length of a set of graphs $\mathcal G$. The mothership and the drones travel at constant velocities $v_M$ and $v_D$, respectively. We also assume that \EN{it} is not \EN{necessary for} the mothership to be stopped to launch and retrieve the drones and that the time spent by the mothership to launch and retrieve them is negligible. Moreover, it is assumed that each drone has a limited flying autonomy endurance $N_D$, so that once it is launched, it must complete the operation and return to the base vehicle to recharge \EN{its} batteries before the time limit. In addition, the base vehicle moves freely on the continuous space. This assumption can model the case where the base vehicle is a helicopter or a boat, so that there are no obstacles or restrictions \EN{to} its movement. Nowadays, this type of system consisting \EN{of} a boat and a fleet of drones \EN{is} used, for example, by coast guards to perform surveillance activities to identify immigrants that need help in the sea (see \cite{altigator2015}). The mothership starts at a known location, denoted $orig$ where the whole system is ready to depart. Once all the operations are finished, the mothership and the drones must return together to a final location, called $dest$. Moreover, we assume, without loss of generality, that the drone endurance does not allow \EN{it} to visit all target graphs in a single trip starting from the origin and finishing at the destination. Otherwise, the problem becomes trivial and no coordination is required.
+In the All Terrain Mothership and \EN{Multiple-Drone} Routing Problem with Graphs (\AMD), there is one mothership (the base vehicle) and a fleet of homogeneous drones $\mathcal D$ that have to coordinate \EN{between each other} and with the mothership to perform a number of operations consisting \EN{of} visiting given fractions of the length of a set of graphs $\mathcal G$. The mothership and the drones travel at constant velocities $v_M$ and $v_D$, respectively. We also assume that \EN{it} is not \EN{necessary for} the mothership to be stopped to launch and retrieve the drones and that the time spent by the mothership to launch and retrieve them is negligible. Moreover, it is assumed that each drone has a limited flying autonomy endurance $N_D$, so that once it is launched, it must complete the operation and return to the base vehicle to recharge \EN{its} batteries before the time limit. In addition, the base vehicle moves freely on the continuous space. This assumption can model the case where the base vehicle is a helicopter or a boat, so that there are no obstacles or restrictions \EN{to} its movement. Nowadays, this type of system consisting \EN{of} a boat and a fleet of drones \EN{is} used, for example, by coast guards to perform surveillance activities to identify immigrants that need help in the sea (see \cite{altigator2015}). The mothership starts at a known location, denoted $origin$ where the whole system is ready to depart. Once all the operations are finished, the mothership and the drones must return together to a final location, called $dest$. Moreover, we assume, without loss of generality, that the drone endurance does not allow \EN{it} to visit all target graphs in a single trip starting from the origin and finishing at the destination. Otherwise, the problem becomes trivial and no coordination is required.
 
 
 \noindent
@@ -183,7 +183,7 @@ In the following, we introduce the parameters or input data that formally descri
 	\hline
 	\textbf{Problem Parameters}\\
 	\hline
-	$orig$: coordinates of the point defining the origin of the mothership path (or tour).\\
+	$origin$: coordinates of the point defining the origin of the mothership path (or tour).\\
 	$dest$: coordinates of the point defining the destination of the mothership path (or tour).\\
 	$\mathcal{G}$: set of the target graphs.\\
 	$g = (V_g, E_g)$: set of nodes and edges of each target graph $g \in \mathcal{G}$.\\
@@ -226,7 +226,7 @@ In the following, we introduce the parameters or input data that formally descri
 	$x_R^o\in\mathbb R^2, \:\: \forall o \in \mathcal O$: coordinates representing the point where the mothership retrieves the drones at operation $o$.\\
 	$R^{e_g}\in\mathbb R^2, \:\: \forall e_g \in E_g \:\: (g \in \mathcal{G})$: coordinates representing the entry point on edge $e_g$ of graph $g$.\\
 	$L^{e_g}\in\mathbb R^2, \:\: \forall e_g \in E_g \:\: (g \in \mathcal{G})$: coordinates representing the exit point on edge $e_g$ of graph $g$.\\
-	$d_{orig}\geq 0$: distance from the origin $orig$ to the first launching point $x_L^1$.\\
+	$d_{origin}\geq 0$: distance from the origin $origin$ to the first launching point $x_L^1$.\\
 	$d_L^{e_go} \geq 0, \:\: \forall e_g \in E_g \:\:(g \in \mathcal{G}), \:\:\forall o \in \mathcal O$: representing the distance traveled by one drone from the launching\\
 	\hspace*{1cm} point $x_L^o$ on the mothership at operation $o$ to the first visiting point $R^{e_g}$ on $e_g$.\\
 	$p_L^{e_go} \geq 0, \:\: \forall e_g \in E_g \:\: (g \in \mathcal{G}), \:\:\forall o \in \mathcal O$: auxiliary variable used for modeling the product of $d_L^{e_go}$ and $u^{e_go}$.\\
@@ -629,13 +629,13 @@ $$
 				anchor=base west,
 				text=black,
 				rotate=0.0
-				]{orig};
+				]{origin};
 				\draw (0,10) node[
 				scale=0.75,
 				anchor=base west,
 				text=black,
 				rotate=0.0
-				]{orig};
+				]{origin};
 				\draw (axis cs:3.4384375817266,38.1768740390765) node[
 				scale=0.75,
 				anchor=base west,
@@ -992,7 +992,7 @@ $$
 				anchor=base west,
 				text=black,
 				rotate=0.0
-				]{orig};
+				]{origin};
 				\draw (axis cs:2,3) node[
 				scale=0.75,
 				anchor=base west,
@@ -1040,7 +1040,7 @@ $$
 				anchor=base west,
 				text=black,
 				rotate=0.0
-				]{orig};
+				]{origin};
 				\draw (axis cs:2,3) node[
 				scale=0.75,
 				anchor=base west,
@@ -1093,7 +1093,7 @@ $$
 \noindent
 Figure \ref{fig:illustrative} shows an example of the notation over a configuration with four target graphs that have four nodes and four edges. Here, it is supposed that the number of available drones is equal to two.  
 In particular, figure \ref{fig:illustrative}(a) represents a feasible solution \EN{to} the problem for this configuration.
-The mothership, whose path is represented in black, begins at its starting point $orig$ which coincides with the first launching point $x_L^1$ where two drones are launched to visit two graphs. There, each drone follows a route (represented by gray paths) that ensures the coverage of one half of the length of each edge of the graph. The smaller gray dots on the visited graphs are the intermediate points $R^{e_g}$ and $L^{e_g}$ used by the drones in their visit to the edges of the different graphs. After finishing the visit \EN{to} the first two graphs, the drones return to the point $x_R^1$. The mothership moves from this point to the second launching point $x_L^2$ from where only one drone is launched to visit the third graph. Once this graph \EN{has been} visited, the drone returns to the mothership at the rendezvous point $x_R^2$. Finally, the mothership moves to the point $x_L^3$ from where one drone is launched for the last visit to the fourth graph. Then, the drone is retrieved by the mothership at the point $x_R^3$ and then the mothership ends its route at the destination point $dest$.\\
+The mothership, whose path is represented in black, begins at its starting point $origin$ which coincides with the first launching point $x_L^1$ where two drones are launched to visit two graphs. There, each drone follows a route (represented by gray paths) that ensures the coverage of one half of the length of each edge of the graph. The smaller gray dots on the visited graphs are the intermediate points $R^{e_g}$ and $L^{e_g}$ used by the drones in their visit to the edges of the different graphs. After finishing the visit \EN{to} the first two graphs, the drones return to the point $x_R^1$. The mothership moves from this point to the second launching point $x_L^2$ from where only one drone is launched to visit the third graph. Once this graph \EN{has been} visited, the drone returns to the mothership at the rendezvous point $x_R^2$. Finally, the mothership moves to the point $x_L^3$ from where one drone is launched for the last visit to the fourth graph. Then, the drone is retrieved by the mothership at the point $x_R^3$ and then the mothership ends its route at the destination point $dest$.\\
 Figure \ref{fig:illustrative}(b) represents the optimal solution for the same instance of the problem. We can observe that, in this case, from the first launching point $x_L^1$ only one drone is launched, while from the second $x_L^2$ two drones are launched to visit the second and the third graph. The different position in space of this latter point, with respect to the feasible solution reported in figure \ref{fig:illustrative}(a) whose total time is 158.36, ensures that the total traveling time of the optimal solution equals 152.39, which is shorter.
 
 
@@ -1128,21 +1128,21 @@ Inequalities \eqref{st:DEnt} and \eqref{st:DExt} state that it is not possible t
 
 \subsubsection*{Distance and Time Constraints}
 \noindent
-The goal of the \AMDCO\xspace is to find a feasible solution that minimizes the total time traveled by the mothership. To account for the different distances between the decision variables of the model we need to set the continuous variables $d_L^{e_go}$, $d^{e_g}$, $d^{e_ge^\prime_g}$, $d_R^{e_go}$, $d_{orig}$, $d_{RL}^o$, $d_{LR}^o$ and $d_{dest}$ defined in Table \ref{table:t2}. This can be done by means of the following constraints:
+The goal of the \AMDCO\xspace is to find a feasible solution that minimizes the total time traveled by the mothership. To account for the different distances between the decision variables of the model we need to set the continuous variables $d_L^{e_go}$, $d^{e_g}$, $d^{e_ge^\prime_g}$, $d_R^{e_go}$, $d_{origin}$, $d_{RL}^o$, $d_{LR}^o$ and $d_{dest}$ defined in Table \ref{table:t2}. This can be done by means of the following constraints:
 
 \begin{align*}
 \|x_L^o- R^{e_g}\| & \leq  d_L^{e_go},  &\forall e_g\in E_g:g\in \mathcal{G}, \:\:\forall o\in \mathcal O, \tag{Drone DIST$_{1}$-CO} \label{eq:drone-d1-async-CO}\\
 \|R^{e_g}- L^{e_g}\| & \leq  d^{e_g},  &\forall e_g\in E_g:g\in \mathcal{G}, \tag{Drone DIST$_{2}$-CO} \label{eq:drone-d2-async-CO}\\
 \|R^{e_g}- L^{e'_g}\| & \leq  d^{e_ge'_g}, &\forall e_g\neq e_g'\in E_g:g\in \mathcal{G}, \tag{Drone DIST$_{3}$-CO} \label{eq:drone-d3-async-CO}\\
 \|L^{e_g}- x_R^o\| & \leq  d_R^{e_o}, &\forall e_g\in E_g:g\in \mathcal{G},\:\:\forall o\in \mathcal O. \tag{Drone DIST$_{4}$-CO} \label{eq:drone-d4-async-CO}\\\\
-\|orig - x_L^1\| & \leq d_{orig}, \tag{Mothership DIST$_1$-CO}\label{eq:mothership-d1-async-CO}\\
+\|origin - x_L^1\| & \leq d_{origin}, \tag{Mothership DIST$_1$-CO}\label{eq:mothership-d1-async-CO}\\
 \|x_L^o - x_R^{o}\| & \leq d_{LR}^{o}, &\forall o\in\mathcal O, \tag{Mothership DIST$_{2}$-CO}\label{eq:mothership-d3-async-CO}\\
 \|x_R^o - x_L^{o+1}\| & \leq d_{RL}^{o}, &\forall o\in\mathcal O:o<|\mathcal O|, \tag{Mothership DIST$_{3}$-CO}\label{eq:mothership-d4-async-CO}\\
 \|x_R^{|\mathcal O|} - dest\| & \leq d_{dest}. \tag{Mothership DIST$_4$-CO}\label{eq:mothership-d6-async-CO}
 \end{align*}
 
 \noindent
-All variables modeling the distances covered by drones, namely $d_L^{e_go}$, $d^{e_g}$, $d^{e_g'e_g}$ and $d_R^{e_go}$,  as well as those modeling the distance traveled by the mothership, namely $d_{orig}$, $d_{LR}^o$, $d_{RL}^o$ and $d_{dest}$, are defined in Table \ref{table:t2}. 
+All variables modeling the distances covered by drones, namely $d_L^{e_go}$, $d^{e_g}$, $d^{e_g'e_g}$ and $d_R^{e_go}$,  as well as those modeling the distance traveled by the mothership, namely $d_{origin}$, $d_{LR}^o$, $d_{RL}^o$ and $d_{dest}$, are defined in Table \ref{table:t2}. 
 
 
 
@@ -1191,7 +1191,7 @@ time_M^o = \frac{d_{LR}^o}{v_M}, \quad \forall o \in \mathcal O.
 Thus, the overall time spent by the mothership to move from the origin to the destination can be expressed as follows:
 
 \begin{equation}\tag{Time$_M$}
-time_M = \frac{1}{v_M} (d_{orig} + \sum_{o \in \mathcal O} d_{LR}^o + \sum_{o \in \mathcal O:o<|\mathcal O|} d_{RL}^o + d_{dest}).
+time_M = \frac{1}{v_M} (d_{origin} + \sum_{o \in \mathcal O} d_{LR}^o + \sum_{o \in \mathcal O:o<|\mathcal O|} d_{RL}^o + d_{dest}).
 \label{eq:timeM}
 \end{equation}
 
@@ -1266,7 +1266,7 @@ $d^{e_ge^\prime_g} \geq 0, \:\: \forall e_g, e^\prime_g \in E_g \:\: (g \in \mat
 \hspace*{1cm}  the rendezvous point $R^{e^\prime_g}$ on $e^\prime_g$.\\
 $d_R^{e_g t} \geq 0, \:\: \forall e_g \in E_g\:\: (g \in \mathcal{G}), \:\:\forall t \in \mathcal T$: representing the distance traveled by the drone from the last visiting point\\
 \hspace*{1cm} $L^{e_g}$ on $e_g$ to the rendezvous point $x_R^o$ on the mothership at stage $t$.\\
-$d_{orig}\geq 0$: distance from the origin $orig$ to the first launching point $x_L^1$.\\
+$d_{origin}\geq 0$: distance from the origin $origin$ to the first launching point $x_L^1$.\\
 $d_{LL}^t\geq 0, \:\: \forall t \in \mathcal T:t<|\mathcal T|$: distance from the launching point $x_L^t$ to the launching point $x_L^{t+1}$.\\
 $d_{LR}^t\geq 0, \:\: \forall t \in \mathcal T:t<|\mathcal T|$: distance from the launching point $x_L^t$ to the retrieving point $x_R^{t+1}$.\\
 $d_{RL}^t\geq 0, \:\: \forall t \in \mathcal T:t<|\mathcal T|$: distance from the retrieving point $x_R^t$ to the launching point $x_L^{t+1}$.\\
@@ -1351,7 +1351,7 @@ This subsection considers the second-order cone constraints that model the dista
 \|R^{e_g}- L^{e_g}\| & \leq  d^{e_g},  &\forall e_g\in E_g:g\in \mathcal{G}, \tag{Drone DIST$_{2}$} \label{eq:drone-d2-async}\\
 \|R^{e_g}- L^{e'_g}\| & \leq  d^{e_ge'_g}, &\forall e_g\neq e_g'\in E_g:g\in \mathcal{G}, \tag{Drone DIST$_{3}$} \label{eq:drone-d3-async}\\
 \|L^{e_g}- x_R^t\| & \leq  d_R^{e_gt}, &\forall e_g\in E_g:g\in \mathcal{G},\:\:\forall t\in \mathcal T. \tag{Drone DIST$_{4}$} \label{eq:drone-d4-async}\\\\
-\|orig - x_L^1\| & \leq d_{orig}, \tag{Mothership DIST$_1$}\label{eq:mothership-d1-async}\\
+\|origin - x_L^1\| & \leq d_{origin}, \tag{Mothership DIST$_1$}\label{eq:mothership-d1-async}\\
 \|x_L^t - x_L^{t+1}\| & \leq d_{LL}^{t}, &\forall t\in\mathcal T:t<|\mathcal T|, \tag{Mothership DIST$_{2}$}\label{eq:mothership-d2-async}\\
 \|x_L^t - x_R^{t+1}\| & \leq d_{LR}^{t}, &\forall t\in\mathcal T:t<|\mathcal T|, \tag{Mothership DIST$_{3}$}\label{eq:mothership-d3-async}\\
 \|x_R^t - x_L^{t+1}\| & \leq d_{RL}^{t}, &\forall t\in\mathcal T:t<|\mathcal T|, \tag{Mothership DIST$_{4}$}\label{eq:mothership-d4-async}\\
@@ -1361,7 +1361,7 @@ This subsection considers the second-order cone constraints that model the dista
 
 
 \noindent
-All the variables modeling the distances covered by drones, namely, $d_L^{e_gt}$, $d^{e_g}$, $d^{e_g'e_g}$ and $d_R^{e_gt}$,  as well as those modeling the distance traveled by the mothership, namely, $d_{orig}$, $d_{LL}^t$, $d_{LR}^t$, $d_{RL}^t$, $d_{RR}^t$ and $d_{dest}$, are  defined in Table \ref{table:t3}. 
+All the variables modeling the distances covered by drones, namely, $d_L^{e_gt}$, $d^{e_g}$, $d^{e_g'e_g}$ and $d_R^{e_gt}$,  as well as those modeling the distance traveled by the mothership, namely, $d_{origin}$, $d_{LL}^t$, $d_{LR}^t$, $d_{RL}^t$, $d_{RR}^t$ and $d_{dest}$, are  defined in Table \ref{table:t3}. 
 \noindent
 The time spent by the drone to perform the operation of visiting graph $g$ is given by:
 
@@ -1389,7 +1389,7 @@ Finally, the overall time spent by the mothership can be described as follows:
 
 \begin{footnotesize}
 \begin{equation}\tag{Time$_M$}\label{eq:time-m}
-time_M = \frac{1}{v_M}\left(d_{orig} + \sum_{t \in \mathcal T: t < |\mathcal T|} \left(\|x_L^t - x_L^{t+1}\|y_{LL}^t + \|x_L^t - x_R^{t+1}\|y_{LR}^t + \|x_R^t - x_L^{t+1}\|y_{RL}^t + \| x_R^t - x_R^{t+1}\|y_{RR}^t\right) + d_{dest} \right).
+time_M = \frac{1}{v_M}\left(d_{origin} + \sum_{t \in \mathcal T: t < |\mathcal T|} \left(\|x_L^t - x_L^{t+1}\|y_{LL}^t + \|x_L^t - x_R^{t+1}\|y_{LR}^t + \|x_R^t - x_L^{t+1}\|y_{RL}^t + \| x_R^t - x_R^{t+1}\|y_{RR}^t\right) + d_{dest} \right).
 \end{equation}
 \end{footnotesize}
 
@@ -1867,7 +1867,7 @@ p_L^{e_go} & \geq d_L^{e_go} - M_L^{e_go}(1-u^{e_go}).
 Note that, among all graph nodes and the origin and destination points, it is possible to identify the pair of points at the maximum distance. From this pair of points, we can build a circle whose diameter is the segment joining them. Hence, because we are minimizing the distance traveled by the mothership, every launching  or rendezvous point is inside this circle and the best upper bound $M_L^{e_go}$ or $M_R^{e_go}$ can be described as:
 
 $$
-M_R^{e_go} = \max_{\{v\in V_g\cup\{\text{orig}, \text{dest}\}, v'\in V_{g'}\cup\{\text{orig}, \text{dest}\} : g, g'\in\mathcal G\}} \|v - v'\| = M_L^{e_go}.
+M_R^{e_go} = \max_{\{v\in V_g\cup\{\text{origin}, \text{dest}\}, v'\in V_{g'}\cup\{\text{origin}, \text{dest}\} : g, g'\in\mathcal G\}} \|v - v'\| = M_L^{e_go}.
 $$
 
 \noindent
@@ -1928,7 +1928,7 @@ Algorithm \ref{alg:math} reports the pseudocode of this algorithm.
 			{
 				\State Search for point $P$ satisfying the following endurance constraint:\\
 				\begin{equation}
-					\frac{d(P, R^{e_g}) + \mathcal L(e_{g}, e^{'}_{g}) + d(L^{e^{'}_{g}}, P)}{v_D} \leq N_D, \quad \forall R^{e_g}, L^{e^{'}_{g}} \in K_i, \:\: K_j. \label{eq:capacity_math}
+					\frac{d(P, R^{e_g}) + \mathcal L(e_{g}, e^{'}_{g}) + d(L^{e^{'}_{g}}, P)}{v_D} \leq N_D, \quad \forall R^{e_g}, L^{e^{'}_{g}} \in K_i, \:\: K_j. \label{eq:endurance_math}
 				\end{equation}
 				\If{$P \:\: \exists$}{\State $K_i \gets K_i \cup K_j$}
 			}
@@ -1941,9 +1941,9 @@ Algorithm \ref{alg:math} reports the pseudocode of this algorithm.
 		\State For each cluster $K_i \in \mathcal K$\;
 		compute a reference point $P_i$ by solving the following minimization problem:
 		$$
-		\min \sum_{K_i \in \mathcal K}( \|P_i - orig\| + \|P_i - dest \|) + \sum_{g \in K_i: K_i \in \mathcal K} (\|P_i - R^{e_g} \| + \| P_i - L^{e'_g}\|) + \sum_{K_i, K_j \in \mathcal K: i \neq j} \|P_i - P_j\|
+		\min \sum_{K_i \in \mathcal K}( \|P_i - origin\| + \|P_i - dest \|) + \sum_{g \in K_i: K_i \in \mathcal K} (\|P_i - R^{e_g} \| + \| P_i - L^{e'_g}\|) + \sum_{K_i, K_j \in \mathcal K: i \neq j} \|P_i - P_j\|
 		$$
-		subject to (\ref{eq:capacity_math}).
+		subject to (\ref{eq:endurance_math}).
 	\end{algorithmic}
 	STEP 4 (Order of visits to the graphs: route via the reference points and the origin/destination points)
 	\begin{algorithmic}
@@ -2058,7 +2058,7 @@ By providing the initial partial solution obtained \EN{from} the values of the v
 \end{figure}
 
 \noindent 
-Focusing on each single target graph, Figure \ref{fig:example5} shows the zoom \EN{in} on the tours followed by the drones. For example, Figure \ref{fig:example5}[a] reports th\EN{at} performed by the drone that visits the graph $g_1$ (the gray segments) and the drone that visits the graph $g_3$ (the dotted gray segments). Both drones start from the mothership at point $x^1_L$ that is the $orig$. One drone first visits the segment $\overline{R^1_1L^1_1}$ of the graph $g_1$, while the other starts the visit \EN{to} graph $g_3$ by traversing the segment $\overline{R^3_1L^3_1}$. From point $L^1_1$ the first drone moves to the second visited edge of the graph $g_1$ by traversing the segment $\overline{R^2_1L^2_1}$. Then, it moves to the third visited edge of graph $g_1$, by flying over the segment $\overline{R^3_1L^3_1}$. From point $R^4_1$ the drone starts the visit to the last edge of graph $g_1$ up to point $L^4_1$. 
+Focusing on each single target graph, Figure \ref{fig:example5} shows the zoom \EN{in} on the tours followed by the drones. For example, Figure \ref{fig:example5}[a] reports th\EN{at} performed by the drone that visits the graph $g_1$ (the gray segments) and the drone that visits the graph $g_3$ (the dotted gray segments). Both drones start from the mothership at point $x^1_L$ that is the $origin$. One drone first visits the segment $\overline{R^1_1L^1_1}$ of the graph $g_1$, while the other starts the visit \EN{to} graph $g_3$ by traversing the segment $\overline{R^3_1L^3_1}$. From point $L^1_1$ the first drone moves to the second visited edge of the graph $g_1$ by traversing the segment $\overline{R^2_1L^2_1}$. Then, it moves to the third visited edge of graph $g_1$, by flying over the segment $\overline{R^3_1L^3_1}$. From point $R^4_1$ the drone starts the visit to the last edge of graph $g_1$ up to point $L^4_1$. 
 Finally, the drone leaves graph $g_1$ at this latter point and is retrieved by the mothership at point $x^1_R$. Similarly, the second drone, that visits graph $g_3$, after traversing segment $\overline{R^1_3L^1_3}$, moves to the second visited edge of the same graph and traverses segment $\overline{R^2_3L^2_3}$. Then, it flies to the third visited edge, by traversing segment $\overline{R^3_3L^3_3}$. Finally it moves to the last visited edge of the graph $g_3$, by flying over segment $\overline{R^4_3L^4_3}$. The drone leaves graph $g_3$ at point $L^4_3$ and reaches the mothership at point $x_R^1$. 
 Note that in this example the drones do not visit the full 100\% of each graph edge, but only half of each of them.
 
@@ -3275,10 +3275,10 @@ In our application, the reason to adopt a similar system is the possibility \EN{
 \noindent
 We run the models presented in Section \ref{Form} on this scenario starting from the initial solution provided by the matheuristic, where the 6 coloured paths reported in the map of Figure \ref{fig:mapPF} represent the 6 target graphs to be visited, in this case inspected, by the fleet of drones. In addition, we suppose that the drones' speed is 43 km/h while that of the helicopter is  30 km/h aiming to minimize costs.
 Moreover, we assume that the fleet is composed \EN{of} two drones with an endurance equal to 7.5 minutes, and we impose that each target graph must be fully visited (inspected).  As we can see from Figure \ref{fig:Mtour_CO} and Figure \ref{fig:Mtour_PO}, the origin of the mothership tour coincides with the destination and it is located in an area of the city where it is possible to \EN{suppose} the take-off and landing of \EN{a} helicopter. Figure \ref{fig:Mtour_CO} reports the tour followed by the helicopter in the solution of the complete overlapping version of the problem, after 4 hours of running time. We can observe that the helicopter, starting from the origin, flies to the point $x_R^1$ that is the first rendezvous point, coinciding with the second launching point $x_L^2$. Then, it flies along the edge connecting $x_R^1$ with $x_R^2$, that is the second rendezvous point, which coincides with the third launching point $x_L^3$. Next, the helicopter flies to $x_R^3$ for retrieving the \EN{drone completing the third mission}. From the same point the fourth and last mission starts and ends at point $x_R^4$, that is also the final destination of the helicopter tour.\\
-Figure \ref{fig:tourD_CO} shows the tour (gray dotted paths) followed by the two drones \EN{to inspect} the six paths. In particular, one drone, starts from the origin ($orig=x_L^1$) \EN{to visit} the path of "Alcazar Viejo". It is retrieved by the helicopter at point $x_R^1$ and from the same point both drones, are launched to visit respectively the paths of "Juderia-San Francisco" and "Santa Maria-San Agustin". Both drones end their mission at point $x_R^2$. From this latter point they are launched to perform the visits to the paths of "San Lorenzo" and "Regina-Realejo". Then, they are both retrieved by the  helicopter at point $x_R^3$ where only one drone starts its last mission to visit the path of "Santiago-San Pedro". In the meanwhile, the helicopter, containing the other drone, flies to point $x_R^4=dest$ where it retrieves the other and ends its tour.
+Figure \ref{fig:tourD_CO} shows the tour (gray dotted paths) followed by the two drones \EN{to inspect} the six paths. In particular, one drone, starts from the origin ($origin=x_L^1$) \EN{to visit} the path of "Alcazar Viejo". It is retrieved by the helicopter at point $x_R^1$ and from the same point both drones, are launched to visit respectively the paths of "Juderia-San Francisco" and "Santa Maria-San Agustin". Both drones end their mission at point $x_R^2$. From this latter point they are launched to perform the visits to the paths of "San Lorenzo" and "Regina-Realejo". Then, they are both retrieved by the  helicopter at point $x_R^3$ where only one drone starts its last mission to visit the path of "Santiago-San Pedro". In the meanwhile, the helicopter, containing the other drone, flies to point $x_R^4=dest$ where it retrieves the other and ends its tour.
 The total time travelled by the helicopter is around 21 minutes.
 We can observe that in the drone tour on \EN{the} "San Lorenzo" and "Regina-Realejo" graphs, there are two edges whose duplicate is represented with a dotted segment in Figure \ref{fig:tourD_CO}. They are associated with edges of the graph that are visited once, but traveled twice by the drone, in order to perform the inspection of the whole graph.\\
-Figure \ref{fig:Mtour_PO} shows the mothership tour in the solution of the partial overlapping version of the problem, always obtained by setting a time limit of 4 hours. In this case, we can observe that the helicopter follows a different tour and that there are more launching and retrieving points due to the possibility of launching \EN{one} drone before retrieving the other. From Figure \ref{fig:tourD_PO} we can see that, differently from the complete overlapping version, both drones start their first mission from the origin $orig=x_L^1=x_L^2$. One drone visits the path of "Alcazar Viejo", while the other visits the path of "Santiago-San Pedro". The first is retrieved by the helicopter at point $x_R^3$ and is launched again from the point $x_L^4$. From this latter point this drone starts its second mission to visit the path of "Juderia-San Francisco". In the meantime, the helicopter flies to the point $x_R^5$ where the other drone is retrieved. From the same point $x_R^5=x_L^6$ this latter drone is then launched to inspect the path of "Santa Maria-San Agustin". Both drones are retrieved by the helicopter at the point $x_R^7=x_R^8$. From this latter point $x_R^8=x_L^9$ one drone is launched to visit the path of "Regina-Realejo". Then, the helicopter flies to the point $x_L^{10}$ from \EN{which} the other drone starts its last visit to the path of "San Lorenzo". Finally, the helicopter flies to the destination $dest$ and along its path, it retrieves the first drone at the point $x_R^{11}$ and then the other at the point $x_R^{12}$. Also in this case, \EN{as} in the solution of the complete overlapping version of the problem, we have one edge of the graph associated with the path of "Regina-Realejo" and one edge of the graph representing the path of "San Lorenzo", that are traversed twice represented with dotted segments in Figure \ref{fig:tourD_PO}. The total travel time of the helicopter is 19 minutes. It is slightly lower than \EN{that} associated with the solution of the complete overlapping version of the problem. Thus, even if on this scenario we cannot observe big changes in terms of the objective function value, we can see how the different assumptions associated with the two versions of the problem can influence the structure of the solution, by producing a different schedule of the drone missions and a different location of the launching and rendezvous points.\\
+Figure \ref{fig:Mtour_PO} shows the mothership tour in the solution of the partial overlapping version of the problem, always obtained by setting a time limit of 4 hours. In this case, we can observe that the helicopter follows a different tour and that there are more launching and retrieving points due to the possibility of launching \EN{one} drone before retrieving the other. From Figure \ref{fig:tourD_PO} we can see that, differently from the complete overlapping version, both drones start their first mission from the origin $origin=x_L^1=x_L^2$. One drone visits the path of "Alcazar Viejo", while the other visits the path of "Santiago-San Pedro". The first is retrieved by the helicopter at point $x_R^3$ and is launched again from the point $x_L^4$. From this latter point this drone starts its second mission to visit the path of "Juderia-San Francisco". In the meantime, the helicopter flies to the point $x_R^5$ where the other drone is retrieved. From the same point $x_R^5=x_L^6$ this latter drone is then launched to inspect the path of "Santa Maria-San Agustin". Both drones are retrieved by the helicopter at the point $x_R^7=x_R^8$. From this latter point $x_R^8=x_L^9$ one drone is launched to visit the path of "Regina-Realejo". Then, the helicopter flies to the point $x_L^{10}$ from \EN{which} the other drone starts its last visit to the path of "San Lorenzo". Finally, the helicopter flies to the destination $dest$ and along its path, it retrieves the first drone at the point $x_R^{11}$ and then the other at the point $x_R^{12}$. Also in this case, \EN{as} in the solution of the complete overlapping version of the problem, we have one edge of the graph associated with the path of "Regina-Realejo" and one edge of the graph representing the path of "San Lorenzo", that are traversed twice represented with dotted segments in Figure \ref{fig:tourD_PO}. The total travel time of the helicopter is 19 minutes. It is slightly lower than \EN{that} associated with the solution of the complete overlapping version of the problem. Thus, even if on this scenario we cannot observe big changes in terms of the objective function value, we can see how the different assumptions associated with the two versions of the problem can influence the structure of the solution, by producing a different schedule of the drone missions and a different location of the launching and rendezvous points.\\
 \noindent
 All details of this case study, including map coordinates, .lp models and solutions can be found in \cite{Puerto2021}.
 
@@ -3334,7 +3334,7 @@ The formulation in this appendix is \EN{quite} similar to the one in Section \re
 		\hline
 		\textbf{Problem Parameters}\\
 		\hline
-		$orig$: coordinates of the point defining the origin of the mothership path (or tour).\\
+		$origin$: coordinates of the point defining the origin of the mothership path (or tour).\\
 		$dest$: coordinates of the point defining the destination of the mothership path (or tour).\\
 		$\mathcal{G}$: set of the target graphs.\\
 		$g = (V_g, E_g)$: set of nodes and edges of each target graph $g \in \mathcal{G}$.\\
@@ -3389,7 +3389,7 @@ The formulation in this appendix is \EN{quite} similar to the one in Section \re
 		$d_R^{e_go\delta} \geq 0, \:\: \forall e_g \in E_g\:\: (g \in \mathcal{G}), \:\: \forall o \in \mathcal O, \:\:\forall \delta\in\mathcal D$: representing the distance traveled by the drone $\delta$ from the last visiting point\\
 		\hspace*{1cm} $L^{e_g}$ on $e_g$ to the rendezvous point $x_R^o$ on the mothership at operation $o$.\\
 		$p_R^{e_go\delta} \geq 0, \:\: \forall e_g \in E_g\:\: (g \in \mathcal{G}), \:\:\forall o \in \mathcal O, \:\:\forall \delta\in\mathcal D$: auxiliary variable used for modeling the product of $d_R^{e_go\delta}$ and $v^{e_go\delta}$.\\
-		$d_{orig}\geq 0$: distance from the origin $orig$ to the first launching point $x_L^1$.\\
+		$d_{origin}\geq 0$: distance from the origin $origin$ to the first launching point $x_L^1$.\\
 		$d_{LR}^o \geq 0, \:\: \forall o \in \mathcal O$: representing the distance traveled by the mothership from the launching point $x_L^o$ to the rendezvous\\
 		\hspace*{1cm}   point $x_R^o$ at operation $o$.\\
 		$d_{RL}^o \geq 0, \:\: \forall o \in \mathcal O\setminus|\mathcal O|$: representing the distance traveled by the mothership from the rendezvous point $x_R^o$ at operation $o$ to the \\ 
@@ -3529,7 +3529,7 @@ We model the route that the drone follows by using the binary variables $u^{e_go
 			
 			\subsubsection*{Distance and Time Constraints}
 			\noindent
-			The goal of the \AMD\xspace (specify) is to find a feasible solution that minimizes the total time traveled by the mothership. To account for the different distances between the decision variables of the model, we need to set the continuous variables $d_L^{e_go\delta}$, $d^{e_g}$, $d^{e_ge^\prime_g}$, $d_R^{e_go\delta}$, $d_{orig}$, $d_{RL}^o$, $d_{LR}^o$ and $d_{dest}$ defined in Table \ref{table:At2}. This can be done by means of the following constraints:
+			The goal of the \AMD\xspace (specify) is to find a feasible solution that minimizes the total time traveled by the mothership. To account for the different distances between the decision variables of the model, we need to set the continuous variables $d_L^{e_go\delta}$, $d^{e_g}$, $d^{e_ge^\prime_g}$, $d_R^{e_go\delta}$, $d_{origin}$, $d_{RL}^o$, $d_{LR}^o$ and $d_{dest}$ defined in Table \ref{table:At2}. This can be done by means of the following constraints:
 			
 			
 			\begin{align*}
@@ -3537,7 +3537,7 @@ We model the route that the drone follows by using the binary variables $u^{e_go
 				\|R^{e_g}- L^{e_g}\| & \leq  d^{e_g},  &\quad \forall e_g\in E_g:g\in \mathcal{G}, \tag{DIST$_{2}$-o} \label{eq:NOd2}\\
 				\|R^{e_g}- L^{e^\prime_g}\| & \leq  d^{e_ge^\prime_g}, &\quad \forall e_g\neq e_g'\in E_g:g\in \mathcal{G}, \tag{DIST$_{3}$-o} \label{eq:NOd3}\\
 				\|L^{e_g}- x_R^o\| & \leq  d_R^{e_go\delta}, &\quad \forall e_g:g\in \mathcal{G},\forall o\in \mathcal O, \forall \delta\in\mathcal D, \tag{DIST$_{4}$-o} \label{eq:NOd4}\\
-				\|orig - x_L^1\| & \leq d_{orig}, \tag{DIST$_5$-o}\label{eq:NOd5}\\
+				\|origin - x_L^1\| & \leq d_{origin}, \tag{DIST$_5$-o}\label{eq:NOd5}\\
 				\|x_L^o- x_R^o\| & \leq  d_{LR}^o, & \quad \forall o\in \mathcal O. \tag{DIST$_{6}$-o} \label{eq:NOd6}\\
 				\|x_R^o- x_L^{o+1}\| & \leq  d_{RL}^o, & \quad \forall o\in \mathcal O:o<|\mathcal O|, \tag{DIST$_{7}$-o} \label{eq:NOd7}\\
 				\|x_R^{|\mathcal O|} - dest\| & \leq d_{dest}, \tag{DIST$_8$-o}\label{eq:NOd8}\\
@@ -3576,7 +3576,7 @@ We model the route that the drone follows by using the binary variables $u^{e_go
 			Thus, the overall time spent by the mothership to move from the origin to the destination can be expressed as follows:
 			
 			\begin{equation}
-				time_M = \frac{1}{v_M} (d_{orig} + \sum_{o \in \mathcal O} (d_{LR}^o + d_{RL}^o) + d_{dest})
+				time_M = \frac{1}{v_M} (d_{origin} + \sum_{o \in \mathcal O} (d_{LR}^o + d_{RL}^o) + d_{dest})
 				\label{eq:NOtimeM}
 			\end{equation}
 			
@@ -3618,7 +3618,7 @@ We model the route that the drone follows by using the binary variables $u^{e_go
 			\end{mini*}
 			
 			\noindent
-			The objective function accounts for the time traveled by the mothership. Constraints \eqref{st:NODEnt}-\eqref{st:NODInv} model the route followed by the drone $\delta\in\mathcal D$, \eqref{NOMTZ1} - \eqref{NOMTZ2} \text{ or } \eqref{NOSEC} ensure that the displacement of the drone $\delta\in\mathcal D$ assigned to the target graph $g\in\mathcal G$ is a route, \eqref{eq:NOalpha-E} \text{ or } \eqref{eq:NOalpha-G} define what is required in each visit to a target graph. Finally, constraints (\ref{eq:NOd1})-(\ref{eq:NOd8}) set the variables $d_L^{e_go\delta}$, $d^{e_g}$, $d^{e_ge^\prime_g}$, $d_R^{e_go\delta}$, $d_{orig}$, $d_{RL}^o$, $d_{LR}^o$ and $d_{dest}$, defined in Table \ref{table:At2}, which represent Euclidean distances needed in the model. \\
+			The objective function accounts for the time traveled by the mothership. Constraints \eqref{st:NODEnt}-\eqref{st:NODInv} model the route followed by the drone $\delta\in\mathcal D$, \eqref{NOMTZ1} - \eqref{NOMTZ2} \text{ or } \eqref{NOSEC} ensure that the displacement of the drone $\delta\in\mathcal D$ assigned to the target graph $g\in\mathcal G$ is a route, \eqref{eq:NOalpha-E} \text{ or } \eqref{eq:NOalpha-G} define what is required in each visit to a target graph. Finally, constraints (\ref{eq:NOd1})-(\ref{eq:NOd8}) set the variables $d_L^{e_go\delta}$, $d^{e_g}$, $d^{e_ge^\prime_g}$, $d_R^{e_go\delta}$, $d_{origin}$, $d_{RL}^o$, $d_{LR}^o$ and $d_{dest}$, defined in Table \ref{table:At2}, which represent Euclidean distances needed in the model. \\
 			
 			\subsection*{Strengthening the formulations}
 			\noindent
@@ -3641,7 +3641,7 @@ We model the route that the drone follows by using the binary variables $u^{e_go
 				\RE{Note that, among all graph nodes and the origin and destination points, it is possible to identify the pair of points at the maximum distance. From this pair of points, we can build a circle whose diameter is the segment joining them. Hence, because we are minimizing the distance traveled by the mothership, every launching  or rendezvous point is inside this circle and the best upper bound $M_L^{e_go\delta}$ or $M_R^{e_go\delta}$ can be described as:}
 				
 				$$
-				M_R^{e_go\delta} = \max_{\{v\in V_g\cup\{\text{orig}, \text{dest}\}, v'\in V_{g'}\cup\{\text{orig}, \text{dest}\} : g, g'\in\mathcal G\}} \|v - v'\| = M_L^{e_go\delta}.
+				M_R^{e_go\delta} = \max_{\{v\in V_g\cup\{\text{origin}, \text{dest}\}, v'\in V_{g'}\cup\{\text{origin}, \text{dest}\} : g, g'\in\mathcal G\}} \|v - v'\| = M_L^{e_go\delta}.
 				$$
 				
 				\noindent

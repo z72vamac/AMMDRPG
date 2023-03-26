@@ -1,0 +1,522 @@
+@INPROCEEDINGS{art:Amorosi2018,
+  author={L. {Amorosi} and L. {Chiaraviglio} and F. {D'Andreagiovanni} and N. {Blefari-Melazzi}},
+  booktitle={2018 IEEE International Conference on Environmental Engineering (EE)}, 
+  title={Energy-efficient mission planning of UAVs for 5G coverage in rural zones}, 
+  year={2018},
+  volume={},
+  number={},
+  pages={1-9},
+  doi={10.1109/EE1.2018.8385250}}
+
+
+
+@article{art:Amorosi2019,
+author = {Amorosi, L and Chiaraviglio, L and Galan-Jimenez, J},
+journal = {IEEE Access},
+pages = {53698--53717},
+title = {{Optimal energy management of uav-based cellular networks powered by solar panels and batteries: Formulation and solutions}},
+volume = {Vol. 7},
+year = {2019}
+}
+
+@article{art:Amorosi2021,
+title = {Coordinating drones with mothership vehicles: The mothership and drone routing problem with graphs},
+journal = {Computers {\&} Operations Research},
+volume = {136},
+pages = {105445},
+year = {2021},
+issn = {0305-0548},
+doi = {https://doi.org/10.1016/j.cor.2021.105445},
+url = {https://www.sciencedirect.com/science/article/pii/S0305054821001994},
+author = {Lavinia Amorosi and Justo Puerto and Carlos Valverde},
+keywords = {Arc routing problems, Networks, Drones, Conic programming},
+abstract = {This paper addresses the optimization of routing problems with drones. It analyzes the coordination of one mothership with one drone to obtain optimal routes that have to visit some target objects modeled as general graphs. The goal is to minimize the overall weighted distance traveled by both vehicles while satisfying the requirements in terms of percentages of visits to targets. We discuss different approaches depending on the assumption made on the route followed by the mothership: i) the mothership can move on a continuous framework (the Euclidean plane), ii) on a connected piecewise linear polygonal chain or iii) on a general graph. In all cases, we develop exact formulations resorting to mixed integer second order cone programs that are compared on a testbed of instances to assess their performance. The high complexity of the exact methods makes it difficult to find optimal solutions in short computing time. For that reason, besides the exact formulations we also provide a tailored matheuristic algorithm that allows one to obtain high quality solutions in reasonable time. Computational experiments show the usefulness of our methods in different scenarios.}
+}
+
+
+@article{art:CAMPBELL202160,
+title = {Solving the length constrained K-drones rural postman problem},
+journal = {European Journal of Operational Research},
+volume = {292},
+number = {1},
+pages = {60-72},
+year = {2021},
+issn = {0377-2217},
+doi = {https://doi.org/10.1016/j.ejor.2020.10.035},
+url = {https://www.sciencedirect.com/science/article/pii/S0377221720309115},
+author = {James F. Campbell and Ángel Corberán and Isaac Plana and José M. Sanchis and Paula Segura},
+keywords = {Logistics, Drones, Arc routing, Length constraints, Matheuristic},
+abstract = {In this paper we address the Length Constrained K-Drones Rural Postman Problem (LC K-DRPP). This is a continuous optimization problem where a fleet of homogeneous drones have to jointly service (traverse) a set of (curved or straight) lines of a network. Unlike the vehicles in classical arc routing problems, a drone can enter a line through any of its points, service a portion of that line, exit through another of its points, then travel directly to any point on another line, and so on. Moreover, since the range of the drones is restricted, the length of each route is limited by a maximum distance. Some applications for drone arc routing problems include inspection of pipelines, railway or power transmission lines and traffic monitoring. To deal with this problem, LC K-DRPP instances are digitized by approximating each line by a polygonal chain with a finite number of points and allowing drones to enter and exit each line only at these points. In this way we obtain an instance of the Length Constrained K-vehicles Rural Postman Problem (LC K-RPP). If the number of points used to discretize the lines is large, the LC K-RPP instance can be extremely large and, hence, very difficult to solve optimally. Even heuristic algorithms can fail in providing feasible solutions in reasonable computing times. An alternative is to generate smaller LC K-RPP instances by approximating each line with few but “significant” segments. We present a formulation and some valid inequalities for the LC K-RPP. Based on this, we have designed and implemented a branch-and-cut algorithm for its solution. Moreover, in order to be capable of providing good solutions for large LC K-RPP instances, we propose a matheuristic algorithm that begins by finding good solutions for the LC K-RPP instance obtained by approximating each line by a single segment. Then, to find better solutions, some promising intermediate points are sequentially incorporated. Extensive computational experiments to assess the performance of both algorithms are performed on several sets of instances from the literature.}
+}
+
+
+@article{art:Campbell2018,
+abstract = {In this article, we present some drone arc routing problems (Drone ARPs) and study their relation with well-known postman ARPs. Applications for Drone ARPs include traffic monitoring by flying over roadways, infrastructure inspection such as by flying along power transmission lines, pipelines or fences, and surveillance along linear features such as coastlines or territorial borders. Unlike the postmen in traditional ARPs, drones can travel directly between any two points in the plane without following the edges of the network. As a consequence, a drone route may service only part of an edge, with multiple routes being used to cover the entire edge. Thus the Drone ARPs are continuous optimization problems with an infinite number of feasible solutions. In order to solve them as a discrete optimization problem, we approximate each curve in the plane by a polygonal chain, thus allowing the vehicle to enter and leave each curve only at the points of the polygonal chain. If the endurance of the vehicles is unlimited, the resulting problem is a rural postman problem (RPP). We propose an algorithm that iteratively solves RPP instances with an increasing number of points of the polygonal chain and present results on several sets of instances. We also briefly discuss the case in which the drones have limited endurance and several drones are needed.},
+author = {Campbell, James F and Corber{\'{a}}n, {\'{A}}ngel and Plana, Isaac and Sanchis, Jos{\'{e}} M},
+doi = {10.1002/net.21858},
+file = {:C$\backslash$:/Users/carlo/OneDrive - UNIVERSIDAD DE SEVILLA/doctorado/Articles/Campbell2018 - Drone Arc Routing Problems.pdf:pdf},
+journal = {Networks},
+month = {oct},
+number = {4},
+pages = {543--559},
+publisher = {Wiley},
+title = {{Drone arc routing problems}},
+volume = {72},
+year = {2018}
+}
+@article{art:Campbell2017,
+author = {Campbell, James F and Sweeney, Don and Zhang, Juan},
+journal = {Computer Science},
+title = {{Strategic design for delivery with trucks and drones}},
+year = {2017}
+}
+@article{art:Carlsson2018,
+abstract = {We determine the efficiency of a delivery system in which an unmanned aerial vehicle (UAV) provides service to customers while making return trips to a truck that is itself moving. In other words, a UAV picks up a package from the truck (which continues on its route), and after delivering the package, the UAV returns to the truck to pick up the next package. Although the hardware for such systems already exists, the extent to which such an approach can actually provide a significantly improved quality of service is not yet understood. By combining a theoretical analysis in the Euclidean plane with real-time numerical simulations on a road network, we demonstrate that the improvement in efficiency is proportional to the square root of the ratio of the speeds of the truck and the UAV.},
+author = {Carlsson, John Gunnar and Song, Siyuan},
+doi = {10.1287/mnsc.2017.2824},
+issn = {15265501},
+journal = {Management Science},
+keywords = {Drone,Routing,Travelling salesman,UAV},
+number = {9},
+pages = {4052--4069},
+title = {{Coordinated logistics with a truck and a drone}},
+volume = {64},
+year = {2018}
+}
+
+
+
+@INPROCEEDINGS{art:Chiaraviglio2018,
+  author={L. {Chiaraviglio} and L. {Amorosi} and N. {Blefari-Melazzi} and P. {Dell’Olmo} and C. {Natalino} and P. {Monti}},
+  booktitle={2018 20th International Conference on Transparent Optical Networks (ICTON)}, 
+  title={Optimal Design of 5G Networks in Rural Zones with UAVs, Optical Rings, Solar Panels and Batteries}, 
+  year={2018},
+  volume={},
+  number={},
+  pages={1-4},
+  doi={10.1109/ICTON.2018.8473712}}
+
+
+
+
+@article{art:Chiaraviglio2019a,
+abstract = {Bringing the cellular connectivity in rural zones is a big challenge, due to the large installation costs that are incurred when a legacy cellular network based on fixed Base Stations (BSs) is deployed. To tackle this aspect, we consider an alternative architecture composed of UAV-based BSs to provide cellular coverage, ground sites to connect the UAVs with the rest of the network, Solar Panels (SPs) and batteries to recharge the UAVs and to power the ground sites, and a ring of optical fiber links to connect the installed sites. We then target the minimization of the installation costs for the considered UAV-based cellular architecture, by taking into account the constraints of UAVs coverage, SPs energy consumption, levels of the batteries and the deployment of the optical ring. After providing the problem formulation, we derive an innovative methodology to ensure that a single ring of installed optical fibers is deployed. Moreover, we propose a new algorithm, called DIARIZE, to practically tackle the problem. Our results, obtained over a set of representative rural scenarios, show that DIARIZE performs very close to the optimal solution, and in general outperforms a reference design based on fixed BSs.},
+author = {Chiaraviglio, Luca and Amorosi, Lavinia and Blefari-Melazzi, Nicola and Dell'olmo, Paolo and {Lo Mastro}, Antonio and Natalino, Carlos and Monti, Paolo},
+doi = {10.1109/TGCN.2019.2936012},
+issn = {24732400},
+journal = {IEEE Transactions on Green Communications and Networking},
+keywords = {CAPEX minimization,UAV-based networks,algorithms,cellular networks,optical ring installation,optimization,renewable energy sources},
+number = {4},
+pages = {901--918},
+title = {{Minimum Cost Design of Cellular Networks in Rural Areas with UAVs, Optical Rings, Solar Panels, and Batteries}},
+volume = {3},
+year = {2019}
+}
+@article{art:Chiaraviglio2019,
+abstract = {Small Cells (SCs) installed on board of Unmanned Aerial Vehicles (UAVs) are a promising solution to provide wireless coverage to users escaping from an area affected by a disaster event. In this paper, we target the problem of maximizing the throughput over a set of areas in a disaster-affected territory. More in depth, we take into account: i) the limited endurance of the UAV-SC battery, ii) the maximum throughput that can be managed by each UAV-SC (due to backhauling/processing constraints), iii) the number of UAV-SCs that can simultaneously cover the same area. We then formulate the Maximum Throughput with Unmanned Aerial Vehicles (MT-UAV) problem, which is able to schedule the UAV-SC missions over a set of Time Slots (TSs) to maximize the total area throughput. Results, obtained over a realistic scenario, reveal that the total throughput is clearly impacted by the UAV-SC backhauling/processing constraints, rather than by the number of UAV-SCs providing coverage over the same area. Moreover, we analyze the UAV-SC missions selected by MT-UAV, showing that a typical mission is performed over multiple consecutive TSs. Therefore, we claim that the UAV-SC battery endurance is fundamental to guarantee sufficiently long missions and consequently to ensure the throughput requirements over multiple TSs.},
+author = {Chiaraviglio, Luca and Amorosi, Lavinia and Malandrino, Francesco and Chiasserini, Carla Fabiana and Dell'Olmo, Paolo and Casetti, Claudio},
+doi = {10.1109/INFCOMW.2019.8845190},
+isbn = {9781728118789},
+journal = {INFOCOM 2019 - IEEE Conference on Computer Communications Workshops, INFOCOM WKSHPS 2019},
+keywords = {UAV mission planning,emergency networks,optimization,performance evaluation},
+pages = {307--312},
+title = {{Optimal Throughput Management in UAV-based Networks during Disasters}},
+year = {2019}
+}
+@article{art:Chow2016,
+abstract = {Given the rapid advances in unmanned aerial vehicles, or drones, and increasing need to monitor at a city level, one of the current research gaps is how to systematically deploy drones over multiple periods. We propose a real-time data-driven approach: we formulate the first deterministic arc-inventory routing problem and derive its stochastic dynamic policy. The policy is expected to be of greatest value in scenarios where uncertainty is highest and costliest, such as city monitoring during major events. The Bellman equation for an approximation of the proposed inventory routing policy is formulated as a selective vehicle routing problem. We propose an approximate dynamic programming algorithm based on Least Squares Monte Carlo simulation to find that policy. The algorithm has been modified so that the least squares dependent variable is defined to be the “expected stock out cost upon the next replenishment”. The new algorithm is tested on 30 simulated instances of real time trajectories over 5 time periods of the selective vehicle routing problem to evaluate the proposed policy and algorithm. Computational results on the selected instances show that the algorithm on average outperforms the myopic policy by 23–28{\%}, depending on the parametric design. Further tests are conducted on classic benchmark arc routing problem instances. The 11-link instance gdb19 (Golden et al., 1983) is expanded into a sequential 15-period stochastic dynamic example and used to demonstrate why a na{\"{i}}ve static multi-period deployment plan would not be effective in real networks.},
+author = {Chow, Joseph Y.J.},
+doi = {10.1016/j.ijtst.2016.11.002},
+issn = {20460449},
+journal = {International Journal of Transportation Science and Technology},
+keywords = {Approximate dynamic programming,Capacitated arc routing problem,Inventory routing problem,Traffic monitoring,Unmanned aerial vehicle},
+number = {3},
+pages = {167--185},
+title = {{Dynamic UAV-based traffic monitoring under uncertainty as a stochastic arc-inventory routing policy}},
+volume = {5},
+year = {2016}
+}
+
+
+@article{art:Chung2020,
+abstract = {This paper surveys the state-of-the-art optimization approaches in the civil application of drone operations (DO) and drone-truck combined operations (DTCO) including construction/infrastructure, agriculture, transportation/logistics, security/disaster management, entertainment/media, etc. In particular, this paper reviews ongoing research on various optimization issues related to DO and DTCO including mathematical models, solution methods, synchronization between a drone and a truck, and barriers in implementing DO and DTCO. First, the paper introduces DO and DTCO and their applications, and explores some previous works including survey papers. In addition, this paper surveys the state of the art of DO and DTCO studies and discusses the research gaps in the literature. Furthermore, the detailed review of DTCO models and solution methods are reviewed. Finally, future research directions are discussed.},
+author = {Chung, Sung Hoon and Sah, Bhawesh and Lee, Jinkun},
+doi = {https://doi.org/10.1016/j.cor.2020.105004},
+issn = {0305-0548},
+journal = {Computers {\&} Operations Research},
+keywords = {Drone,Drone-truck combined operations,Optimization,Survey article,Transportation planning,Unmanned aerial vehicle},
+mendeley-groups = {AMDRPG},
+pages = {105004},
+title = {{Optimization for drone and drone-truck combined operations: A review of the state of the art and future directions}},
+url = {https://www.sciencedirect.com/science/article/pii/S0305054820301210},
+volume = {123},
+year = {2020}
+}
+
+
+@inproceedings{art:Pugliese2017,
+abstract = {We address the problem of managing a drone-based delivery process. We consider the specific situation of a delivery company, that uses a set of trucks equipped with a given number of drones. In particular, items of a limited weight and size could be delivered by using drones. A vehicle, during its trip, can launch a drone when serving a customer, the drone performs a delivery for exactly one customer and returns to the vehicle, possibly at a different customer location. Each drone can be launched several times during the vehicle's route. It is imposed a limit on the maximum distance that each drone can travel and synchronization requirements between vehicle and drone should be ensured. In particular, it is assumed that a vehicle waits for a drone for a maximum period of time. The aim is to serve all customers within their time window. The problem is modeled as a variant of the vehicle routing problem with time windows. The aim of this work is to analyze the delivery process with drones, by taking into account the total transportation cost and highlighting strategical issues, related to the use of drones. The numerical results, collected on instances generated to be very close to reality, show that the use of drones is not economically convenient in the classical terms. However, when considering negative externalities related to the use of classical vehicles and quality of service requirements, the benefit of using drones becomes relevant.},
+address = {Cham},
+author = {{Di Puglia Pugliese}, Luigi and Guerriero, Francesca},
+editor = {Sforza, Antonio and Sterle, Claudio},
+isbn = {978-3-319-67308-0},
+pages = {557--565},
+publisher = {Springer International Publishing},
+title = {{Last-Mile Deliveries by Using Drones and Classical Vehicles BT - Optimization and Decision Science: Methodologies and Applications}},
+year = {2017}
+}
+@article{art:Dille2013,
+abstract = {Wide-area coverage is well suited for small unmanned aircraft, however common coverage algorithms are particularly inefficient in many common environments such as urban areas. Classical open-loop spiral or lawn-mower patterns typically cannot represent large sub-regions that are unlikely to contain an object of interest that are thus waste- fully covered. More general algorithms can maintain arbitrary likelihood distributions but fundamentally solve a complex continuous-space trajectory optimization problem, requiring a trade-off between look-ahead and computational complexity while providing at best asymptotic coverage guarantees. This paper considers generating global coverage patterns in the space of the coverage area, with specific focus on road networks, and mapping these to UAV actions. A new method is proposed for producing and following such patterns with dynamics-constrained vehicles, compared with existing coverage strategies, and shown to be advantageous in many realistic environments through simulations of real-world aircraft. Results suggest environment density as a metric for algorithm selection given a lack of dominance by any one strategy across all environments.},
+author = {Dille, Michael and Singh, Sanjiv},
+doi = {10.2514/6.2013-5094},
+isbn = {9781624102240},
+journal = {AIAA Guidance, Navigation, and Control (GNC) Conference},
+title = {{Efficient aerial coverage search in road networks}},
+year = {2013}
+}
+@article{art:Garone2010,
+abstract = {In this work we focus on mission planning problems in scenarios in which a carrier vehicle, typically slow but with virtually infinite range, and a carried vehicle, which on the contrary is typically fast but has a shorter range, are coordinated to make the faster vehicle visit a given collection of points in minimum time. In particular in this paper we will address two mission planning problems: a first one, in which we have to sequentially visit a list of points under the hypothesis the takeoff/landing sequence is not determined a priori and a second one, a Traveling Salesman Problem (TSP), in which the optimal visiting sequence of points has to be determined. Those two problems will be analyzed, sub-optimal heuristics will be presented and their properties pointed out. {\textcopyright}2010 IEEE.},
+author = {Garone, Emanuele and Naldi, Roberto and Casavola, Alessandro and Frazzoli, Emilio},
+doi = {10.1109/CDC.2010.5717171},
+issn = {9781424477456},
+journal = {Proceedings of the IEEE Conference on Decision and Control},
+pages = {1354--1359},
+title = {{Cooperative mission planning for a class of carrier-vehicle systems}},
+year = {2010}
+}
+@article{Jimenez2018,
+abstract = {Nowadays, at least two billion people are experiencing a complete lack of cellular coverage. Since the lack of cellular connectivity is mostly experienced in rural zones, it is of mandatory importance to design solutions to manage cellular architectures tailored to such zones. To this aim, we consider a new cellular 5G architecture, where the Base Stations (BSs) are carried by Unmanned Aerial Vehicles (UAVs). Specifically, we focus on the problem of planning the missions of the UAV-based BSs over the territory, with the goal of minimizing the energy consumed for moving the UAVs. After introducing the considered framework, which is based on a multi-period graph defined over a set of places and a set of Time Slots (TSs), we derive a simple algorithm, called GAUP, to solve the considered problem in a reasonable amount of time. Our results, obtained over a simple - yet representative - scenario, reveals that GAUP is able to efficiently manage the energy for moving the UAVs, while guaranteeing relatively low computation times.},
+author = {Jimenez, Jaime Galan and Chiaraviglio, Luca and Amorosi, Lavinia and Blefari-Melazzi, Nicola},
+doi = {10.1109/NOF.2018.8598123},
+isbn = {9781538685037},
+journal = {Proceedings of the 2018 9th International Conference on the Network of the Future, NOF 2018},
+pages = {52--59},
+title = {{Multi-Period Mission Planning of UAVs for 5G Coverage in Rural Areas: A Heuristic Approach}},
+year = {2018}
+}
+@article{art:Li2018,
+abstract = {For more accurate multiple-period real-time monitoring of road traffic, this paper investigates the unmanned aerial vehicle scheduling problem with uncertain demands. A mixed integer programming model is designed for this problem by combining the capacitated arc routing problem with the inventory routing problem. A local branching based solution method is developed to solve the model. A case study which applies this model to the road traffic in Shanghai is performed. In addition, numerical experiments are conducted to validate the effectiveness of the proposed model and the efficiency of the proposed solution method.},
+author = {Li, Miao and Zhen, Lu and Wang, Shuaian and Lv, Wenya and Qu, Xiaobo},
+doi = {10.1016/j.cie.2018.05.039},
+journal = {Computers and Industrial Engineering},
+keywords = {Arc routing problem,Inventory routing problem,Traffic monitoring,UAV routing problem},
+pages = {15--23},
+title = {{Unmanned aerial vehicle scheduling problem for traffic monitoring}},
+volume = {122},
+year = {2018}
+}
+@article{art:Mathew2015,
+abstract = {This paper addresses the task scheduling and path planning problem for a team of cooperating vehicles performing autonomous deliveries in urban environments. The cooperating team comprises two vehicles with complementary capabilities, a truck restricted to travel along a street network, and a quadrotor micro-aerial vehicle of endurance one that can be deployed from the truck to perform deliveries. The problem is formulated as an optimal path planning problem on a graph and the goal is to find the shortest cooperative route enabling the quadrotor to deliver items at all requested locations. The problem is shown to be NP-hard. A solution is then proposed using a novel reduction to the Generalized Traveling Salesman Problem, for which well-established heuristic solvers exist. The heterogeneous delivery problem contains as a special case the problem of scheduling deliveries from multiple static warehouses. We propose two additional algorithms, based on enumeration and a reduction to the traveling salesman problem, for this special case. Simulation results compare the performance of the presented algorithms and demonstrate examples of delivery route computations over real urban street maps.},
+author = {Mathew, Neil and Smith, Stephen L. and Waslander, Steven L.},
+doi = {10.1109/TASE.2015.2461213},
+issn = {15455955},
+journal = {IEEE Transactions on Automation Science and Engineering},
+keywords = {Generalized traveling salesman problem,Urban delivery,optimal path planning,unmanned aerial vehicles},
+number = {4},
+pages = {1298--1308},
+title = {{Planning Paths for Package Delivery in Heterogeneous Multirobot Teams}},
+volume = {12},
+year = {2015}
+}
+@inproceedings{art:Moshref2017,
+author = {Moshref-Javadi, M and Lee, S},
+booktitle = {IE Annual Conference, Proceedings},
+pages = {235--240},
+title = {{Using drones to minimize latency in distribution systems.}},
+year = {2017}
+}
+@article{art:Ferrandez2016,
+abstract = {Purpose: The purpose of this paper is to investigate the effectiveness of implementing unmanned aerial delivery vehicles in delivery networks. We investigate the notion of the reduced overall delivery time, energy, and costs for a truck-drone network by comparing the in-tandem system with a stand-alone delivery effort. The objectives are (1) to investigate the time, energy, and costs associated to a truck-drone delivery network compared to standalone truck or drone, (2) to propose an optimization algorithm that determines the optimal number of launch sites and locations given delivery requirements, and drones per truck, (3) to develop mathematical formulations for closed form estimations for the optimal number of launch locations, optimal total time, as well as the associated cost for the system. Design/methodology/approach: The design of the algorithm herein computes the minimal time of delivery utilizing K-means clustering to find launch locations, as well as a genetic algorithm to solve the truck route as a traveling salesmen problem (TSP). The optimal solution is determined by finding the minimum cost associated to the parabolic convex cost function. The optimal min-cost is determined by finding the most efficient launch locations using K-means algorithms to determine launch locations and a genetic algorithm to determine truck route between those launch locations. Findings: Results show improvements with in-tandem delivery efforts as opposed to standalone systems. Further, multiple drones per truck are more optimal and contribute to savings in both energy and time. For this, we sampled various initialization variables to derive closed form mathematical solutions for the problem. originality/value: Ultimately, this provides the necessary analysis of an integrated truck-drone delivery system which could be implemented by a company in order to maximize deliveries while minimizing time and energy. Closed-form mathematical solutions can be used as close estimators for final costs and time.},
+author = {{Mourelo Ferrandez}, Sergio and Harbison, Timothy and Weber, Troy and Sturges, Robert and Rich, Robert},
+journal = {Journal of Industrial Engineering and Management; Vol 9, No 2 (2016)DO - 10.3926/jiem.1929},
+keywords = {K-means,UAV,evolutionary,truck drone in tandem delivery network},
+month = {apr},
+title = {{Optimization of a truck-drone in tandem delivery network using k-means and genetic algorithm}},
+url = {https://www.jiem.org/index.php/jiem/article/view/1929},
+year = {2016}
+}
+@article{art:Oh2014,
+abstract = {This paper presents a road-network search route planning algorithm by which multiple autonomous vehicles are able to efficiently visit every road identified in the map in the context of the Chinese postman problem. Since the typical Chinese postman algorithm can be applied solely to a connected road-network in which ground vehicles are involved, it is modified to be used for a general type of road map including unconnected roads as well as the operational and physical constraints of unmanned aerial vehicles (UAVs). For this, a multi-choice multi-dimensional knapsack problem is formulated to find an optimal solution minimising flight time and then solved via mixed integer linear programming. To deal with the dynamic constraints of the UAVs, the Dubins theory is used for path generation. In particular, a circular-circular-circular type of the Dubins path is exploited based on a differential geometry to guarantee that the vehicles follow the road precisely in a densely distributed road environment. Moreover, to overcome the computational burden of the multi-choice multi-dimensional knapsack algorithm, a nearest insertion and auction-based approximation algorithm is newly introduced. The properties and performance of the proposed algorithm are evaluated via numerical simulations operating on a real village map and randomly generated maps with different parameters. {\textcopyright} 2012 Taylor {\&} Francis.},
+author = {Oh, Hyondong and Kim, Seungkeun and Tsourdos, Antonios and White, Brian A},
+doi = {10.1080/00207721.2012.737116},
+journal = {International Journal of Systems Science},
+keywords = {auction negotiation,dubins path,mixed integer linear programming,road-network search route,unmanned aerial vehicles},
+number = {5},
+pages = {825--840},
+title = {{Coordinated road-network search route planning by a team of UAVs}},
+volume = {45},
+year = {2014}
+}
+@inproceedings{art:Oh2011,
+abstract = {This paper proposes a coordinated road network search algorithm for multiple heterogeneous unmanned aerial vehicles (UAVs). The road network search problem can be interpreted as the problem to seek minimum-weight postman tours with a graphic representation of the road network. Therefore, the conventional Chinese Postman Problem (CPP) is first presented. We, then, consider physical constraints of UAVs into the search problem, since they cannot be addressed in the typical CPP. This modified search problem is formulated as Multi-choice Multidimensional Knapsack Problem (MMKP), which is to find an optimal solution minimising flight time. The Dubins path planning produces the shortest and flyable paths in consideration of physical constraints, so that the Dubins path is used to calculate the cost function of the modified search problem. The performance of the proposed multiple UAVs road network search algorithm is verified via numerical simulation for a given map.},
+address = {Berlin, Heidelberg},
+author = {Oh, Hyondong and Shin, H S and Tsourdos, A and White, B A and Silson, P},
+editor = {Holzapfel, Florian and Theil, Stephan},
+isbn = {978-3-642-19817-5},
+pages = {55--65},
+publisher = {Springer Berlin Heidelberg},
+title = {{Coordinated Road Network Search for Multiple UAVs Using Dubins Path BT - Advances in Aerospace Guidance, Navigation and Control}},
+year = {2011}
+}
+
+@article{art:Otto2018,
+   author = {A Otto and N Agatz and J Campbell and B Golden and E Pesch},
+   journal = {Networks},
+   pages = {1-48},
+   title = {Optimization approaches for civil applications of unmanned aerial vehicles (uavs) or aerial drones: A survey. .},
+   volume = {Vol. 72},
+   year = {2018},
+}
+
+
+@article{art:Poikonen2020,
+abstract = {The k-Multi-visit Drone Routing Problem (k-MVDRP) considers a tandem between a truck and k drones. (When k=1, the problem is called the Multi-Visit Drone Routing Problem.) Each drone is capable of launching from the truck with one or more packages to deliver to customers. Each drone may return to the truck to swap/recharge batteries, pick up a new set of packages, and launch again to customer locations. Unlike many papers in the current literature, the model not only allows for a drone to carry multiple heterogeneous packages but also allows the specification of a drone energy drain function that takes into account each package weight, and it decouples the set of launch locations from the set of customer locations. This paper proposes a flexible heuristic solution. Computational experiments and sensitivity analyses are also conducted using physical parameters for drones that are consistent with recent research.},
+author = {Poikonen, Stefan and Golden, Bruce},
+doi = {10.1016/j.cor.2019.104802},
+file = {:C$\backslash$:/Users/carlo/OneDrive - UNIVERSIDAD DE SEVILLA/doctorado/Articles/Poikonen{\_}k-MVDRP.pdf:pdf},
+issn = {03050548},
+journal = {Computers {\&} Operations Research},
+keywords = {Drones,Heuristics,Traveling salesman,Vehicle routing},
+pages = {104802},
+publisher = {Elsevier Ltd},
+title = {{Multi-visit drone routing problem}},
+url = {https://doi.org/10.1016/j.cor.2019.104802},
+volume = {113},
+year = {2020}
+}
+
+@article{art:Puerto2020,
+abstract = {In this paper we deal with an extension of the crossing postman problem to design Hamiltonian routes that have to visit different shapes of dimensional elements (neighborhoods or polygonal chains) rather than edges. This problem models routes of drones that must visit a number of geographical elements to deliver some good or service and then move directly to the next target element using straight line displacements. We present two families of mathematical programming formulations. The first one is time-dependent and captures a number of actual characteristics of real applications at the price of using three indexes variables. The second one are not referenced to the stages of the route. We compare them on a testbed of randomly generated instances with different shapes of elements: second order cone representable (SOC) and polyhedral neighborhoods and polygonal chains. The computational result reported in this paper show that our models are useful and can solve to optimality medium size instances of sizes similar to other combinatorial problems with neighborhoods. To address larger instances we also present a heuristic algorithm that runs in two phases: clustering and VNS. This algorithm performs very well in quality of solutions provided and can be used to initialize the exact methods with promising initial solutions.},
+archivePrefix = {arXiv},
+arxivId = {2012.02547},
+author = {Puerto, Justo and Valverde, Carlos},
+eprint = {2012.02547},
+issn = {23318422},
+journal = {arXiv},
+title = {{Routing for unmanned aerial vehicles: Touring dimensional sets}},
+year = {2020}
+}
+@inproceedings{art:Amorosi2020,
+author = {Amorosi, Lavinia and Caprari, Riccardo and Crainic, Teodor and Dell'Olmo, Paolo and Ricciardi, Nicoletta},
+publisher = {CIRRELT},
+title = {{CIRRELT-2020-17 An Integrated Routing-Scheduling Model for a Hybrid UAV-Based Delivery System}},
+year = {2020}
+}
+@article{art:Tokekar2016,
+abstract = {We study two new informative path planning problems that are motivated by the use of aerial and ground robots in precision agriculture. The first problem, termed sampling traveling salesperson problem with neighborhoods (Sampling TSPN), is motivated by scenarios in which unmanned ground vehicles (UGVs) are used to obtain time-consuming soil measurements. The input in SamplingTSPN is a set of possibly overlapping disks. The objective is to choose a sampling location in each disk and a tour to visit the set of sampling locations so as to minimize the sum of the travel and measurement times. The second problem concerns obtaining the maximum number of aerial measurements using an unmanned aerial vehicle (UAV) with limited energy. We study the scenario in which the two types of robots form a symbiotic system - the UAV lands on the UGV, and the UGV transports the UAV between deployment locations. This paper makes the following contributions. First, we present an O(rmax/rmin) approximation algorithm for SamplingTSPN, where rmin and rmax are the minimum and maximum radii of input disks. Second, we show how to model the UAV planning problem using a metric graph and formulate an orienteering instance to which a known approximation algorithm can be applied. Third, we apply the two algorithms to the problem of obtaining ground and aerial measurements in order to accurately estimate a nitrogen map of a plot. Along with theoretical results, we present results from simulations conducted using real soil data and preliminary field experiments with the UAV.},
+author = {Tokekar, Pratap and Hook, Joshua Vander and Mulla, David and Isler, Volkan},
+doi = {10.1109/TRO.2016.2603528},
+issn = {15523098},
+journal = {IEEE Transactions on Robotics},
+keywords = {Agriculture,path planning,robot sensing systems},
+number = {6},
+pages = {1498--1511},
+title = {{Sensor Planning for a Symbiotic UAV and UGV System for Precision Agriculture}},
+volume = {32},
+year = {2016}
+}
+@article{art:Trotta2018,
+abstract = {This paper proposes a network architecture and supporting optimization framework that allows Unmanned Aerial Vehicles (UAVs) to perform city-scale video monitoring of a set of Points of Interest (PoI). Our approach is systems-driven, relying on experimental studies to identify the permissible number of hops for multi-UAV video relaying in a noisy 3-D environment. Our architecture itself is innovative in the sense that it defines a mathematical framework for selecting the UAVs for periodic re-charging by landing on public transportation buses, and then 'riding' the bus to the successive chosen Pol. Specifically, we show that our UAV scheduler can be modeled as an instance of multicommodity flow problems, and mathematically solved through Mixed Integer Linear Programming (MILP) techniques. Thus, our centralized formulation identifies the UAV, the next bus, and the next PoI, given the information about energy thresholds, the bus routes in the city and their next arrival times, to ensure persistent and reliable video coverage of all PoIs in the city. Finally, our work is validated via emulation of a city environment with live traffic updates from a real bus transportation network.},
+author = {Trotta, Angelo and Andreagiovanni, Fabio D and {Di Felice}, Marco and Natalizio, Enrico and Chowdhury, Kaushik Roy},
+doi = {10.1109/INFOCOM.2018.8485863},
+issn = {9781538641286},
+journal = {Proceedings - IEEE INFOCOM},
+pages = {1043--1051},
+title = {{When UAVs Ride A Bus: Towards Energy-efficient City-scale Video Surveillance}},
+volume = {2018-April},
+year = {2018}
+}
+@article{art:Virtanen2020,
+abstract = {SciPy is an open-source scientific computing library for the Python programming language. Since its initial release in 2001, SciPy has become a de facto standard for leveraging scientific algorithms in Python, with over 600 unique code contributors, thousands of dependent packages, over 100,000 dependent repositories and millions of downloads per year. In this work, we provide an overview of the capabilities and development practices of SciPy 1.0 and highlight some recent technical developments.},
+author = {Virtanen, Pauli and Gommers, Ralf and Oliphant, Travis E and et al.},
+doi = {10.1038/s41592-019-0686-2},
+issn = {1548-7105},
+journal = {Nature Methods},
+number = {3},
+pages = {261--272},
+title = {{SciPy 1.0: fundamental algorithms for scientific computing in Python}},
+url = {https://doi.org/10.1038/s41592-019-0686-2},
+volume = {17},
+year = {2020}
+}
+@article{art:Wen2016,
+abstract = {Unmanned aerial vehicle (UAV) has been widely used in many industries. In the medical environment, especially in some emergency situations, UAVs play an important role such as the supply of medicines and blood with speed and efficiency. In this paper, we study the problem of multi-objective blood supply by UAVs in such emergency situations. This is a complex problem that includes maintenance of the supply blood's temperature model during transportation, the UAVs' scheduling and routes' planning in case of multiple sites requesting blood, and limited carrying endurance. Most importantly, we need to study the blood's temperature change due to the external environment, the heating agent (or refrigerant) and time factor during transportation, and propose an optimal method for calculating the mixing proportion of blood and appendage in different circumstances and delivery conditions. Then, by introducing the idea of transportation appendage into the traditional Capacitated Vehicle Routing Problem (CVRP), this new problem is proposed according to the factors of distance and weight. Algorithmically, we use the combination of decomposition-based multi-objective evolutionary algorithm and local search method to perform a series of experiments on the CVRP public dataset. By comparing our technique with the traditional ones, our algorithm can obtain better optimization results and time performance.},
+author = {Wen, Tingxi and Zhang, Zhongnan and Wong, Kelvin K L},
+doi = {10.1371/journal.pone.0155176},
+journal = {PLoS ONE},
+number = {5},
+title = {{Multi-objective algorithm for blood supply via unmanned aerial vehicles to the wounded in an emergency situation}},
+volume = {11},
+year = {2016}
+}
+
+@Article{Blanco2017,
+  author    = {V{\'{\i}}ctor Blanco and Elena Fern{\'{a}}ndez and Justo Puerto},
+  journal   = {European Journal of Operational Research},
+  title     = {Minimum Spanning Trees with neighborhoods: Mathematical programming formulations and solution methods},
+  year      = {2017},
+  month     = {nov},
+  number    = {3},
+  pages     = {863--878},
+  volume    = {262},
+  doi       = {10.1016/j.ejor.2017.04.023},
+  file      = {:Blanco2017 - Minimum Spanning Trees with Neighborhoods_ Mathematical Programming Formulations and Solution Methods.pdf:PDF},
+  publisher = {Elsevier {BV}},
+}
+
+@misc{FGA,
+	title = {US Army catches `air-launched effect' drones in mid-air using another UAV},
+	url = {https://www.flightglobal.com/military-uavs/us-army-catches-air-launched-effect-drones-in-mid-air-using-another-uav/140498.article},
+	year = {2020},
+	journal = {Flight Global},
+	author = {Reim, G.},
+	}
+% 	,
+% 	abstract = {The US Army for the first time caught and recovered Area-I Altius "air-launched effects" drones in midair using a quadcopter during Project Convergence exercises in August and September.},
+% 	language = {en},
+% 	year = {2020},
+% 	journal = {Flight Global},
+% 	author = {Garrett Reim},
+}  
+
+@misc{Puerto2021,
+author = {Puerto, J. and Valverde, C.},
+title = {{Project: Instances for the Case Study of the All Terrain Mothership Multiple Drone Routing Problem with Graphs (AMMDRPG). Url: https://github.com/z72vamac/case\_study\_AMMDRPGST}},
+url = {https://github.com/z72vamac/case\_study\_AMMDRPGST},
+year = {2021}
+}
+
+@article{MURRAY201586,
+title = {The flying sidekick traveling salesman problem: Optimization of drone-assisted parcel delivery},
+journal = {Transportation Research Part C: Emerging Technologies},
+volume = {54},
+pages = {86-109},
+year = {2015},
+issn = {0968-090X},
+doi = {https://doi.org/10.1016/j.trc.2015.03.005},
+url = {https://www.sciencedirect.com/science/article/pii/S0968090X15000844},
+author = {Chase C. Murray and Amanda G. Chu},
+keywords = {Unmanned aerial vehicle, Vehicle routing problem, Traveling salesman problem, Logistics, Integer programming, Heuristics},
+abstract = {Once limited to the military domain, unmanned aerial vehicles are now poised to gain widespread adoption in the commercial sector. One such application is to deploy these aircraft, also known as drones, for last-mile delivery in logistics operations. While significant research efforts are underway to improve the technology required to enable delivery by drone, less attention has been focused on the operational challenges associated with leveraging this technology. This paper provides two mathematical programming models aimed at optimal routing and scheduling of unmanned aircraft, and delivery trucks, in this new paradigm of parcel delivery. In particular, a unique variant of the classical vehicle routing problem is introduced, motivated by a scenario in which an unmanned aerial vehicle works in collaboration with a traditional delivery truck to distribute parcels. We present mixed integer linear programming formulations for two delivery-by-drone problems, along with two simple, yet effective, heuristic solution approaches to solve problems of practical size. Solutions to these problems will facilitate the adoption of unmanned aircraft for last-mile delivery. Such a delivery system is expected to provide faster receipt of customer orders at less cost to the distributor and with reduced environmental impacts. A numerical analysis demonstrates the effectiveness of the heuristics and investigates the tradeoffs between using drones with faster flight speeds versus longer endurance.}
+}
+
+@article{Ulmer2018,
+author = {Ulmer, Marlin W. and Thomas, Barrett W.},
+title = {Same-day delivery with heterogeneous fleets of drones and vehicles},
+journal = {Networks},
+volume = {72},
+number = {4},
+pages = {475-505},
+keywords = {drone delivery, heterogeneous fleets, same-day delivery, stochastic dynamic vehicle routing},
+doi = {https://doi.org/10.1002/net.21855},
+url = {https://onlinelibrary.wiley.com/doi/abs/10.1002/net.21855},
+eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1002/net.21855},
+abstract = {In this paper, we analyze how drones can be combined with regular delivery vehicles to improve same-day delivery performance. To this end, we present a dynamic vehicle routing problem with heterogeneous fleets. Customers order goods over the course of the day. These goods are delivered either by a drone or by a regular transportation vehicle within a delivery deadline. Drones are faster, but have a limited endurance as well as require charging after use. In the same-day context, vehicle endurance is not a constraint, but vehicles are slow due to urban traffic. To decide whether an order is delivered by a drone or by a vehicle, we present a policy function approximation based on geographical districting. Our computational study reveals two major implications. First, geographical districting is highly effective increasing the expected number of same-day deliveries. Second, a combination of drone and vehicle fleets may significantly reduce the required delivery resources.},
+year = {2018}
+}
+
+@article{art:Dayarian2017,
+   author = {I Dayarian and M Savelsbergh and J P Clarke},
+   journal = {Optimization Online},
+   title = {Same-day delivery with drone resupply.},
+   year = {2017},
+}
+
+@article{art:Carlsson2017,
+   author = {J G Carlsson and S Song},
+   journal = {Management Science},
+   pages = {4052-4069},
+   title = {Coordinated logistics with a truck and a drone},
+   volume = {Vol. 64},
+   year = {2017},
+}
+
+@article{Poikonen2019,
+author = {Poikonen, Stefan and Golden, Bruce},
+title = {The Mothership and Drone Routing Problem},
+journal = {INFORMS Journal on Computing},
+volume = {32},
+number = {2},
+pages = {249-262},
+year = {2020},
+doi = {10.1287/ijoc.2018.0879},
+
+URL = { 
+        https://doi.org/10.1287/ijoc.2018.0879
+    
+},
+eprint = { 
+        https://doi.org/10.1287/ijoc.2018.0879
+    
+}
+,
+    abstract = { The mothership and drone routing problem (MDRP) considers the routing of a two-vehicle tandem. The larger vehicle, which may be a ship or an airplane, is called the mothership; the smaller vehicle, which may be a small boat or unmanned aerial vehicle, is called the drone. We assume that there exists a set of target locations T. For each t in T, the drone must launch from the mothership, visit t, and then return to the mothership to refuel. The drone has a limited range of R time units. In the MDRP, we assume that both mothership and drone operate in the âopen seasâ (i.e., using the Euclidean metric). We also introduce the mothership and infinite-endurance drone routing problem (MDRP-IC), where a drone launches from the mothership and visits one or more targets consecutively before returning to the mothership. Our exact approach uses branch and bound, where each node of the branch-and-bound tree corresponds to a potential subsequence of the order of target visits. A lower bound at each node is given by solving a second-order cone program, which optimally chooses a launch point and landing point for each target in the subsequence. A set of heuristics that also uses a second-order cone program as an embedded procedure is presented. We show that our schemes are flexible to accommodate a variety of additional constraints and/or objective functions. Computational results and interesting variants of the MDRP and MDRP-IC are also presented. }
+}
+
+@misc{altigator2015,
+	title = {A drone to rescue immigrants},
+	url = {https://altigator.com/en/rescue-immigrants-with-a-drone/},
+	abstract = {A dangerous sea crossing at night The road of immigrants to Western Europe includes most of the time crossing the Aegean Sea between Turkey and Greece. This crossing is probably the most dangerous …},
+	language = {en-US},
+	urldate = {2022-01-26},
+	journal = {AltiGator Drone \& UAV Technologies},
+	author = {AltiGator},
+	month = oct,
+	year = {2015},
+	file = {Snapshot:C\:\\Users\\G731\\Zotero\\storage\\U6Z4GF26\\2015 - A drone to rescue immigrants.html:text/html},
+}
+
+@article{art:PeiXu2021,
+	title = {Managing price and fleet size for courier service with shared drones},
+	volume = {104},
+	issn = {0305-0483},
+	url = {https://www.sciencedirect.com/science/article/pii/S0305048321000918},
+	doi = {10.1016/j.omega.2021.102482},
+	abstract = {With the rapid development of modern logistics systems, the unmanned aerial vehicle (a.k.a. drone) based delivery service emerges as a technology-driven innovation, and it is now pilot running in many regions across the globe. The drone delivery system aims to reduce the labor cost in the current labor-intensive courier industry, as well as avoid the disturbance caused by geographic and demographic features. For the drone delivery service providers to survive and prosper, a pool of shared drones is integrated into the ecological chain, where the courier service providers focus on the delivery operations. For such a drone sharing system, revenue management becomes vital in terms of pricing, drone hiring cost, and service-related cost. To better depict the system dynamics, in the present paper, a time-varying and price-sensitive queueing model is formulated, where the customer behaviors are taken into account, such as balking and abandonment. To guarantee a preset service level, the probability of abandonment and expected delay are considered as the control targets, and the pricing for courier service and the maintained fleet size are considered simultaneously. For the low and moderate quality of service(QoS) target, a fluid control model is constructed with a closed-form solution. For the high QoS target, a modified approximation algorithm is designed to numerically tackle the problem. Based on the simulation, it is observed that the proposed approximation methods not only provide a high-quality joint strategy but also help stabilize the system performance. In addition, only mild price change is needed to reach the optimal condition, and a time lag exists between the optimal fleet sizing and the demand variation, which may shed light on the demand-driven fleet sizing under more general settings.},
+	journal = {Omega},
+	author = {Pei, Zhi and Dai, Xu and Yuan, Yilun and Du, Rui and Liu, Changchun},
+	month = oct,
+	year = {2021},
+	keywords = {Customer behavior, Drone sharing, Pricing, Queueing model, Staffing},
+	pages = {102482},
+}
+
+@article{art:DellAmico2021,
+	title = {Algorithms based on branch and bound for the flying sidekick traveling salesman problem},
+	volume = {104},
+	issn = {0305-0483},
+	url = {https://www.sciencedirect.com/science/article/pii/S030504832100102X},
+	doi = {https://doi.org/10.1016/j.omega.2021.102493},
+	abstract = {The use of drones in urban logistics is gaining more and more interest. In this paper we consider the flying sidekick traveling salesman problem, where some customers require a delivery and they can be served either by a truck or by a drone. The aim is minimizing the total time required to service all the customers. We present a branch and bound algorithm especially designed to efficiently target small instances up to 15 customers and a heuristic algorithm, using the branch and bound as a subroutine, to attack larger instances. Extensive experimental results suggest the effectiveness of the exact solver for small instances and shows that the heuristic is able to provide state-of-the-art results for medium/large instances.},
+	journal = {Omega},
+	author = {Dell’Amico, Mauro and Montemanni, Roberto and Novellani, Stefano},
+	year = {2021},
+	keywords = {Branch and bound, Drone-assisted deliveries, Heuristic algorithms, Traveling salesman problem},
+	pages = {102493},
+}
+
+@article{art:Saldanha2021,
+	title = {Humanitarian facility location under uncertainty: {Critical} review and future prospects},
+	volume = {102},
+	issn = {0305-0483},
+	url = {https://www.sciencedirect.com/science/article/pii/S0305048321000025},
+	doi = {https://doi.org/10.1016/j.omega.2021.102393},
+	abstract = {This paper provides a comprehensive review of the research done on facility location problems under uncertainty in a humanitarian context. The major goal is to summarize and help structuring this topic, which has increasingly attracted the attention of the scientific community. The literature is reviewed from different perspectives namely, in terms of the type of facilities involved, the decisions to make, the criteria to optimize, the paradigm used for capturing uncertainty, and the solution method adopted. The detailed analysis provided in the manuscript also contributes to identifying the distinguishing features of the problems in the topic. An outcome of the state-of-the-art presented is the identification of the current research trends, expectations and holes in the existing knowledge thus highlighting relevant research directions.},
+	journal = {Omega},
+	author = {Dönmez, Zehranaz and Kara, Bahar Y. and Karsu, Özlem and Saldanha-da-Gama, Francisco},
+	year = {2021},
+	keywords = {Disaster preparedness, Disaster response, Facility location, Humanitarian logistics, Network design, Uncertainty},
+	pages = {102393},
+}
+
+@article{art:Amorosi2022,
+author = {Amorosi, Lavinia and Puerto, Justo and Valverde, Carlos},
+title = {An extended model of coordination of an all-terrain vehicle and a multivisit drone},
+journal = {International Transactions in Operational Research},
+year = {2022},
+keywords = {routing, networks, logistics, drones, mixed integer conic programming},
+doi = {https://doi.org/10.1111/itor.13179},
+url = {https://onlinelibrary.wiley.com/doi/abs/10.1111/itor.13179},
+eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1111/itor.13179},
+abstract = {Abstract In this paper, a model that combines the movement of a multivisit drone with a limited endurance and a base vehicle that can move freely in the continuous space is considered. The mothership is used to charge the battery of the drone, whereas the drone performs the task of visiting multiple targets of distinct shapes: points and polygonal chains. For polygonal chains, it is required to traverse a given fraction of its lengths that represent surveillance/inspection activities. The goal of the problem is to minimize the overall weighted distance traveled by both vehicles. A mixed integer second-order cone program is developed and strengthened using valid inequalities and giving good bounds for the Big-M constants that appear in the model. A refined matheuristic that provides reasonable solutions in short computing time is also established. The quality of the solutions provided by both approaches is compared and analyzed on an extensive battery of instances with different number and shapes of targets, which shows the usefulness of our approach and its applicability in different situations.}
+}

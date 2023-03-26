@@ -32,7 +32,7 @@ $K_g \gets g$ \Comment{one cluster for each target graph}\\
 {
 \State Search for point $P$ satisfying the following endurance constraint:\\
 \begin{equation}
-\frac{d(P, R^{e_g}) + \mathcal L(e_{g}, e^{'}_{g}) + d(L^{e^{'}_{g}}, P)}{v_D} \leq N_D, \quad \forall R^{e_g}, L^{e^{'}_{g}} \in K_i, \:\: K_j. \label{eq:capacity_math}
+\frac{d(P, R^{e_g}) + \mathcal L(e_{g}, e^{'}_{g}) + d(L^{e^{'}_{g}}, P)}{v_D} \leq N_D, \quad \forall R^{e_g}, L^{e^{'}_{g}} \in K_i, \:\: K_j. \label{eq:endurance_math}
 \end{equation}
 \If{$P \:\: \exists$}{\State $K_i \gets K_i \cup K_j$}
 }
@@ -45,9 +45,9 @@ STEP 3 (Computation of Reference Points)
 \State For each cluster $K_i \in \mathcal K$\;
 compute a reference point $P_i$ by solving the following minimization problem:
 $$
-\min \sum_{K_i \in \mathcal K}( \|P_i - orig\| + \|P_i - dest \|) + \sum_{g \in K_i: K_i \in \mathcal K} (\|P_i - R^{e_g} \| + \| P_i - L^{e'_g}\|) + \sum_{K_i, K_j \in \mathcal K: i \neq j} \|P_i - P_j\|
+\min \sum_{K_i \in \mathcal K}( \|P_i - origin\| + \|P_i - dest \|) + \sum_{g \in K_i: K_i \in \mathcal K} (\|P_i - R^{e_g} \| + \| P_i - L^{e'_g}\|) + \sum_{K_i, K_j \in \mathcal K: i \neq j} \|P_i - P_j\|
 $$
-subject to (\ref{eq:capacity_math}).
+subject to (\ref{eq:endurance_math}).
 \end{algorithmic}
 STEP 4 (Order of visits to the graphs: route via the reference points and the origin/destination points)
 \begin{algorithmic}
@@ -73,7 +73,7 @@ Initialization: set $it=1$, define one cluster for each target graph and set $ni
 Select randomly two clusters $K_i$ and $K_j$ (where $i<j$).\\
 Check if the number of graphs belonging to the union of $K_i$ and $K_j$ is less than the number of available drones $n_D$.\\
 If this condition is satisfied:\\
-search for point $P$ satisfying the following \RE{\sout{capacity} endurance} constraint:
+search for point $P$ satisfying the following \RE{\sout{endurance} endurance} constraint:
 $$
 \frac{d(P, R^{e_g}) + \mathcal L(e_{g}, e^{'}_{g}) + d(L^{e^{'}_{g}}, P)}{v_D} \leq N^d, \quad \forall R^{e_g}, L^{e^{'}_{g}} \in K_i, \:\: K_j.
 $$
@@ -82,7 +82,7 @@ Set $nit=nit+1$.\\
 Repeat the same procedure on the new cluster structure while $nit < maxit$.
 \item[STEP 3] (Computation of Reference Points) 
 %\JP{This step is not well-defined: The term centroid defines exactly the points we should use another term that allows to minimize something!!!} \\
-% Compute the centroids of the clusters generated at STEP 2, by minimizing the distance between them and the origin always imposing that the \RE{\sout{capacity} endurance} constraint is satisfied.
+% Compute the centroids of the clusters generated at STEP 2, by minimizing the distance between them and the origin always imposing that the \RE{\sout{endurance} endurance} constraint is satisfied.
 Compute a reference point for each cluster generated (at) \CV{in} STEP 2. This computation seeks for the minimization of the distance between each pair of reference points and the distance between them and the origin, always imposing that the \eqref{CAP} constraint is satisfied.
 
 
@@ -171,7 +171,7 @@ By providing the initial partial solution obtained by the values of the variable
 \end{figure}
 
 \noindent 
-Focusing on each single target graph, Figure \ref{fig:example5} shows the zoom on the tours followed by the drones. For example, Figure \ref{fig:example5}[a] reports the one performed by the drone that visits \RE{the} graph $g_1$ \RE{(in pink) and the drone that visits the graph $g_3$ (in sky blue)}. \RE{Both drones start from the mothership at point $x^1_L$ that is the $orig$. One drone first visits the segment $\overline{R^1_1L^1_1}$ of the graph $g_1$, while the other one starts the visit of the graph $g_3$ by traversing the segment $\overline{R^3_1L^3_1}$. From point $L^1_1$ the first drone moves to the second visited edge of the graph $g_1$ by traversing the segment $\overline{R^2_1L^2_1}$. Then, it moves to the third visited edge of graph $g_1$, by flying over the segment $\overline{R^3_1L^3_1}$. From point $R^4_1$ the drone starts the visit of the last edge of graph $g_1$ up to point $L^4_1$. 
+Focusing on each single target graph, Figure \ref{fig:example5} shows the zoom on the tours followed by the drones. For example, Figure \ref{fig:example5}[a] reports the one performed by the drone that visits \RE{the} graph $g_1$ \RE{(in pink) and the drone that visits the graph $g_3$ (in sky blue)}. \RE{Both drones start from the mothership at point $x^1_L$ that is the $origin$. One drone first visits the segment $\overline{R^1_1L^1_1}$ of the graph $g_1$, while the other one starts the visit of the graph $g_3$ by traversing the segment $\overline{R^3_1L^3_1}$. From point $L^1_1$ the first drone moves to the second visited edge of the graph $g_1$ by traversing the segment $\overline{R^2_1L^2_1}$. Then, it moves to the third visited edge of graph $g_1$, by flying over the segment $\overline{R^3_1L^3_1}$. From point $R^4_1$ the drone starts the visit of the last edge of graph $g_1$ up to point $L^4_1$. 
 Finally, the drone leaves the graph $g_1$ at this latter point and it is retrieved by the mothership at the point $x^1_R$. Similarly, the second drone, that visits the graph $g_3$, after traversing the segment $\overline{R^1_3L^1_3}$, moves to the second visited edge of the same graph and traverses the segment $\overline{R^2_3L^2_3}$. Then, it flies to the third visited edge, by traversing the segment $\overline{R^3_3L^3_3}$. Finally it moves to the last visited edge of the graph $g_3$, by flying over the segment $\overline{R^4_3L^4_3}$. The drone leaves the graph $g_3$ at point $L^4_3$ and reaches the mothership at point $x_R^1$.} 
 Note that in this example the drones do not visit the full 100\% of each \RE{graph edge}, but only the half of each one of them.
 
@@ -198,14 +198,14 @@ Initialization: define one cluster for each target graph and set $nit=1$ \\
 Select randomly two clusters $C_i$ and $C_j$ (where $i<j$).\\
 Check if the number of graphs belonging to the union of $C_i$ and $C_j$ is less than or equal to the number of available drones $n_D$.\\
 If this condition is satisfied:\\
-search for the point $C$ satisfying the following \RE{\sout{capacity} endurance} constraint:
+search for the point $C$ satisfying the following \RE{\sout{endurance} endurance} constraint:
 $$
 \frac{[d(C, R^{e_g}) + C^{e_{g}e^{'}_{g}} + d(C,L^{e^{'}_{g}})]}{v_D} \leq cap \:\: \forall R^{e_g}, L^{e^{'}_{g}} \in C_i, \:\: C_j
 $$
 If such a point exists, merge the two clusters and assign to the resulting cluster so obtained the label $C_i$.\\
 
 \item[STEP 3](Launch/rendezvous point exchanges)
-Set $i=1$ and $x_L=orig$\\
+Set $i=1$ and $x_L=origin$\\
 For each cluster $C_i$ generated at STEP 2:\\
 - solve the \AMD\space model with first launching point equal to $x_L$.\\
 - let $x_R$ be the last rendezvous point associated with the cluster under analysis, set $x_L = x_R$.\\
