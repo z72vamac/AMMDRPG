@@ -272,7 +272,7 @@ Best objective 3.466155375458e-01, best bound 5.573900774875e-02, gap 83.9191%
 
 User-callback calls 96305, time in user-callback 0.18 sec
 
-u_eg_o = 
+uego = 
 <gurobi.tuplelist (6 tuples, 3 values each):
  ( 101  , 1 , 1  )
  ( 2121 , 2 , 4  )
@@ -281,7 +281,7 @@ u_eg_o =
  ( 1717 , 5 , 6  )
  ( 101  , 6 , 10 )
 
-flow_eg_eg =
+zegeg =
 <gurobi.tuplelist (100 tuples, 3 values each):
  ( 101  , 202  , 1 )
  ( 202  , 303  , 1 )
@@ -384,7 +384,7 @@ flow_eg_eg =
  ( 1919 , 1818 , 6 )
  ( 2121 , 1919 , 6 )
 
-v_eg_o = 
+vego = 
 <gurobi.tuplelist (6 tuples, 3 values each):
  ( 707  , 1 , 3  )
  ( 101  , 2 , 8  )
@@ -393,7 +393,7 @@ v_eg_o =
  ( 909  , 5 , 7  )
  ( 202  , 6 , 12 )
 
-gamma_g_o =
+gammago =
 <gurobi.tuplelist (14 tuples, 2 values each):
  ( 1 , 1  )
  ( 1 , 2  )

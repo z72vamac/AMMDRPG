@@ -5,9 +5,14 @@ Created on Tue Nov  5 14:01:34 2019
 @author: Carlos
 """
 
+import numpy as np
+import matplotlib.path as mpath
+import matplotlib.lines as mlines
 import matplotlib.patches as mpatches
-
+import networkx as nx
+from itertools import combinations
 from data import *
+import matplotlib.pyplot as plt
 
 
 class Elipse(object):
@@ -23,11 +28,11 @@ class Elipse(object):
         self.G = np.linalg.cholesky(P).T
         self.invG = np.linalg.inv(self.G).T
         self.centro = np.array(
-            [-0.5 * (float(self.q[0]) / self.P[0, 0]), -0.5 * (float(self.q[1]) / self.P[1, 1])])
+            [-0.5*(float(self.q[0])/self.P[0, 0]), -0.5*(float(self.q[1])/self.P[1, 1])])
         self.radio = np.sqrt(
-            self.P[0, 0] * self.centro[0] ** 2 + self.P[1, 1] * self.centro[1] ** 2 - self.r)
-        self.width = 2 * float(self.radio) / self.P[0, 0]
-        self.height = 2 * float(self.radio) / self.P[1, 1]
+            self.P[0, 0]*self.centro[0]**2 + self.P[1, 1]*self.centro[1]**2-self.r)
+        self.width = 2*float(self.radio)/self.P[0, 0]
+        self.height = 2*float(self.radio)/self.P[1, 1]
         self.artist = mpatches.Ellipse(
             self.centro, self.width, self.height, color='grey', alpha=0.5)
 
@@ -43,16 +48,14 @@ class Elipse(object):
         self.centro = centro
 
     def cambiar_figura(self):
-        self.width = 2 * np.sqrt(float(self.radio) / self.P[0, 0])
-        self.height = 2 * np.sqrt(float(self.radio) / self.P[1, 1])
+        self.width = 2*np.sqrt(float(self.radio)/self.P[0, 0])
+        self.height = 2*np.sqrt(float(self.radio)/self.P[1, 1])
         self.artist = mpatches.Ellipse(
             self.centro, self.width, self.height, alpha=0.1)
-
 
 class Punto(object):
     def __init__(self, V):
         self.V = V
-
 
 class Poligono(object):
     def __init__(self, V):
@@ -68,14 +71,14 @@ class Poligono(object):
         self.longitudes = []
 
         for v in range(self.num_segmentos):
-            self.longitudes.append(np.linalg.norm(self.V[v] - self.V[v + 1]))
+            self.longitudes.append(np.linalg.norm(self.V[v] - self.V[v+1]))
 
-        self.length = sum(self.longitudes)
+        self.longitud = sum(self.longitudes)
 
         for s in V:
             self.path.append(s)
         self.artist = mpatches.Polygon(
-            self.path, fill=False, facecolor=None)
+            self.path, fill = False, facecolor=None)
 
 
 class Poligonal(object):
@@ -91,20 +94,19 @@ class Poligonal(object):
         self.longitudes = []
 
         for v in range(self.num_segmentos):
-            self.longitudes.append(np.linalg.norm(self.V[v] - self.V[v + 1]))
+            self.longitudes.append(np.linalg.norm(self.V[v] - self.V[v+1]))
 
-        self.length = sum(self.longitudes)
+        self.longitud = sum(self.longitudes)
 
         # self.artist = mlines.Line2D([self.V[i][0] for i in range(self.num_puntos)], [
         #                               self.V[i][1] for i in range(self.num_puntos)], color='k', alpha=0.1)
         self.artist = mpatches.Polygon(
-            V, fill=False, facecolor=None)
+                V, fill = False, facecolor=None)
 
-
-class graph(object):
+class Grafo(object):
     def __init__(self, V, A, alpha):
         """
-        V: Conjunto de vértices del graph
+        V: Conjunto de vértices del Grafo
         A: Conjunto de aristas y su porcentaje de recorrido:
         Si A(i, j) == 0: No existe arista
         Si 0 < A(i, j) < 1: Existe la arista y se tiene que recorrer ese porcentaje
@@ -112,19 +114,19 @@ class graph(object):
         self.V = V
         self.A = A
         self.num_puntos = len(V)
-        self.edges_number = np.count_nonzero(self.A)
-        self.edges = []
+        self.num_aristas = np.count_nonzero(self.A)
+        self.aristas = []
 
-        self.edges_length = np.zeros_like(self.A)
+        self.longaristas = np.zeros_like(self.A)
         self.longitudes = []
 
-        length = 0
+        longitud = 0
 
         for i, j in combinations(range(self.num_puntos), 2):
             if A[i, j] > 0:
-                self.edges_length[i, j] = np.linalg.norm(self.V[i] - self.V[j]) * 14000 / 1e6
-                length += self.edges_length[i, j]
-        self.length = length
+                self.longaristas[i, j] = np.linalg.norm(self.V[i] - self.V[j]) *14000/1e6
+                longitud += self.longaristas[i, j]
+        self.longitud = longitud
 
         self.G = nx.Graph()
 
@@ -134,12 +136,12 @@ class graph(object):
         for i, j in combinations(range(self.num_puntos), 2):
             if A[i, j] > 0:
                 self.G.add_edge(i, j)
-                self.edges.append(100 * (i + 1) + j)
+                self.aristas.append(100*(i+1) + j)
 
-        for e in self.edges:
+        for e in self.aristas:
             first = e // 100 - 1
             second = e % 100
-            self.longitudes.append(np.linalg.norm(self.V[first] - self.V[second]) * 14000 / 1e6)
+            self.longitudes.append(np.linalg.norm(self.V[first] - self.V[second]) *14000/1e6)
 
         self.alpha = alpha
         self.pos = nx.get_node_attributes(self.G, 'pos')
