@@ -41,7 +41,7 @@ from neighbourhood import *
 
 def AMMDRPGSTSINC(data):  # , vals_xL, vals_xR):
 
-    grafos = data.graphs_numberostrar_data()
+    graphs = data.graphs_numberostrar_data()
 
     result = []
 
@@ -64,7 +64,7 @@ def AMMDRPGSTSINC(data):  # , vals_xL, vals_xR):
     uigtd_index = []
 
     for g in G_index:
-        for i in grafos[g - 1].edges:
+        for i in graphs[g - 1].edges:
             for t in T_index_prima:
                 for d in D_index:
                     uigtd_index.append((i, g, t, d))
@@ -100,21 +100,21 @@ def AMMDRPGSTSINC(data):  # , vals_xL, vals_xR):
 
     pRigtd = MODEL.addVars(pRigtd_index, vtype=GRB.CONTINUOUS, lb=0.0, name='pRigtd')
 
-    # Variable binaria zigjg = 1 si voy del segmento i al segmento j del grafo g.
+    # Variable binaria zigjg = 1 si voy del segmento i al segmento j del graph g.
     zigjg_index = []
     sig_index = []
 
     for g in G_index:
-        for i in grafos[g - 1].edges:
+        for i in graphs[g - 1].edges:
             sig_index.append((i, g))
-            for j in grafos[g - 1].edges:
+            for j in graphs[g - 1].edges:
                 if i != j:
                     zigjg_index.append((i, j, g))
 
     zigjg = MODEL.addVars(zigjg_index, vtype=GRB.BINARY, name='zigjg')
     sig = MODEL.addVars(sig_index, vtype=GRB.CONTINUOUS, lb=0, name='sig')
 
-    # Variable continua no negativa digjg que indica la distancia entre los segmentos i j en el grafo g.
+    # Variable continua no negativa digjg que indica la distancia entre los segmentos i j en el graph g.
     digjg_index = zigjg_index
 
     digjg = MODEL.addVars(digjg_index, vtype=GRB.CONTINUOUS, lb=0.0, name='digjg')
@@ -166,7 +166,7 @@ def AMMDRPGSTSINC(data):  # , vals_xL, vals_xR):
     rhoig_index = []
 
     for g in G_index:
-        for i in grafos[g - 1].edges:
+        for i in graphs[g - 1].edges:
             rhoig_index.append((i, g))
             for dim in range(2):
                 Rig_index.append((i, g, dim))
@@ -195,11 +195,11 @@ def AMMDRPGSTSINC(data):  # , vals_xL, vals_xR):
     SmallM = 0
     BigM = 10000
 
-    # En cada etapa hay que visitar/salir un segmento de un grafo
+    # En cada etapa hay que visitar/salir un segmento de un graph
     MODEL.addConstrs(uigtd.sum('*', '*', t, d) <= 1 for t in T_index_prima for d in D_index)
     MODEL.addConstrs(vigtd.sum('*', '*', t, d) <= 1 for t in T_index_prima for d in D_index)
 
-    # # Para cada grafo g, existe un segmento i y una etapa t donde hay que recoger al dron
+    # # Para cada graph g, existe un segmento i y una etapa t donde hay que recoger al dron
     MODEL.addConstrs(uigtd.sum('*', g, '*', '*') == 1 for g in T_index_prima)
     MODEL.addConstrs(vigtd.sum('*', g, '*', '*') == 1 for g in T_index_prima)
 
@@ -212,7 +212,7 @@ def AMMDRPGSTSINC(data):  # , vals_xL, vals_xR):
     # # VI-3
     # MODEL.addConstrs(gp.quicksum(uigtd[i, g, t1, d] for i, g, t1, d in uigtd.keys() if t1 == t) >= 1 - betat[t] for t in T_index)
 
-    # De todos los segmentos hay que salir y entrar menos de aquel que se toma como entrada al grafo y como salida del grafo
+    # De todos los segmentos hay que salir y entrar menos de aquel que se toma como entrada al graph y como salida del graph
     MODEL.addConstrs(muig[i, g] - uigtd.sum(i, g, '*', '*') == zigjg.sum('*', i, g) for i, g in rhoig.keys())
     MODEL.addConstrs(muig[i, g] - vigtd.sum(i, g, '*', '*') == zigjg.sum(i, '*', g) for i, g in rhoig.keys())
 
@@ -220,41 +220,41 @@ def AMMDRPGSTSINC(data):  # , vals_xL, vals_xR):
         for t2 in T_index_prima:
             if t1 < t2:
                 MODEL.addConstrs((gp.quicksum(
-                    uigtd[i, g1, t, d] for g1 in T_index_prima for i in grafos[g1 - 1].edges for t in T_index_prima if
+                    uigtd[i, g1, t, d] for g1 in T_index_prima for i in graphs[g1 - 1].edges for t in T_index_prima if
                     t > t1 and t <= t2) <= 10 * (2 - uigtd.sum('*', g, t1, d) - vigtd.sum('*', g, t2, d)) for g in
                                   T_index_prima for d in D_index), name="syncronized1")
                 MODEL.addConstrs((gp.quicksum(
-                    vigtd[i, g1, t, d] for g1 in T_index_prima for i in grafos[g1 - 1].edges for t in T_index_prima if
+                    vigtd[i, g1, t, d] for g1 in T_index_prima for i in graphs[g1 - 1].edges for t in T_index_prima if
                     t >= t1 and t < t2) <= 10 * (2 - uigtd.sum('*', g, t1, d) - vigtd.sum('*', g, t2, d)) for g in
                                   T_index_prima for d in D_index), name="syncronized2")
 
             # if t1 == t2:
-            # MODEL.addConstrs((gp.quicksum(uigtd[i, g, t, d] for i in grafos[g-1].edges for t in T_index_prima if t > t1 and t <= t2) <= 2 - uigtd.sum('*', g, t1, d) - vigtd.sum('*', g, t2, d) for g in T_index_prima for d in D_index), name = "syncronized1")
-            # MODEL.addConstrs((gp.quicksum(vigtd[i, g, t, d] for i in grafos[g-1].edges for t in T_index_prima if t >= t1 and t < t2) <= 2 - uigtd.sum('*', g, t1, d) - vigtd.sum('*', g, t2, d) for g in T_index_prima for d in D_index), name = "syncronized2")
+            # MODEL.addConstrs((gp.quicksum(uigtd[i, g, t, d] for i in graphs[g-1].edges for t in T_index_prima if t > t1 and t <= t2) <= 2 - uigtd.sum('*', g, t1, d) - vigtd.sum('*', g, t2, d) for g in T_index_prima for d in D_index), name = "syncronized1")
+            # MODEL.addConstrs((gp.quicksum(vigtd[i, g, t, d] for i in graphs[g-1].edges for t in T_index_prima if t >= t1 and t < t2) <= 2 - uigtd.sum('*', g, t1, d) - vigtd.sum('*', g, t2, d) for g in T_index_prima for d in D_index), name = "syncronized2")
 
             if t1 <= t2:
-                MODEL.addConstrs((gp.quicksum(pLigtd[i, g, t1, d] for i in grafos[g - 1].edges) + pigjg.sum('*', '*',
+                MODEL.addConstrs((gp.quicksum(pLigtd[i, g, t1, d] for i in graphs[g - 1].edges) + pigjg.sum('*', '*',
                                                                                                               g) + gp.quicksum(
-                    pig[i, g] * grafos[g - 1].edges_length[i // 100 - 1, i % 100] for i in
-                    grafos[g - 1].edges) + gp.quicksum(
-                    pRigtd[i, g, t2, d] for i in grafos[g - 1].edges)) / data.drone_speed <= gp.quicksum(
+                    pig[i, g] * graphs[g - 1].edges_length[i // 100 - 1, i % 100] for i in
+                    graphs[g - 1].edges) + gp.quicksum(
+                    pRigtd[i, g, t2, d] for i in graphs[g - 1].edges)) / data.drone_speed <= gp.quicksum(
                     dLRt[t] / data.truck_speed for t in T_index_prima if t >= t1 and t <= t2) + gp.quicksum(
                     dRLt[t] / data.truck_speed for t in T_index_prima if t >= t1 and t < t2) + BigM * (2 - gp.quicksum(
-                    uigtd[i, g, t1, d] for i in grafos[g - 1].edges) - gp.quicksum(
-                    vigtd[i, g, t2, d] for i in grafos[g - 1].edges)) for g in T_index_prima for d in D_index)
+                    uigtd[i, g, t1, d] for i in graphs[g - 1].edges) - gp.quicksum(
+                    vigtd[i, g, t2, d] for i in graphs[g - 1].edges)) for g in T_index_prima for d in D_index)
                 MODEL.addConstrs(
                     gp.quicksum(dLRt[t] / data.truck_speed for t in T_index_prima if t >= t1 and t <= t2) + gp.quicksum(
                         dRLt[t] / data.truck_speed for t in T_index_prima if t >= t1 and t < t2) <= time_endurance + BigM * (
-                                2 - gp.quicksum(uigtd[i, g, t1, d] for i in grafos[g - 1].edges) - gp.quicksum(
-                            vigtd[i, g, t2, d] for i in grafos[g - 1].edges)) for g in T_index_prima for d in D_index)
+                                2 - gp.quicksum(uigtd[i, g, t1, d] for i in graphs[g - 1].edges) - gp.quicksum(
+                            vigtd[i, g, t2, d] for i in graphs[g - 1].edges)) for g in T_index_prima for d in D_index)
                 # MODEL.addConstr(gp.quicksum(dLRt[t]/data.truck_speed for t in T_index_prima if t >= t1 and t <= t2)  + gp.quicksum(dRLt[t]/data.truck_speed for t in T_index_prima if t >= t1 and t < t2)<= time_endurance + BigM*(2- gp.quicksum(uigtd[i, g, t1, )
 
-    # MODEL.addConstrs(gp.quicksum(uigtd[i, g, t1, d] for i in grafos[g-1].edges for t1 in T_index_prima if t1 <= t) - gp.quicksum(vigtd[i, g, t1, d] for i in grafos[g-1].edges for t1 in T_index_prima if t1 >= t) == 0 for g in T_index_prima for d in D_index for t in T_index_prima)
+    # MODEL.addConstrs(gp.quicksum(uigtd[i, g, t1, d] for i in graphs[g-1].edges for t1 in T_index_prima if t1 <= t) - gp.quicksum(vigtd[i, g, t1, d] for i in graphs[g-1].edges for t1 in T_index_prima if t1 >= t) == 0 for g in T_index_prima for d in D_index for t in T_index_prima)
     MODEL.addConstrs(uigtd.sum('*', g, t, d) <= gp.quicksum(
-        vigtd[i, g, t1, d] for i in grafos[g - 1].edges for t1 in T_index_prima if t1 >= t) for t in T_index_prima for
+        vigtd[i, g, t1, d] for i in graphs[g - 1].edges for t1 in T_index_prima if t1 >= t) for t in T_index_prima for
                      g in T_index_prima for d in D_index)
-    # MODEL.addConstrs(vigtd.sum('*', g, t, d) <= gp.quicksum(uigtd[i, g, t1, d] for i in grafos[g-1].edges for t1 in T_index_prima if t1 > t) for t in T_index_prima for g in T_index_prima for d in D_index)
-    # MODEL.addConstrs(vigtd.sum('*', g, t, d) >= gp.quicksum(uigtd[i, g, t1, d] for i in grafos[g-1].edges for t1 in T_index_prima if t1 < t) for t in T_index_prima for g in T_index_prima for d in D_index)
+    # MODEL.addConstrs(vigtd.sum('*', g, t, d) <= gp.quicksum(uigtd[i, g, t1, d] for i in graphs[g-1].edges for t1 in T_index_prima if t1 > t) for t in T_index_prima for g in T_index_prima for d in D_index)
+    # MODEL.addConstrs(vigtd.sum('*', g, t, d) >= gp.quicksum(uigtd[i, g, t1, d] for i in graphs[g-1].edges for t1 in T_index_prima if t1 < t) for t in T_index_prima for g in T_index_prima for d in D_index)
 
     MODEL.addConstrs(pig[i, g] >= muig[i, g] + alphaig[i, g] - 1 for i, g in rhoig.keys())
     MODEL.addConstrs(pig[i, g] <= muig[i, g] for i, g in rhoig.keys())
@@ -278,20 +278,20 @@ def AMMDRPGSTSINC(data):  # , vals_xL, vals_xR):
 
     # Eliminación de subtours
     for g in T_index_prima:
-        for i in grafos[g - 1].edges[0:]:
-            for j in grafos[g - 1].edges[0:]:
+        for i in graphs[g - 1].edges[0:]:
+            for j in graphs[g - 1].edges[0:]:
                 if i != j:
                     MODEL.addConstr(
-                        grafos[g - 1].edges_number - 1 >= (sig[i, g] - sig[j, g]) + grafos[g - 1].edges_number * zigjg[
+                        graphs[g - 1].edges_number - 1 >= (sig[i, g] - sig[j, g]) + graphs[g - 1].edges_number * zigjg[
                             i, j, g])
 
     # for g in range(graphs_number):
-    #     MODEL.addConstr(sig[g, grafos[g].edges[0]] == 0)
+    #     MODEL.addConstr(sig[g, graphs[g].edges[0]] == 0)
 
     for g in T_index_prima:
-        for i in grafos[g - 1].edges[0:]:
+        for i in graphs[g - 1].edges[0:]:
             MODEL.addConstr(sig[i, g] >= 0)
-            MODEL.addConstr(sig[i, g] <= grafos[g - 1].edges_number - 1)
+            MODEL.addConstr(sig[i, g] <= graphs[g - 1].edges_number - 1)
 
     # MODEL.addConstrs(uigtd[i, g, t, d1] <= uigtd.sum('*', '*', '*', d2) for i, g, t, d1 in uigtd.keys() for d2 in D_index if d1 > d2)
     # MODEL.addConstrs(vigtd[i, g, t, d1] <= vigtd.sum('*', '*', '*', d2) for i, g, t, d1 in vigtd.keys() for d2 in D_index if d1 > d2)
@@ -307,7 +307,7 @@ def AMMDRPGSTSINC(data):  # , vals_xL, vals_xR):
     # BigM = 0
     # for g in T_index_prima:
     # for h in T_index_prima:
-    # BigM = max(max([np.linalg.norm(v - w) for v in grafos[g-1].V for w in grafos[h-1].V]), BigM)
+    # BigM = max(max([np.linalg.norm(v - w) for v in graphs[g-1].V for w in graphs[h-1].V]), BigM)
 
     MODEL.addConstr(uigtd[303, 1, 1, 0] == 1)
     MODEL.addConstr(uigtd[203, 2, 2, 1] == 1)
@@ -316,7 +316,7 @@ def AMMDRPGSTSINC(data):  # , vals_xL, vals_xR):
     # MODEL.addConstr(uigtd[303, 1, 1, 0] == 1)
     # MODEL.addConstr(uigtd[203, 2, 1, 1] == 1)    
     # BigM += 5
-    # BigM = max([np.linalg.norm(origin-grafos[g].V) for g in range(graphs_number)])
+    # BigM = max([np.linalg.norm(origin-graphs[g].V) for g in range(graphs_number)])
     MODEL.addConstrs((pLigtd[i, g, t, d] <= BigM * uigtd[i, g, t, d]) for i, g, t, d in uigtd.keys())
     MODEL.addConstrs((pLigtd[i, g, t, d] <= dLigtd[i, g, t, d]) for i, g, t, d in uigtd.keys())
     MODEL.addConstrs((pLigtd[i, g, t, d] >= SmallM * uigtd[i, g, t, d]) for i, g, t, d in uigtd.keys())
@@ -335,10 +335,10 @@ def AMMDRPGSTSINC(data):  # , vals_xL, vals_xR):
         first_j = j // 100 - 1
         second_j = j % 100
 
-        segm_i = Polygonal(np.array([[grafos[g - 1].V[first_i, 0], grafos[g - 1].V[first_i, 1]], [
-            grafos[g - 1].V[second_i, 0], grafos[g - 1].V[second_i, 1]]]), grafos[g - 1].A[first_i, second_i])
-        segm_j = Polygonal(np.array([[grafos[g - 1].V[first_j, 0], grafos[g - 1].V[first_j, 1]], [
-            grafos[g - 1].V[second_j, 0], grafos[g - 1].V[second_j, 1]]]), grafos[g - 1].A[first_j, second_j])
+        segm_i = Polygonal(np.array([[graphs[g - 1].V[first_i, 0], graphs[g - 1].V[first_i, 1]], [
+            graphs[g - 1].V[second_i, 0], graphs[g - 1].V[second_i, 1]]]), graphs[g - 1].A[first_i, second_i])
+        segm_j = Polygonal(np.array([[graphs[g - 1].V[first_j, 0], graphs[g - 1].V[first_j, 1]], [
+            graphs[g - 1].V[second_j, 0], graphs[g - 1].V[second_j, 1]]]), graphs[g - 1].A[first_j, second_j])
 
         BigM_local = eM.estimate_local_U(segm_i, segm_j)
         SmallM_local = eM.estimate_local_L(segm_i, segm_j)
@@ -378,12 +378,12 @@ def AMMDRPGSTSINC(data):  # , vals_xL, vals_xR):
 
     # longitudes = []
     # for g in T_index_prima:
-    #     longitudes.append(sum([grafos[g-1].A[i // 100 - 1, i % 100]*grafos[g-1].edges_length[i // 100 - 1, i % 100] for i in grafos[g-1].edges]))
+    #     longitudes.append(sum([graphs[g-1].A[i // 100 - 1, i % 100]*graphs[g-1].edges_length[i // 100 - 1, i % 100] for i in graphs[g-1].edges]))
 
     BigM = 1e5
 
-    # MODEL.addConstrs((gp.quicksum(pLigtd[i, g, t, d] for i in grafos[g-1].edges) + pigjg.sum('*', '*', g) +  gp.quicksum(pig[i, g]*grafos[g-1].edges_length[i // 100 - 1, i % 100] for i in grafos[g-1].edges) + gp.quicksum(pRigtd[i, g, t, d] for i in grafos[g-1].edges))/drone_speed <= dLRt[t]/vC + BigM*(1- gp.quicksum(uigtd[i, g, t, d] for i in grafos[g-1].edges)) for t in T_index_prima for g in T_index_prima for d in D_index)
-    # MODEL.addConstrs((gp.quicksum(pLigtd[i, g, t, d] for i in grafos[g-1].edges) + pigjg.sum('*', '*', g) +  gp.quicksum(pig[i, g]*grafos[g-1].edges_length[i // 100 - 1, i % 100] for i in grafos[g-1].edges) + gp.quicksum(pRigtd[i, g, t, d] for i in grafos[g-1].edges))/data.drone_speed <=  zetat[t] + BigM*(1- gp.quicksum(uigtd[i, g, t, d] for i in grafos[g-1].edges)) for t in T_index_prima for g in T_index_prima for d in D_index)
+    # MODEL.addConstrs((gp.quicksum(pLigtd[i, g, t, d] for i in graphs[g-1].edges) + pigjg.sum('*', '*', g) +  gp.quicksum(pig[i, g]*graphs[g-1].edges_length[i // 100 - 1, i % 100] for i in graphs[g-1].edges) + gp.quicksum(pRigtd[i, g, t, d] for i in graphs[g-1].edges))/drone_speed <= dLRt[t]/vC + BigM*(1- gp.quicksum(uigtd[i, g, t, d] for i in graphs[g-1].edges)) for t in T_index_prima for g in T_index_prima for d in D_index)
+    # MODEL.addConstrs((gp.quicksum(pLigtd[i, g, t, d] for i in graphs[g-1].edges) + pigjg.sum('*', '*', g) +  gp.quicksum(pig[i, g]*graphs[g-1].edges_length[i // 100 - 1, i % 100] for i in graphs[g-1].edges) + gp.quicksum(pRigtd[i, g, t, d] for i in graphs[g-1].edges))/data.drone_speed <=  zetat[t] + BigM*(1- gp.quicksum(uigtd[i, g, t, d] for i in graphs[g-1].edges)) for t in T_index_prima for g in T_index_prima for d in D_index)
 
     # MODEL.addConstrs(2*zetat[t]*deltat[t]*data.truck_speed >= dLRt[t]*dLRt[t] for t in T_index_prima)
     # MODEL.addConstrs(dLRt[t] >= deltat[t]*data.truck_speed*zetat[t] for t in T_index_prima)
@@ -398,7 +398,7 @@ def AMMDRPGSTSINC(data):  # , vals_xL, vals_xR):
     #                   pRigtd.sum('*', '*', t))/drone_speed <= dLRt[t]/vC for t in T_index_prima for g in T_index_prima)
     # MODEL.addConstrs((dLRt[t]/drone_speed <= 50) for t in T_index_prima)
     # MODEL.addConstrs((pLigtd[i, g, t, d]
-    #                   + pigjg.sum(g, '*', '*') + grafos[g-1].A[i // 100 - 1, i % 100]*grafos[g-1].edges_length[i // 100 - 1, i % 100]
+    #                   + pigjg.sum(g, '*', '*') + graphs[g-1].A[i // 100 - 1, i % 100]*graphs[g-1].edges_length[i // 100 - 1, i % 100]
     #                   + pRigtd[i, g, t, d])/drone_speed <= dLRt[t]/vC for i, g, t, d in pLigtd.keys())
 
     for i, g in rhoig.keys():
@@ -407,25 +407,25 @@ def AMMDRPGSTSINC(data):  # , vals_xL, vals_xR):
         MODEL.addConstr(rhoig[i, g] - landaig[i, g] == maxig[i, g] - minig[i, g])
         MODEL.addConstr(maxig[i, g] + minig[i, g] == alphaig[i, g])
         if data.alpha:
-            MODEL.addConstr(pig[i, g] >= grafos[g - 1].A[first, second])
+            MODEL.addConstr(pig[i, g] >= graphs[g - 1].A[first, second])
         MODEL.addConstr(maxig[i, g] <= 1 - entryig[i, g])
         MODEL.addConstr(minig[i, g] <= entryig[i, g])
         MODEL.addConstr(
-            Rig[i, g, 0] == rhoig[i, g] * grafos[g - 1].V[first, 0] + (1 - rhoig[i, g]) * grafos[g - 1].V[second, 0])
+            Rig[i, g, 0] == rhoig[i, g] * graphs[g - 1].V[first, 0] + (1 - rhoig[i, g]) * graphs[g - 1].V[second, 0])
         MODEL.addConstr(
-            Rig[i, g, 1] == rhoig[i, g] * grafos[g - 1].V[first, 1] + (1 - rhoig[i, g]) * grafos[g - 1].V[second, 1])
+            Rig[i, g, 1] == rhoig[i, g] * graphs[g - 1].V[first, 1] + (1 - rhoig[i, g]) * graphs[g - 1].V[second, 1])
         MODEL.addConstr(
-            Lig[i, g, 0] == landaig[i, g] * grafos[g - 1].V[first, 0] + (1 - landaig[i, g]) * grafos[g - 1].V[
+            Lig[i, g, 0] == landaig[i, g] * graphs[g - 1].V[first, 0] + (1 - landaig[i, g]) * graphs[g - 1].V[
                 second, 0])
         MODEL.addConstr(
-            Lig[i, g, 1] == landaig[i, g] * grafos[g - 1].V[first, 1] + (1 - landaig[i, g]) * grafos[g - 1].V[
+            Lig[i, g, 1] == landaig[i, g] * graphs[g - 1].V[first, 1] + (1 - landaig[i, g]) * graphs[g - 1].V[
                 second, 1])
 
     if not (data.alpha):
         for g in T_index_prima:
             MODEL.addConstr(gp.quicksum(
-                pig[i, g] * grafos[g - 1].edges_length[i // 100 - 1, i % 100] for i in grafos[g - 1].edges) >= grafos[
-                                g - 1].alpha * grafos[g - 1].longitud)
+                pig[i, g] * graphs[g - 1].edges_length[i // 100 - 1, i % 100] for i in graphs[g - 1].edges) >= graphs[
+                                g - 1].alpha * graphs[g - 1].length)
 
     # [0, 2, 1, 3, 4]
     # MODEL.addConstr(uigtd[2, 102, 1] >= 0.5)
@@ -469,7 +469,7 @@ def AMMDRPGSTSINC(data):  # , vals_xL, vals_xR):
 
     MODEL.update()
 
-    # objective = gp.quicksum(pLigtd[i, g, t, d] + pRigtd[i, g, t, d] for i, g, t, d in pRigtd.keys()) + gp.quicksum(pigjg[i, j, g] for i, j, g in pigjg.keys()) + gp.quicksum(pig[i, g]*grafos[g-1].edges_length[i // 100 - 1, i % 100] for g in T_index_prima for i in grafos[g-1].edges) + gp.quicksum(3*dLRt[t] for t in dLRt.keys()) + gp.quicksum(3*dRLt[t] for t in dRLt.keys())
+    # objective = gp.quicksum(pLigtd[i, g, t, d] + pRigtd[i, g, t, d] for i, g, t, d in pRigtd.keys()) + gp.quicksum(pigjg[i, j, g] for i, j, g in pigjg.keys()) + gp.quicksum(pig[i, g]*graphs[g-1].edges_length[i // 100 - 1, i % 100] for g in T_index_prima for i in graphs[g-1].edges) + gp.quicksum(3*dLRt[t] for t in dLRt.keys()) + gp.quicksum(3*dRLt[t] for t in dRLt.keys())
 
     # objective = gp.quicksum(1*dRLt[g1] for g1 in dRLt.keys()) + gp.quicksum(zetat[t] for t in zetat.keys()) + gp.quicksum(1*dLRt[g] for g in dLRt.keys())
 
@@ -640,12 +640,12 @@ def AMMDRPGSTSINC(data):  # , vals_xL, vals_xR):
     # #               linestyle='dotted', alpha=1, color='red'))
     #
     for g in T_index_prima:
-        grafo = grafos[g - 1]
-        centroide = np.mean(grafo.V, axis=0)
-        nx.draw(grafo.G, grafo.pos, node_size=100,
+        graph = graphs[g - 1]
+        centroide = np.mean(graph.V, axis=0)
+        nx.draw(graph.G, graph.pos, node_size=100,
                 node_color='black', alpha=1, width=1, edge_color='black')
         ax.annotate(g, xy=(centroide[0], centroide[1]))
-        nx.draw_networkx_labels(grafo.G, grafo.pos, font_color='red', font_size=9)
+        nx.draw_networkx_labels(graph.G, graph.pos, font_color='red', font_size=9)
     #
     plt.savefig('PDST-Sinc' + str(result[4]) + '.png')
 

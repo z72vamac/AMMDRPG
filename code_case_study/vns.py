@@ -155,8 +155,6 @@ def variable_neighborhood_search(data, city_tour, max_attempts=20, neighbourhood
 def model(data, path):
     graph = data.instances[0]
 
-    scale = data.scale
-    
     # Initializing the model
     MODEL = gp.Model("PD-Stages")
 
@@ -237,8 +235,8 @@ def model(data, path):
     # for i in graph.edges[1:]:
     # MODEL.addConstr(si[i] >= 1)
 
-    MODEL.addConstrs((dif_e1_e2[e1, e2, dim]/scale >=   L_e[e1, dim] - R_e[e2, dim]) for e1, e2, dim in dif_e1_e2.keys())
-    MODEL.addConstrs((dif_e1_e2[e1, e2, dim]/scale >= - L_e[e1, dim] + R_e[e2, dim]) for e1, e2, dim in dif_e1_e2.keys())
+    MODEL.addConstrs((dif_e1_e2[e1, e2, dim] >=   L_e[e1, dim] - R_e[e2, dim]) for e1, e2, dim in dif_e1_e2.keys())
+    MODEL.addConstrs((dif_e1_e2[e1, e2, dim] >= - L_e[e1, dim] + R_e[e2, dim]) for e1, e2, dim in dif_e1_e2.keys())
 
     MODEL.addConstrs(
         (dif_e1_e2[e1, e2, 0] * dif_e1_e2[e1, e2, 0] + dif_e1_e2[e1, e2, 1] * dif_e1_e2[e1, e2, 1] <= dist_e1_e2[e1, e2] * dist_e1_e2[e1, e2] for e1, e2 in
@@ -285,7 +283,7 @@ def model(data, path):
     MODEL.update()
 
     objective = gp.quicksum(prod_e1_e2[e1, e2] for e1, e2 in prod_e1_e2.keys()) + gp.quicksum(
-        prod_e[e] * graph.edges_length[e // 100 - 1, e % 100] * scale for e in graph.edges)
+        prod_e[e] * graph.edges_length[e // 100 - 1, e % 100] for e in graph.edges)
 
     MODEL.setObjective(objective, GRB.MINIMIZE)
     # MODEL.Params.Threads = 8

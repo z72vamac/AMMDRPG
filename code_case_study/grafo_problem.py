@@ -16,9 +16,9 @@ from vns import *
 # data.generate_grid()
 # data.generate_graphs(lista)
 #
-# grafo = data.instances[0]
+# graph = data.instances[0]
 #
-# print(grafo.edges)
+# print(graph.edges)
 
 # 78.54 -> 300 sec
 
@@ -31,26 +31,26 @@ from vns import *
 
 # print('Tiempo total: {0}'.format(tiempo2-tiempo1))
 
-def grafo_problem(grafo, alpha, g):
-    # grafo = data.instances[0]
+def grafo_problem(graph, alpha, g):
+    # graph = data.instances[0]
 
     # Creamos el modelo
     MODEL = gp.Model("PD-Stages")
 
-    # Variable binaria zij = 1 si voy del segmento i al segmento j del grafo g.
+    # Variable binaria zij = 1 si voy del segmento i al segmento j del graph g.
     zij_index = []
     si_index = []
 
-    for i in grafo.edges:
+    for i in graph.edges:
         si_index.append((i, g))
-        for j in grafo.edges:
+        for j in graph.edges:
             if i != j:
                 zij_index.append((i, j, g))
 
     zij = MODEL.addVars(zij_index, vtype=GRB.BINARY, name='zigjg')
-    si = MODEL.addVars(si_index, vtype=GRB.INTEGER, lb=0, ub=grafo.edges_number - 1, name='sig')
+    si = MODEL.addVars(si_index, vtype=GRB.INTEGER, lb=0, ub=graph.edges_number - 1, name='sig')
 
-    # Variable continua no negativa dij que indica la distancia entre los segmentos i j en el grafo g.
+    # Variable continua no negativa dij que indica la distancia entre los segmentos i j en el graph g.
     dij_index = zij_index
 
     dij = MODEL.addVars(dij_index, vtype=GRB.CONTINUOUS, lb=0.0, name='digjg')
@@ -64,7 +64,7 @@ def grafo_problem(grafo, alpha, g):
     Ri_index = []
     rhoi_index = []
 
-    for i in grafo.edges:
+    for i in graph.edges:
         rhoi_index.append((i, g))
         for dim in range(2):
             Ri_index.append((i, g, dim))
@@ -97,19 +97,19 @@ def grafo_problem(grafo, alpha, g):
     MODEL.addConstrs(pi[i, g] <= mui[i, g] for i, g in rhoi.keys())
     MODEL.addConstrs(pi[i, g] <= alphai[i, g] for i, g in rhoi.keys())
 
-    for i in grafo.edges[1:]:
-        for j in grafo.edges[1:]:
+    for i in graph.edges[1:]:
+        for j in graph.edges[1:]:
             if i != j:
-                MODEL.addConstr(grafo.edges_number - 1 >= (si[i, g] - si[j, g]) + grafo.edges_number * zij[i, j, g])
+                MODEL.addConstr(graph.edges_number - 1 >= (si[i, g] - si[j, g]) + graph.edges_number * zij[i, j, g])
 
-    MODEL.addConstr(si[grafo.edges[0], g] == 0)
+    MODEL.addConstr(si[graph.edges[0], g] == 0)
 
-    for i in grafo.edges[1:]:
+    for i in graph.edges[1:]:
         MODEL.addConstr(si[i, g] >= 1)
 
-    # for i, g in grafo.edges:
+    # for i, g in graph.edges:
     # MODEL.addConstr(si[i, g] >= 0)
-    # MODEL.addConstr(si[i, g] <= grafo.edges_number - 1)
+    # MODEL.addConstr(si[i, g] <= graph.edges_number - 1)
 
     MODEL.addConstrs(
         (difij[i, j, g, dim] >= (Li[i, g, dim] - Ri[j, g, dim]) * 14000 / 1e6) for i, j, g, dim in difij.keys())
@@ -127,11 +127,11 @@ def grafo_problem(grafo, alpha, g):
         second_j = j % 100
 
         segm_i = Polygonal(
-            np.array([[grafo.V[first_i, 0], grafo.V[first_i, 1]], [grafo.V[second_i, 0], grafo.V[second_i, 1]]]),
-            grafo.A[first_i, second_i])
+            np.array([[graph.V[first_i, 0], graph.V[first_i, 1]], [graph.V[second_i, 0], graph.V[second_i, 1]]]),
+            graph.A[first_i, second_i])
         segm_j = Polygonal(
-            np.array([[grafo.V[first_j, 0], grafo.V[first_j, 1]], [grafo.V[second_j, 0], grafo.V[second_j, 1]]]),
-            grafo.A[first_j, second_j])
+            np.array([[graph.V[first_j, 0], graph.V[first_j, 1]], [graph.V[second_j, 0], graph.V[second_j, 1]]]),
+            graph.A[first_j, second_j])
 
         BigM_local = eM.estimate_local_U(segm_i, segm_j)
         SmallM_local = eM.estimate_local_L(segm_i, segm_j)
@@ -149,22 +149,21 @@ def grafo_problem(grafo, alpha, g):
         MODEL.addConstr(rhoi[i, g] - landai[i, g] == maxi[i, g] - mini[i, g])
         MODEL.addConstr(maxi[i, g] + mini[i, g] == alphai[i, g])
         if alpha:
-            MODEL.addConstr(pi[i, g] >= grafo.A[first, second])
+            MODEL.addConstr(pi[i, g] >= graph.A[first, second])
         MODEL.addConstr(maxi[i, g] <= 1 - entryi[i, g])
         MODEL.addConstr(mini[i, g] <= entryi[i, g])
-        MODEL.addConstr(Ri[i, g, 0] == rhoi[i, g] * grafo.V[first, 0] + (1 - rhoi[i, g]) * grafo.V[second, 0])
-        MODEL.addConstr(Ri[i, g, 1] == rhoi[i, g] * grafo.V[first, 1] + (1 - rhoi[i, g]) * grafo.V[second, 1])
-        MODEL.addConstr(Li[i, g, 0] == landai[i, g] * grafo.V[first, 0] + (1 - landai[i, g]) * grafo.V[second, 0])
-        MODEL.addConstr(Li[i, g, 1] == landai[i, g] * grafo.V[first, 1] + (1 - landai[i, g]) * grafo.V[second, 1])
+        MODEL.addConstr(Ri[i, g, 0] == rhoi[i, g] * graph.V[first, 0] + (1 - rhoi[i, g]) * graph.V[second, 0])
+        MODEL.addConstr(Ri[i, g, 1] == rhoi[i, g] * graph.V[first, 1] + (1 - rhoi[i, g]) * graph.V[second, 1])
+        MODEL.addConstr(Li[i, g, 0] == landai[i, g] * graph.V[first, 0] + (1 - landai[i, g]) * graph.V[second, 0])
+        MODEL.addConstr(Li[i, g, 1] == landai[i, g] * graph.V[first, 1] + (1 - landai[i, g]) * graph.V[second, 1])
 
     if not (alpha):
         MODEL.addConstr(gp.quicksum(
-            pi[i, g] * grafo.edges_length[i // 100 - 1, i % 100] for i in grafo.edges) >= grafo.alpha * grafo.longitud)
+            pi[i, g] * graph.edges_length[i // 100 - 1, i % 100] for i in graph.edges) >= graph.alpha * graph.length)
 
     MODEL.update()
 
-    objective = gp.quicksum(pij[i, j, g] for i, j, g in pij.keys()) + gp.quicksum(
-        pi[i, g] * grafo.edges_length[i // 100 - 1, i % 100] for i in grafo.edges)
+    objective = gp.quicksum(pij[i, j, g] for i, j, g in pij.keys()) + gp.quicksum(pi[i, g] * graph.edges_length[i // 100 - 1, i % 100] for i in graph.edges)
 
     MODEL.setObjective(objective, GRB.MINIMIZE)
     MODEL.Params.Threads = 8
@@ -187,7 +186,7 @@ def grafo_problem(grafo, alpha, g):
 
     path_D = []
 
-    index_i = grafo.edges[0]
+    index_i = graph.edges[0]
     count = 0
 
     limit = sum([1 for i1, j1, g in selected_z])
@@ -207,7 +206,7 @@ def grafo_problem(grafo, alpha, g):
                 path_D.append([Ri[index_i, g, 0].X, Ri[index_i, g, 1].X])
                 path_D.append([Li[index_i, g, 0].X, Li[index_i, g, 1].X])
 
-    # path_edges.append(grafo.edges[0])
+    # path_edges.append(graph.edges[0])
 
     def possible_paths(path_edges):
         paths = []
@@ -220,7 +219,7 @@ def grafo_problem(grafo, alpha, g):
                       np.array([Ri[path[0], g, 0].X, Ri[path[0], g, 1].X]))
             distance_path = MODEL.ObjVal - np.linalg.norm(
                 np.array([Li[path[-1], g, 0].X, Li[path[-1], g, 1].X]) - np.array(
-                    [Ri[path[0], g, 0].X, Ri[path[0], g, 1].X])) - pi[path[-1], g].X * grafo.edges_length[
+                    [Ri[path[0], g, 0].X, Ri[path[0], g, 1].X])) - pi[path[-1], g].X * graph.edges_length[
                                 path[-1] // 100 - 1, path[-1] % 100]  # dij[path[-1], path[0]].X
             paths.append([path, points, distance_path])
 
@@ -234,10 +233,10 @@ def grafo_problem(grafo, alpha, g):
     #
     # ax.add_artist(Polygon(path_D, fill=False, closed = True, lw = 2, alpha=1, color='red'))
     #
-    # centroide = np.mean(grafo.V, axis = 0)
-    # nx.draw(grafo.G, grafo.pos, node_size=100, node_color='black', alpha=1, width = 1, edge_color='black')
-    # ax.annotate('grafo', xy = (centroide[0], centroide[1]))
-    # nx.draw_networkx_labels(grafo.G, grafo.pos, font_color = 'red', font_size=9)
+    # centroide = np.mean(graph.V, axis = 0)
+    # nx.draw(graph.G, graph.pos, node_size=100, node_color='black', alpha=1, width = 1, edge_color='black')
+    # ax.annotate('graph', xy = (centroide[0], centroide[1]))
+    # nx.draw_networkx_labels(graph.G, graph.pos, font_color = 'red', font_size=9)
     #
     # plt.show()
 

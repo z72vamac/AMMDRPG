@@ -1,0 +1,33 @@
+\ Model Asynchoronous-Version_copy
+\ LP format - for model browsing. Use MPS format to capture full model detail.
+Minimize
+ 
+Subject To
+ R3597: dif_L_eg_o[1414,6,2,0] - R_eg[1414,6,0] + x_L_o[2,0] >= 0
+ R3620: dif_L_eg_o[2121,6,2,0] + R_eg[2121,6,0] - x_L_o[2,0] >= 0
+ R25994: - 0.148902034344 u_eg_o[1414,6,2] + prod_L_eg_o[1414,6,2] <= 0
+ R25997: - 0.148902034344 u_eg_o[1414,6,2] - dist_L_eg_o[1414,6,2]
+   + prod_L_eg_o[1414,6,2] >= -0.148902034344
+ R26282: - 0.148902034344 u_eg_o[2121,6,2] + prod_L_eg_o[2121,6,2] <= 0
+ R26285: - 0.148902034344 u_eg_o[2121,6,2] - dist_L_eg_o[2121,6,2]
+   + prod_L_eg_o[2121,6,2] >= -0.148902034344
+ R40320: R_eg[1414,6,0] - 13.601 rho_eg[1414,6] = 230.12
+ R40368: R_eg[2121,6,0] - 1.194 rho_eg[2121,6] = 200.38
+ qc0: [ - dist_L_eg_o[1414,6,2] ^2 + dif_L_eg_o[1414,6,2,0] ^2
+   + dif_L_eg_o[1414,6,2,1] ^2 ] <= 0
+ qc1: [ - dist_L_eg_o[2121,6,2] ^2 + dif_L_eg_o[2121,6,2,0] ^2
+   + dif_L_eg_o[2121,6,2,1] ^2 ] <= 0
+Bounds
+ dif_L_eg_o[1414,6,2,0] free
+ dif_L_eg_o[1414,6,2,1] free
+ dif_L_eg_o[2121,6,2,0] free
+ dif_L_eg_o[2121,6,2,1] free
+ prod_L_eg_o[1414,6,2] free
+ prod_L_eg_o[2121,6,2] free
+ R_eg[1414,6,0] free
+ R_eg[2121,6,0] free
+ -infinity <= rho_eg[2121,6] <= 1
+ x_L_o[2,0] free
+Binaries
+ u_eg_o[1414,6,2] u_eg_o[2121,6,2]
+End

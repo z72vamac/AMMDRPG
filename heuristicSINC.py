@@ -19,7 +19,7 @@ from vns import *
 # data.generate_graphs(lista)
 
 def heuristicSINC(data):
-    # Segundo paso: Resolvemos utilizando grafo problem 
+    # Segundo paso: Resolvemos utilizando graph problem 
 
     graphs_number = data.graphs_number
 
@@ -87,11 +87,11 @@ def heuristicSINC(data):
     # fig, ax = plt.subplots()
     #
     # for g in range(1, data.graphs_number+1):
-    # grafo = data.instances[g-1]
-    # centroide = np.mean(grafo.V, axis = 0)
-    # nx.draw(grafo.G, grafo.pos, node_size=100, node_color='black', alpha=1, width = 1, edge_color='black')
+    # graph = data.instances[g-1]
+    # centroide = np.mean(graph.V, axis = 0)
+    # nx.draw(graph.G, graph.pos, node_size=100, node_color='black', alpha=1, width = 1, edge_color='black')
     # ax.annotate(g, xy = (centroide[0], centroide[1]))
-    # nx.draw_networkx_labels(grafo.G, grafo.pos, font_color = 'red', font_size=9)
+    # nx.draw_networkx_labels(graph.G, graph.pos, font_color = 'red', font_size=9)
     #
     # colores = ['blue', 'green', 'red', 'purple', 'black', 'yellow', 'brown']
     #

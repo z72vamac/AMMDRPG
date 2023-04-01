@@ -45,8 +45,8 @@ def PDMTZ(data):
     origin = [5, 5]
     destination = [95, 5]
     # destination = origin
-    grafos = data.graphs_numberostrar_data()
-    # print(grafos[0].V)
+    graphs = data.graphs_numberostrar_data()
+    # print(graphs[0].V)
 
     result = []
 
@@ -66,7 +66,7 @@ def PDMTZ(data):
     ugi_index = []
 
     for g in T_index_prima:
-        for i in grafos[g - 1].edges:
+        for i in graphs[g - 1].edges:
             ugi_index.append((g, i))
 
     ugi = MODEL.addVars(ugi_index, vtype=GRB.BINARY, name='ugi')
@@ -100,21 +100,21 @@ def PDMTZ(data):
 
     pgRi = MODEL.addVars(pgRi_index, vtype=GRB.CONTINUOUS, lb=0.0, name='pgRi')
 
-    # Variable binaria zgij = 1 si voy del segmento i al segmento j del grafo g.
+    # Variable binaria zgij = 1 si voy del segmento i al segmento j del graph g.
     zgij_index = []
     sgi_index = []
 
     for g in T_index_prima:
-        for i in grafos[g - 1].edges:
+        for i in graphs[g - 1].edges:
             sgi_index.append((g, i))
-            for j in grafos[g - 1].edges:
+            for j in graphs[g - 1].edges:
                 if i != j:
                     zgij_index.append((g, i, j))
 
     zgij = MODEL.addVars(zgij_index, vtype=GRB.BINARY, name='zgij')
     sgi = MODEL.addVars(sgi_index, vtype=GRB.CONTINUOUS, lb=0, name='sgi')
 
-    # Variable continua no negativa dgij que indica la distancia entre los segmentos i j en el grafo g.
+    # Variable continua no negativa dgij que indica la distancia entre los segmentos i j en el graph g.
     dgij_index = zgij_index
 
     dgij = MODEL.addVars(dgij_index, vtype=GRB.CONTINUOUS, lb=0.0, name='dgij')
@@ -130,7 +130,7 @@ def PDMTZ(data):
     dLR = MODEL.addVars(T_index_prima, vtype=GRB.CONTINUOUS, lb=0.0, name='dLR')
     auxLR = MODEL.addVars(T_index_prima, 2, vtype=GRB.CONTINUOUS, lb=0.0, name='difLR')
 
-    # Variable binaria z que vale uno si se va del grafo g al grafo g'
+    # Variable binaria z que vale uno si se va del graph g al graph g'
     z_index = []
 
     for v in T_index:
@@ -170,7 +170,7 @@ def PDMTZ(data):
     rhogi_index = []
 
     for g in T_index_prima:
-        for i in grafos[g - 1].edges:
+        for i in graphs[g - 1].edges:
             rhogi_index.append((g, i))
             for dim in range(2):
                 Rgi_index.append((g, i, dim))
@@ -212,14 +212,14 @@ def PDMTZ(data):
     else:
         print('Resolviendo sin solucion inicial')
 
-    # Para cada grafo g, existe un segmento i y una etapa t donde hay que recoger al dron
+    # Para cada graph g, existe un segmento i y una etapa t donde hay que recoger al dron
     MODEL.addConstrs((ugi.sum(g, '*') == 1 for g in T_index_prima), name='entrag')
     MODEL.addConstrs((vgi.sum(g, '*') == 1 for g in T_index_prima), name='saleg')
 
     # MODEL.addConstrs(ugi.sum('*', i, '*') == 1 for i in range(graphs_number))
     # MODEL.addConstrs(vgi.sum('*', i, '*') == 1 for g in range(graphs_number))
 
-    # De todos los segmentos hay que salir y entrar menos de aquel que se toma como entrada al grafo y como salida del grafo
+    # De todos los segmentos hay que salir y entrar menos de aquel que se toma como entrada al graph y como salida del graph
     MODEL.addConstrs((mugi[g, i] - ugi[g, i] == zgij.sum(g, '*', i) for g, i, j in zgij.keys()), name='flujou')
     MODEL.addConstrs((mugi[g, i] - vgi[g, i] == zgij.sum(g, i, '*') for g, i, j in zgij.keys()), name='flujov')
 
@@ -229,20 +229,20 @@ def PDMTZ(data):
 
     # Eliminación de subtours
     for g in T_index_prima:
-        for i in grafos[g - 1].edges[0:]:
-            for j in grafos[g - 1].edges[0:]:
+        for i in graphs[g - 1].edges[0:]:
+            for j in graphs[g - 1].edges[0:]:
                 if i != j:
                     MODEL.addConstr(
-                        grafos[g - 1].edges_number - 1 >= (sgi[g, i] - sgi[g, j]) + grafos[g - 1].edges_number * zgij[
+                        graphs[g - 1].edges_number - 1 >= (sgi[g, i] - sgi[g, j]) + graphs[g - 1].edges_number * zgij[
                             g, i, j])
 
     # for g in range(graphs_number):
-    #     MODEL.addConstr(sgi[g, grafos[g].edges[0]] == 0)
+    #     MODEL.addConstr(sgi[g, graphs[g].edges[0]] == 0)
 
     for g in T_index_prima:
-        for i in grafos[g - 1].edges[0:]:
+        for i in graphs[g - 1].edges[0:]:
             MODEL.addConstr(sgi[g, i] >= 0)
-            MODEL.addConstr(sgi[g, i] <= grafos[g - 1].edges_number - 1)
+            MODEL.addConstr(sgi[g, i] <= graphs[g - 1].edges_number - 1)
 
     # Restricciones de distancias y producto
     MODEL.addConstrs((auxgLi[g, i, dim] >= xL[g, dim] - Rgi[g, i, dim]) for g, i, dim in auxgLi.keys())
@@ -258,7 +258,7 @@ def PDMTZ(data):
     BigM = 0
     for g in T_index_prima:
         for h in T_index_prima:
-            BigM = max(max([np.linalg.norm(v - w) for v in grafos[g - 1].V for w in grafos[h - 1].V]), BigM)
+            BigM = max(max([np.linalg.norm(v - w) for v in graphs[g - 1].V for w in graphs[h - 1].V]), BigM)
 
     # MODEL.addConstr(ugi[1, 101] == 1)
     # MODEL.addConstr(vgi[1, 203] == 1)
@@ -278,10 +278,10 @@ def PDMTZ(data):
         first_j = j // 100 - 1
         second_j = j % 100
 
-        segm_i = Polygonal(np.array([[grafos[g - 1].V[first_i, 0], grafos[g - 1].V[first_i, 1]], [
-            grafos[g - 1].V[second_i, 0], grafos[g - 1].V[second_i, 1]]]), grafos[g - 1].A[first_i, second_i])
-        segm_j = Polygonal(np.array([[grafos[g - 1].V[first_j, 0], grafos[g - 1].V[first_j, 1]], [
-            grafos[g - 1].V[second_j, 0], grafos[g - 1].V[second_j, 1]]]), grafos[g - 1].A[first_j, second_j])
+        segm_i = Polygonal(np.array([[graphs[g - 1].V[first_i, 0], graphs[g - 1].V[first_i, 1]], [
+            graphs[g - 1].V[second_i, 0], graphs[g - 1].V[second_i, 1]]]), graphs[g - 1].A[first_i, second_i])
+        segm_j = Polygonal(np.array([[graphs[g - 1].V[first_j, 0], graphs[g - 1].V[first_j, 1]], [
+            graphs[g - 1].V[second_j, 0], graphs[g - 1].V[second_j, 1]]]), graphs[g - 1].A[first_j, second_j])
 
         BigM_local = eM.estimate_local_U(segm_i, segm_j)
         SmallM_local = eM.estimate_local_L(segm_i, segm_j)
@@ -310,15 +310,15 @@ def PDMTZ(data):
 
     for g1, g2 in z_index:
         if g1 == 0 and g2 < graphs_number + 1:
-            BigM_z[g1, g2] = max([np.linalg.norm(origin - v) for v in grafos[g2 - 1].V])
+            BigM_z[g1, g2] = max([np.linalg.norm(origin - v) for v in graphs[g2 - 1].V])
         elif g2 == 0 and g1 < graphs_number + 1:
-            BigM_z[g1, g2] = max([np.linalg.norm(origin - v) for v in grafos[g1 - 1].V])
+            BigM_z[g1, g2] = max([np.linalg.norm(origin - v) for v in graphs[g1 - 1].V])
         elif g1 == graphs_number + 1 and g2 > 0:
-            BigM_z[g1, g2] = max([np.linalg.norm(destination - v) for v in grafos[g2 - 1].V])
+            BigM_z[g1, g2] = max([np.linalg.norm(destination - v) for v in graphs[g2 - 1].V])
         elif g2 == graphs_number + 1 and g1 > 0:
-            BigM_z[g1, g2] = max([np.linalg.norm(destination - v) for v in grafos[g1 - 1].V])
+            BigM_z[g1, g2] = max([np.linalg.norm(destination - v) for v in graphs[g1 - 1].V])
         if g1 > 0 and g2 > 0 and g1 < graphs_number + 1 and g2 < graphs_number + 1:
-            BigM_z[g1, g2] = max([np.linalg.norm(u - v) for u in grafos[g1 - 1].V for v in grafos[g2 - 1].V])
+            BigM_z[g1, g2] = max([np.linalg.norm(u - v) for u in graphs[g1 - 1].V for v in graphs[g2 - 1].V])
 
     # MODEL.addConstrs(pRL[g1, g2] <= dRL[g1, g2] for g1, g2 in z_index)
     MODEL.addConstrs(pRL[g1, g2] >= SmallM * z[g1, g2] for g1, g2 in z_index)
@@ -366,7 +366,7 @@ def PDMTZ(data):
                      name='LR-conic')
 
     MODEL.addConstrs((pgLi.sum(g, '*') + pgij.sum(g, '*', '*') + gp.quicksum(
-        pgi[g, i] * grafos[g - 1].edges_length[i // 100 - 1, i % 100] for i in grafos[g - 1].edges) + pgRi.sum(g,
+        pgi[g, i] * graphs[g - 1].edges_length[i // 100 - 1, i % 100] for i in graphs[g - 1].edges) + pgRi.sum(g,
                                                                                                                 '*')) / drone_speed <=
                      dLR[g] / vC for g in T_index_prima)
 
@@ -377,7 +377,7 @@ def PDMTZ(data):
     #                   pgRi.sum('*', '*', t))/drone_speed <= dLR[t]/vC for t in T_index_prima for g in T_index_prima)
     # MODEL.addConstrs((dLR[t]/drone_speed <= 50) for t in T_index_prima)
     # MODEL.addConstrs((pgLi[g, i, t]
-    #                   + pgij.sum(g, '*', '*') + grafos[g-1].A[i // 100 - 1, i % 100]*grafos[g-1].edges_length[i // 100 - 1, i % 100]
+    #                   + pgij.sum(g, '*', '*') + graphs[g-1].A[i // 100 - 1, i % 100]*graphs[g-1].edges_length[i // 100 - 1, i % 100]
     #                   + pgRi[g, i, t])/drone_speed <= dLR[t]/vC for g, i, t in pgLi.keys())
 
     # MODEL.addConstr(z[0, 2] + z[1, 3] + z[2, 1] + z[3, 4] == 4)
@@ -388,25 +388,25 @@ def PDMTZ(data):
         MODEL.addConstr(rhogi[g, i] - landagi[g, i] == maxgi[g, i] - mingi[g, i])
         MODEL.addConstr(maxgi[g, i] + mingi[g, i] == alphagi[g, i])
         if data.alpha:
-            MODEL.addConstr(pgi[g, i] >= grafos[g - 1].A[first, second])
+            MODEL.addConstr(pgi[g, i] >= graphs[g - 1].A[first, second])
         MODEL.addConstr(maxgi[g, i] <= 1 - entrygi[g, i])
         MODEL.addConstr(mingi[g, i] <= entrygi[g, i])
         MODEL.addConstr(
-            Rgi[g, i, 0] == rhogi[g, i] * grafos[g - 1].V[first, 0] + (1 - rhogi[g, i]) * grafos[g - 1].V[second, 0])
+            Rgi[g, i, 0] == rhogi[g, i] * graphs[g - 1].V[first, 0] + (1 - rhogi[g, i]) * graphs[g - 1].V[second, 0])
         MODEL.addConstr(
-            Rgi[g, i, 1] == rhogi[g, i] * grafos[g - 1].V[first, 1] + (1 - rhogi[g, i]) * grafos[g - 1].V[second, 1])
+            Rgi[g, i, 1] == rhogi[g, i] * graphs[g - 1].V[first, 1] + (1 - rhogi[g, i]) * graphs[g - 1].V[second, 1])
         MODEL.addConstr(
-            Lgi[g, i, 0] == landagi[g, i] * grafos[g - 1].V[first, 0] + (1 - landagi[g, i]) * grafos[g - 1].V[
+            Lgi[g, i, 0] == landagi[g, i] * graphs[g - 1].V[first, 0] + (1 - landagi[g, i]) * graphs[g - 1].V[
                 second, 0])
         MODEL.addConstr(
-            Lgi[g, i, 1] == landagi[g, i] * grafos[g - 1].V[first, 1] + (1 - landagi[g, i]) * grafos[g - 1].V[
+            Lgi[g, i, 1] == landagi[g, i] * graphs[g - 1].V[first, 1] + (1 - landagi[g, i]) * graphs[g - 1].V[
                 second, 1])
 
     if not (data.alpha):
         for g in T_index_prima:
             MODEL.addConstr(gp.quicksum(
-                pgi[g, i] * grafos[g - 1].edges_length[i // 100 - 1, i % 100] for i in grafos[g - 1].edges) >= grafos[
-                                g - 1].alpha * grafos[g - 1].longitud)
+                pgi[g, i] * graphs[g - 1].edges_length[i // 100 - 1, i % 100] for i in graphs[g - 1].edges) >= graphs[
+                                g - 1].alpha * graphs[g - 1].length)
 
     # originen y destinationino
     MODEL.addConstrs(xL[0, dim] == origin[dim] for dim in range(2))
@@ -419,8 +419,8 @@ def PDMTZ(data):
 
     objective = gp.quicksum(pgLi[g, i] + pgRi[g, i] for g, i in pgRi.keys()) + gp.quicksum(
         pgij[g, i, j] for g, i, j in pgij.keys()) + gp.quicksum(
-        pgi[g, i] * grafos[g - 1].edges_length[i // 100 - 1, i % 100] for g in T_index_prima for i in
-        grafos[g - 1].edges) + gp.quicksum(3 * dLR[g] for g in dLR.keys()) + gp.quicksum(
+        pgi[g, i] * graphs[g - 1].edges_length[i // 100 - 1, i % 100] for g in T_index_prima for i in
+        graphs[g - 1].edges) + gp.quicksum(3 * dLR[g] for g in dLR.keys()) + gp.quicksum(
         3 * pRL[g1, g2] for g1, g2 in dRL.keys())
 
     # objective = gp.quicksum(1*dLR[g] for g in dLR.keys()) + gp.quicksum(1*pRL[g1, g2] for g1, g2 in dRL.keys()) # + gp.quicksum(1e5*holg[g] for g in holg.keys())
@@ -612,11 +612,11 @@ def PDMTZ(data):
     #               linestyle='dotted', alpha=1, color='red'))
 
     for g in range(graphs_number):
-        grafo = grafos[g]
-        centroide = np.mean(grafo.V, axis=0)
-        nx.draw(grafo.G, grafo.pos, node_size=20, width=0.5,
+        graph = graphs[g]
+        centroide = np.mean(graph.V, axis=0)
+        nx.draw(graph.G, graph.pos, node_size=20, width=0.5,
                 node_color='blue', alpha=1, edge_color='blue')
-        ax.annotate('$\\alpha_{0} = {1:0.2f}$'.format(g + 1, grafo.alpha), xy=(centroide[0] + 5, centroide[1] + 10),
+        ax.annotate('$\\alpha_{0} = {1:0.2f}$'.format(g + 1, graph.alpha), xy=(centroide[0] + 5, centroide[1] + 10),
                     fontsize=12)
 
     plt.savefig('PDMTZ.png')

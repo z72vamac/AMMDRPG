@@ -38,44 +38,19 @@ def estimate_local_L(comp1, comp2):
     Function that estimates the minimum distance between two pair of neighbourhoods.
     """
     if type(comp1) is Polygon or type(comp1) is Polygonal:
-        poly1 = comp1.V
-
-        Ppol1 = []
-
-        for i in range(len(poly1)-1):
-            
-            P1 = poly1[i]
-            P2 = poly1[i+1]
-
-            dr = P2 - P1
-
-            landas = np.linspace(0, 1, 11)
-
-
-            Ppol1.append([P1 + landa*dr for landa in landas])
-
-        Ppol1 = np.concatenate(Ppol1)
-
         if type(comp2) is Polygon or type(comp2) is Polygonal:
-            poly2 = comp2.V
+            minimum = min([np.linalg.norm(v - w) for v in comp1.V
+                          for w in comp2.V])
 
-            Ppol2 = []
+        if type(comp2) is Ellipsoid:
+            minimum = - comp2.radii + min([np.linalg.norm(v - comp2.center) for v in comp1.V])
 
-            for i in range(len(poly2)-1):
-                
-                P1 = poly2[i]
-                P2 = poly2[i+1]
+    if type(comp1) is Ellipsoid:
+        if type(comp2) is Polygon or type(comp2) is Polygonal:
+            minimum = -comp1.radii + min([np.linalg.norm(comp1.center - w) for w in comp2.V])
 
-                dr = P2 - P1
-
-                landas = np.linspace(0, 1, 11)
-
-
-                Ppol2.append([P1 + landa*dr for landa in landas])
-
-            Ppol2 = np.concatenate(Ppol2)
-            
-            minimum = min([np.linalg.norm(v-w) for v in Ppol1 for w in Ppol2]) / 10
+        if type(comp2) is Ellipsoid:
+            minimum = -comp1.radii + np.linalg.norm(comp1.center - comp2.center) - comp2.radii
 
     return minimum
 

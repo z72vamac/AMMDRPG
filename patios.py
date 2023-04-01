@@ -61,7 +61,7 @@ data = Data(data, graphs_number=6, grid_mode=True, time_limit=60, alpha=False, f
              destination=[0, 0],
              seed=2)
 
-print(sum([grafo.longitud for grafo in data]) * 14000 / 1e6)
+print(sum([graph.length for graph in data]) * 14000 / 1e6)
 
 # velocities = np.linspace(1.5, 3, 16)
 
@@ -78,15 +78,15 @@ print(sum([grafo.longitud for grafo in data]) * 14000 / 1e6)
 #
 #             fig, ax = plt.subplots()
 #
-#             grafos = data.instances
+#             graphs = data.instances
 
 # colors = ['blue', 'purple', 'cyan', 'orange', 'red', 'green']
 # for g in range(1, 7):
-# grafo = grafos[g-1]
-# centroide = np.mean(grafo.V, axis = 0)
-# nx.draw(grafo.G, grafo.pos, node_size=2, node_color=colors[g-1], alpha=1, width = 2, edge_color= colors[g-1])
+# graph = graphs[g-1]
+# centroide = np.mean(graph.V, axis = 0)
+# nx.draw(graph.G, graph.pos, node_size=2, node_color=colors[g-1], alpha=1, width = 2, edge_color= colors[g-1])
 # ax.annotate(g, xy = (centroide[0], centroide[1]+3.5))
-# nx.draw_networkx_labels(grafo.G, grafo.pos, font_color = 'white', font_size=9)
+# nx.draw_networkx_labels(graph.G, graph.pos, font_color = 'white', font_size=9)
 
 
 synchronous(data)

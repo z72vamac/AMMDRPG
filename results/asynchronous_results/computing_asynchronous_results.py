@@ -38,7 +38,7 @@ data = pd.DataFrame()
 
 data['Size'] = means_table_without['Size']
 data['time_endurance'] = means_table_without['time_endurance']
-data['fleet_size= means_table_without['flefleet_size
+data['fleet_size= means_table_without['fleet_size
 data['Alpha_e'] = means_table_without['Alpha_e']
 data['Gap wi'] = means_table_without['Gap wi']
 data['Unsolved'] = 5 - counts_table_without['Gap wi']

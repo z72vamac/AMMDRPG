@@ -25,7 +25,7 @@ import neighbourhood as e
 class Data(object):
 
     def __init__(self, instances, graphs_number, grid_mode=True, time_limit=100, alpha=False, initialization=True, drone_speed = 3, truck_speed = 1,
-                 origin=[50, 50], destination=[50, 50], fleet_size time_endurance=30, scale=1, seed=0):
+                 origin=[50, 50], destination=[50, 50], fleet_size = 2, time_endurance=30, scale = 1, seed=0):
         self.instances = instances
         self.graphs_number = graphs_number
         self.grid_mode = grid_mode
@@ -36,7 +36,7 @@ class Data(object):
         self.truck_speed = truck_speed
         self.origin = origin
         self.destination = destination
-        self.fleet_sizeflefleet_size
+        self.fleet_size = fleet_size
         self.time_endurance = time_endurance
         self.scale = scale
         self.grid_list = []

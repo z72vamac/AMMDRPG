@@ -56,7 +56,7 @@ def asynchronous(data):
 
     #                 model.terminate()
 
-    graphs = data.show_data()
+    graphs = data.instances
 
     result = []
 
@@ -79,6 +79,7 @@ def asynchronous(data):
     O_index = range(1, data.graphs_number * 2 + 1)
     G_index = range(1, data.graphs_number + 1)
 
+    # Instatianing the model.
     MODEL = gp.Model('Asynchoronous-Version')
 
     # Indices of the variables
@@ -185,14 +186,14 @@ def asynchronous(data):
     k_o = MODEL.addVars(k_o_index, vtype=GRB.INTEGER, lb=0.0, ub=fleet_size, name='k_o')
 
     # flow_eg_eg': L_eg -> R_eg'
-    flow_eg_eg = MODEL.addVars(flow_eg_eg_index, vtype=GRB.BINARY, name='z_eg_eg')
+    flow_eg_eg = MODEL.addVars(flow_eg_eg_index, vtype=GRB.BINARY, name='flow_eg_eg')
     s_eg = MODEL.addVars(s_eg_index, vtype=GRB.CONTINUOUS, lb=0, name='s_eg')
     mu_eg = MODEL.addVars(mu_eg_index, vtype=GRB.BINARY, name='mu_eg')
 
     # dist_L_R_g: distance associated to graph g
     dist_L_R_g = MODEL.addVars(dist_L_R_g_index, vtype=GRB.CONTINUOUS, lb=0.0, name='dist_L_R_g')
 
-    # dist_eg_e'g = || L_eg - R_eg' ||
+    # dist_eg_eg' = || L_eg - R_eg' ||
     dist_eg_eg = MODEL.addVars(dist_eg_eg_index, vtype=GRB.CONTINUOUS, lb=0, name='dist_eg_eg')
     dif_eg_eg = MODEL.addVars(dist_eg_eg_index, 2, vtype=GRB.CONTINUOUS, lb=0.0, name='dif_eg_eg')
 
@@ -381,20 +382,17 @@ def asynchronous(data):
 
     for g in G_index:
         for o in O_index[:-1]:
-            MODEL.addConstr(u_eg_o.sum('*', g, o) <= gp.quicksum(
-                v_eg_o[e, g, o_prima] for e in graphs[g - 1].edges for o_prima in O_index if o_prima > o))
+            MODEL.addConstr(u_eg_o.sum('*', g, o) <= gp.quicksum(v_eg_o[e, g, o_prima] for e in graphs[g - 1].edges for o_prima in O_index if o_prima > o))
 
     # (MTZ) Constraints
     for g in G_index:
         for e in graphs[g - 1].edges:
             for e_prima in graphs[g - 1].edges:
                 if e != e_prima:
-                    MODEL.addConstr(
-                        graphs[g - 1].edges_number - 1 >= (s_eg[e, g] - s_eg[e_prima, g]) + graphs[g - 1].edges_number *
-                        flow_eg_eg[e, e_prima, g])
+                    MODEL.addConstr(graphs[g - 1].edges_number - 1 >= (s_eg[e, g] - s_eg[e_prima, g]) + graphs[g - 1].edges_number *flow_eg_eg[e, e_prima, g])
 
     for g in G_index:
-        for e in graphs[g - 1].edges:
+        for e in graphs[g - 1].edges[0:]:
             MODEL.addConstr(s_eg[e, g] >= 0)
             MODEL.addConstr(s_eg[e, g] <= graphs[g - 1].edges_number - 1)
 
@@ -406,13 +404,11 @@ def asynchronous(data):
 
     for g in G_index:
         for o in O_index[:-1]:
-            MODEL.addConstr((o - 1) * (1 - u_eg_o.sum('*', g, o)) >= gp.quicksum(
-                gamma_g_o[g, o_prima] for o_prima in O_index if o_prima < o))
+            MODEL.addConstr((o - 1) * (1 - u_eg_o.sum('*', g, o)) >= gp.quicksum(gamma_g_o[g, o_prima] for o_prima in O_index if o_prima < o))
 
     for g in G_index:
         for o in O_index[:-1]:
-            MODEL.addConstr((len(O_index) - o + 1) * (1 - v_eg_o.sum('*', g, o)) >= gp.quicksum(
-                gamma_g_o[g, o_prima] for o_prima in O_index if o_prima >= o))
+            MODEL.addConstr((len(O_index) - o + 1) * (1 - v_eg_o.sum('*', g, o)) >= gp.quicksum(gamma_g_o[g, o_prima] for o_prima in O_index if o_prima >= o))
 
     # (51): If we finish the visit of g in event o, the new gamma is zero.
 
@@ -465,8 +461,7 @@ def asynchronous(data):
                     MODEL.addConstr(dif_L_eg_o[e, g, o, dim]/scale >= -x_L_o[o, dim] + R_eg[e, g, dim])
 
                 MODEL.addConstr(
-                    dif_L_eg_o[e, g, o, 0] * dif_L_eg_o[e, g, o, 0] + dif_L_eg_o[e, g, o, 1] * dif_L_eg_o[e, g, o, 1] <= dist_L_eg_o[
-                        e, g, o] * dist_L_eg_o[e, g, o])
+                    dif_L_eg_o[e, g, o, 0] * dif_L_eg_o[e, g, o, 0] + dif_L_eg_o[e, g, o, 1] * dif_L_eg_o[e, g, o, 1] <= dist_L_eg_o[e, g, o] * dist_L_eg_o[e, g, o])
 
     # d_R^{e_g o}
 
@@ -478,8 +473,7 @@ def asynchronous(data):
                     MODEL.addConstr(dif_R_eg_o[e, g, o, dim]/scale >= -L_eg[e, g, dim] + x_R_o[o, dim])
 
                 MODEL.addConstr(
-                    dif_R_eg_o[e, g, o, 0] * dif_R_eg_o[e, g, o, 0] + dif_R_eg_o[e, g, o, 1] * dif_R_eg_o[e, g, o, 1] <= dist_R_eg_o[
-                        e, g, o] * dist_R_eg_o[e, g, o])
+                    dif_R_eg_o[e, g, o, 0] * dif_R_eg_o[e, g, o, 0] + dif_R_eg_o[e, g, o, 1] * dif_R_eg_o[e, g, o, 1] <= dist_R_eg_o[e, g, o] * dist_R_eg_o[e, g, o])
 
     # d^{e_g e'_g}
 
@@ -498,7 +492,7 @@ def asynchronous(data):
     # d_origin
 
     for dim in range(2):
-        MODEL.addConstr(dif_origin[dim]/scale >= data.origin[dim] - x_L_o[1, dim])
+        MODEL.addConstr(dif_origin[dim]/scale >=  data.origin[dim] - x_L_o[1, dim])
         MODEL.addConstr(dif_origin[dim]/scale >= -data.origin[dim] + x_L_o[1, dim])
 
     MODEL.addConstr(dif_origin[0] * dif_origin[0] + dif_origin[1] * dif_origin[1] <= dist_origin * dist_origin)
@@ -507,7 +501,7 @@ def asynchronous(data):
 
     for o in O_index[:-1]:
         for dim in range(2):
-            MODEL.addConstr(difLLo[o, dim]/scale >= x_L_o[o, dim] - x_L_o[o + 1, dim])
+            MODEL.addConstr(difLLo[o, dim]/scale >=  x_L_o[o, dim] - x_L_o[o + 1, dim])
             MODEL.addConstr(difLLo[o, dim]/scale >= -x_L_o[o, dim] + x_L_o[o + 1, dim])
 
         MODEL.addConstr(difLLo[o, 0] * difLLo[o, 0] + difLLo[o, 1] * difLLo[o, 1] <= dist_L_L_o[o] * dist_L_L_o[o])
@@ -542,16 +536,16 @@ def asynchronous(data):
     # d_destination
 
     for dim in range(2):
-        MODEL.addConstr(dif_destination[dim]/scale >= x_R_o[O_index[-1], dim] - data.destination[dim])
+        MODEL.addConstr(dif_destination[dim]/scale >=  x_R_o[O_index[-1], dim] - data.destination[dim])
         MODEL.addConstr(dif_destination[dim]/scale >= -x_R_o[O_index[-1], dim] + data.destination[dim])
 
     MODEL.addConstr(dif_destination[0] * dif_destination[0] + dif_destination[1] * dif_destination[1] <= dist_destination * dist_destination)
 
-    # (58) Mothership distance: mothership_distance
+    # (58) Mothership distance: mothership_time
 
-    mothership_distance = dist_origin + prod_L_L_o.sum('*') + prod_L_R_o.sum('*') + prod_R_L_o.sum('*') + prod_R_R_o.sum('*') + dist_destination
+    mothership_time = (dist_origin + prod_L_L_o.sum('*') + prod_L_R_o.sum('*') + prod_R_L_o.sum('*') + prod_R_R_o.sum('*') + dist_destination) / truck_speed
 
-    MODEL.setObjective(mothership_distance, GRB.MINIMIZE)
+    MODEL.setObjective(mothership_time, GRB.MINIMIZE)
 
     # (59): Distance associated to the graph g: d_{LR}^g
 
@@ -571,8 +565,8 @@ def asynchronous(data):
 
     # p_L^{e_g o} = d_L^{e_g o} u^{e_g o}
 
-    # BigM = 1e5
-    BigM = data.time_endurance * data.drone_speed * 2
+    BigM = 1e5
+    # BigM = data.time_endurance * data.drone_speed * 2 * scale
     SmallM = 0
 
     for g in G_index:
@@ -585,7 +579,7 @@ def asynchronous(data):
 
     # p_R^{e_g o} = d_R^{e_g o} v^{e_g o}
 
-    BigM = data.time_endurance * data.drone_speed * 2
+    # BigM = data.time_endurance * data.drone_speed * 2 * scale
     SmallM = 0
 
     for g in G_index:
@@ -608,20 +602,18 @@ def asynchronous(data):
                     second_e_prima = e_prima % 100
 
                     segm_e = Polygonal(np.array([[graphs[g - 1].V[first_e, 0], graphs[g - 1].V[first_e, 1]],
-                                                 [graphs[g - 1].V[second_e, 0], graphs[g - 1].V[second_e, 1]]]),
-                                       graphs[g - 1].A[first_e, second_e])
-                    segm_e_prima = Polygonal(
-                        np.array([[graphs[g - 1].V[first_e_prima, 0], graphs[g - 1].V[first_e_prima, 1]],
-                                  [graphs[g - 1].V[second_e_prima, 0], graphs[g - 1].V[second_e_prima, 1]]]),
-                        graphs[g - 1].A[first_e_prima, second_e_prima])
+                                                 [graphs[g - 1].V[second_e, 0], graphs[g - 1].V[second_e, 1]]]), graphs[g - 1].A[first_e, second_e])
+                    
+                    segm_e_prima = Polygonal(np.array([[graphs[g - 1].V[first_e_prima, 0], graphs[g - 1].V[first_e_prima, 1]],
+                                                       [graphs[g - 1].V[second_e_prima, 0], graphs[g - 1].V[second_e_prima, 1]]]), graphs[g - 1].A[first_e_prima, second_e_prima])
 
-                    BigM_local = eM.estimate_local_U(segm_e, segm_e_prima)
-                    SmallM_local = eM.estimate_local_L(segm_e, segm_e_prima)
+                    BigM_local = eM.estimate_local_U(segm_e, segm_e_prima) * scale
+                    SmallM_local = eM.estimate_local_L(segm_e, segm_e_prima) * scale
+                    
                     MODEL.addConstr((prod_eg_eg[e, e_prima, g] <= BigM_local * flow_eg_eg[e, e_prima, g]))
                     MODEL.addConstr((prod_eg_eg[e, e_prima, g] <= dist_eg_eg[e, e_prima, g]))
                     MODEL.addConstr((prod_eg_eg[e, e_prima, g] >= SmallM_local * flow_eg_eg[e, e_prima, g]))
-                    MODEL.addConstr(
-                        (prod_eg_eg[e, e_prima, g] >= dist_eg_eg[e, e_prima, g] - BigM_local * (1 - flow_eg_eg[e, e_prima, g])))
+                    MODEL.addConstr((prod_eg_eg[e, e_prima, g] >= dist_eg_eg[e, e_prima, g] - BigM_local * (1 - flow_eg_eg[e, e_prima, g])))
 
     # y_{LL}^o = \sum_{e_g\in E_g} u^{e_g o} \sum_{e_g\in E_g} u^{e_g (o+1)}
 
@@ -717,18 +709,18 @@ def asynchronous(data):
 
     for g in G_index:
         MODEL.addConstr((prod_L_eg_o.sum('*', g, '*') + prod_eg_eg.sum('*', '*', g) + gp.quicksum(
-            prod_eg[e, g] * graphs[g - 1].edges_length[e // 100 - 1, e % 100] for e in graphs[g - 1].edges) + prod_R_eg_o.sum(
+            prod_eg[e, g] * graphs[g - 1].edges_length[e // 100 - 1, e % 100] * scale for e in graphs[g - 1].edges) + prod_R_eg_o.sum(
             '*', g, '*')) / drone_speed <= dist_L_R_g[g] / truck_speed)
 
     for g in G_index:
         MODEL.addConstr(drone_time_g[g] == (prod_L_eg_o.sum('*', g, '*') + prod_eg_eg.sum('*', '*', g) + gp.quicksum(
-            prod_eg[e, g] * graphs[g - 1].edges_length[e // 100 - 1, e % 100] for e in graphs[g - 1].edges) + prod_R_eg_o.sum(
+            prod_eg[e, g] * graphs[g - 1].edges_length[e // 100 - 1, e % 100] for e in graphs[g - 1].edges) * scale + prod_R_eg_o.sum(
             '*', g, '*')) / drone_speed)
 
     ### time_endurance CONSTRAINT ###
 
     for g in G_index:
-        MODEL.addConstr(dist_L_R_g[g] / data.truck_speed <= data.time_endurance)
+        MODEL.addConstr(dist_L_R_g[g] <= data.time_endurance * data.truck_speed)
 
     ### (\ALPHA-E) and (\ALPHA-G) CONSTRAINTS ###
 
@@ -748,6 +740,11 @@ def asynchronous(data):
             MODEL.addConstr(L_eg[e, g, 0] == lambda_eg[e, g] * graphs[g - 1].V[start, 0] + (1 - lambda_eg[e, g]) * graphs[g - 1].V[end, 0])
             MODEL.addConstr(L_eg[e, g, 1] == lambda_eg[e, g] * graphs[g - 1].V[start, 1] + (1 - lambda_eg[e, g]) * graphs[g - 1].V[end, 1])
 
+    if not data.alpha:
+        for g in G_index:
+            MODEL.addConstr(gp.quicksum(
+                prod_eg[i, g] * graphs[g - 1].edges_length[i // 100 - 1, i % 100] for i in graphs[g - 1].edges) == graphs[g - 1].alpha * graphs[g - 1].length)
+            
     # MODEL.read('solution.sol')
     acum = 0
     if data.alpha:
@@ -755,8 +752,8 @@ def asynchronous(data):
             for e in graphs[g - 1].edges:
                 start = e // 100 - 1
                 end = e % 100
-                # acum + = grafos[g-1].A[start,end]*grafos[g-1].A
-        MODEL.addConstr(mothership_distance >= gp.quicksum(drone_time_g[g] for g in G_index))
+                # acum + = graphs[g-1].A[start,end]*graphs[g-1].A
+        MODEL.addConstr(mothership_time >= gp.quicksum(drone_time_g[g] for g in G_index))
 
     MODEL.update()
 
@@ -826,25 +823,25 @@ def asynchronous(data):
 
     vals_u = MODEL.getAttr('x', u_eg_o)
     selected_u = gp.tuplelist((e, g, o) for e, g, o in vals_u.keys() if vals_u[e, g, o] > 0.5)
-    print(selected_u)
+    print('u =' + str(selected_u))
     # #
     # print('Selected_z')
     vals_z = MODEL.getAttr('x', flow_eg_eg)
     selected_z = gp.tuplelist((i, j, g) for i, j, g in vals_z.keys() if vals_z[i, j, g] > 0.5)
-    print(selected_z)
+    print('z =' + str(selected_z))
     # #
     # print('Selected_v')
     vals_v = MODEL.getAttr('x', v_eg_o)
     selected_v = gp.tuplelist((e, g, o) for e, g, o in vals_v.keys() if vals_v[e, g, o] > 0.5)
-    print(selected_v)
+    print('v =' + str(selected_v))
 
     vals_gamma = MODEL.getAttr('x', gamma_g_o)
     selected_gamma = gp.tuplelist((g, o) for g, o in vals_gamma.keys() if vals_gamma[g, o] > 0.5)
-    print(selected_gamma)
+    print('gamma =' + str(selected_gamma))
 
     # vals_drone_time_g = MODEL.getAttr('x', drone_time_g)
     # print(vals_drone_time_g)
-    print('Total time: ' + str(MODEL.ObjVal / data.truck_speed))
+    print('Total time: ' + str(MODEL.ObjVal))
 
     distance = dist_origin.X + dist_destination.X
 
@@ -872,8 +869,8 @@ def asynchronous(data):
 
         wasU = isU
 
-    print('Time operating: ' + str(distance / data.truck_speed))
-    print('Time waiting: ' + str(MODEL.ObjVal - distance / data.truck_speed))
+    print('Time operating: ' + str(distance * scale / data.truck_speed))
+    print('Time waiting: ' + str(MODEL.ObjVal - distance * scale / data.truck_speed))
 
     log = False
 

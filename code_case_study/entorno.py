@@ -70,7 +70,7 @@ class Poligono(object):
         for v in range(self.num_segmentos):
             self.longitudes.append(np.linalg.norm(self.V[v] - self.V[v + 1]))
 
-        self.longitud = sum(self.longitudes)
+        self.length = sum(self.longitudes)
 
         for s in V:
             self.path.append(s)
@@ -93,7 +93,7 @@ class Poligonal(object):
         for v in range(self.num_segmentos):
             self.longitudes.append(np.linalg.norm(self.V[v] - self.V[v + 1]))
 
-        self.longitud = sum(self.longitudes)
+        self.length = sum(self.longitudes)
 
         # self.artist = mlines.Line2D([self.V[i][0] for i in range(self.num_puntos)], [
         #                               self.V[i][1] for i in range(self.num_puntos)], color='k', alpha=0.1)
@@ -101,10 +101,10 @@ class Poligonal(object):
             V, fill=False, facecolor=None)
 
 
-class Grafo(object):
+class graph(object):
     def __init__(self, V, A, alpha):
         """
-        V: Conjunto de vértices del Grafo
+        V: Conjunto de vértices del graph
         A: Conjunto de aristas y su porcentaje de recorrido:
         Si A(i, j) == 0: No existe arista
         Si 0 < A(i, j) < 1: Existe la arista y se tiene que recorrer ese porcentaje
@@ -118,13 +118,13 @@ class Grafo(object):
         self.edges_length = np.zeros_like(self.A)
         self.longitudes = []
 
-        longitud = 0
+        length = 0
 
         for i, j in combinations(range(self.num_puntos), 2):
             if A[i, j] > 0:
                 self.edges_length[i, j] = np.linalg.norm(self.V[i] - self.V[j]) * 14000 / 1e6
-                longitud += self.edges_length[i, j]
-        self.longitud = longitud
+                length += self.edges_length[i, j]
+        self.length = length
 
         self.G = nx.Graph()
 

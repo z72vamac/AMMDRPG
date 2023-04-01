@@ -12,7 +12,7 @@ def tsp(C_k):
     """
 
     print()
-    print('Resolviendo el TSP con los centroides del cluster generado')
+    print('Solving the TSP for the centroids obtaining in the cluster procedure')
     print()
 
     def powerset(iterable):
@@ -48,8 +48,7 @@ def tsp(C_k):
     restricciones.Lazy = 3
 
     objective = gp.quicksum(
-        np.linalg.norm(np.array([C_k[(k1, 0)], C_k[(k1, 1)]]) - np.array([C_k[(k2, 0)], C_k[(k2, 1)]])) * zkk[k1, k2] for
-        k1, k2 in KK_index)
+        np.linalg.norm(np.array([C_k[(k1, 0)], C_k[(k1, 1)]]) - np.array([C_k[(k2, 0)], C_k[(k2, 1)]])) * zkk[k1, k2] for k1, k2 in KK_index)
 
     MODEL.setObjective(objective, GRB.MINIMIZE)
 

@@ -16,7 +16,7 @@ from mtz import *
 #              show=True,
 #              seed=2)
 # data.generate_graphs()
-# grafos = data.graphs_numberostrar_data()
+# graphs = data.graphs_numberostrar_data()
 #
 # T_index = range(data.graphs_number + 2)
 # T_index_prima = range(1, data.graphs_number+1)
@@ -27,7 +27,7 @@ from mtz import *
 # vC = 1
 
 def heuristic(data):
-    grafos = data.graphs_numberostrar_data()
+    graphs = data.graphs_numberostrar_data()
 
     T_index = range(data.graphs_number + 2)
     T_index_prima = range(1, data.graphs_number + 1)
@@ -41,7 +41,7 @@ def heuristic(data):
     centroides = {}
 
     for g in T_index_prima:
-        centroides[g] = np.mean(grafos[g - 1].V, axis=0)
+        centroides[g] = np.mean(graphs[g - 1].V, axis=0)
 
     centros = []
     centros.append(origin)
@@ -102,8 +102,8 @@ def heuristic(data):
     # v_dict = {}
     #
     # for g in path[1:-1]:
-    #     print('PROBLEMA del Grafo: ' + str(path[g]))
-    #     vals_u, vals_zgij, vals_v, obj = af.XPPND(data, xL_dict[g], grafos[g-1], xL_dict[g+1])
+    #     print('PROBLEMA del graph: ' + str(path[g]))
+    #     vals_u, vals_zgij, vals_v, obj = af.XPPND(data, xL_dict[g], graphs[g-1], xL_dict[g+1])
     #     for key, value in vals_u.items():
     #         u_dict[(g, key)] = value
     #     for key, value in vals_zgij.items():
@@ -223,8 +223,8 @@ def heuristic(data):
 #     path, path_P, obj  = MTZ(elipse)
 #
 #     elipses = [elipses[a] for a in path]
-#     grafos = [grafos[a-1] for a in path[1:-1]]
-#     data = Data(grafos, m=graphs_number, r=3, modo=4, time_limit=120, alpha = True,
+#     graphs = [graphs[a-1] for a in path[1:-1]]
+#     data = Data(graphs, m=graphs_number, r=3, modo=4, time_limit=120, alpha = True,
 #                  initialization=True,
 #                  show=True,
 #                  seed=2)
@@ -252,10 +252,10 @@ def heuristic(data):
 #     # path, path_P, obj = MTZ(elipse)
 #     # z = af.path2matrix(path)
 #
-#     # grafos = [grafos[a-1] for a in path[1:-1]]
+#     # graphs = [graphs[a-1] for a in path[1:-1]]
 #     # elipses = [elipses[a] for a in path]
 #     #
-#     # data = Data(grafos, m=graphs_number, r=3, modo=4, time_limit=120, alpha = True,
+#     # data = Data(graphs, m=graphs_number, r=3, modo=4, time_limit=120, alpha = True,
 #     #              initialization=True,
 #     #              show=True,
 #     #              seed=2)
@@ -344,8 +344,8 @@ def heuristic(data):
 # plt.axis([0, 100, 0, 100])
 #
 # for g in T_index_prima:
-#     grafo = grafos[g-1]
-#     nx.draw(grafo.G, grafo.pos, node_size=20,
+#     graph = graphs[g-1]
+#     nx.draw(graph.G, graph.pos, node_size=20,
 #             node_color='black', alpha=0.3, edge_color='gray')
 #     ax.annotate(g, xy = (centroides[g][0], centroides[g][1]))
 #

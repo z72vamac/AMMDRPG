@@ -52,12 +52,13 @@ def ASYNCHRONOUS(data):
                 # creates new model attribute '_startobjval'
                 model._startobjval = model.cbGet(GRB.Callback.MIPSOL_OBJ)
 
-    grafos = data.graphs_numberostrar_data()
+    graphs = data.graphs_numberostrar_data()
 
     result = []
 
     graphs_number = data.graphs_number
     fleet_size = data.fleet_size
+    scale = data.scale
 
     print('SYNCHRONOUS VERSION. Settings:  \n')
 
@@ -79,7 +80,7 @@ def ASYNCHRONOUS(data):
     u_eg_o_index = []
 
     for g in G_index:
-        for e in grafos[g - 1].edges:
+        for e in graphs[g - 1].edges:
             for o in O_index:
                 u_eg_o_index.append((e, g, o))
 
@@ -104,7 +105,7 @@ def ASYNCHRONOUS(data):
     v_eg_o_index = []
 
     for g in G_index:
-        for e in grafos[g - 1].edges:
+        for e in graphs[g - 1].edges:
             for o in O_index:
                 v_eg_o_index.append((e, g, o))
 
@@ -149,11 +150,11 @@ def ASYNCHRONOUS(data):
     mu_eg_index = []
 
     for g in G_index:
-        for e in grafos[g - 1].edges:
+        for e in graphs[g - 1].edges:
             s_eg_index.append((e, g))
             mu_eg_index.append((e, g))
 
-            for e_prima in grafos[g - 1].edges:
+            for e_prima in graphs[g - 1].edges:
                 if e != e_prima:
                     flow_eg_eg_index.append((e, e_prima, g))
 
@@ -189,7 +190,7 @@ def ASYNCHRONOUS(data):
     rho_eg_index = []
 
     for g in G_index:
-        for e in grafos[g - 1].edges:
+        for e in graphs[g - 1].edges:
             rho_eg_index.append((e, g))
             for dim in range(2):
                 R_eg_index.append((e, g, dim))
@@ -203,7 +204,7 @@ def ASYNCHRONOUS(data):
     lambda_eg_index = []
 
     for g in G_index:
-        for e in grafos[g - 1].edges:
+        for e in graphs[g - 1].edges:
             lambda_eg_index.append((e, g))
             for dim in range(2):
                 L_eg_index.append((e, g, dim))
@@ -511,7 +512,7 @@ def ASYNCHRONOUS(data):
     # (49): If edge e_g is visited, it is because we exit from this edge or the visit comes from the other edges
 
     for g in G_index:
-        for e in grafos[g - 1].edges:
+        for e in graphs[g - 1].edges:
             # (48)
             MODEL.addConstr(u_eg_o.sum(e, g, '*') + zegeg.sum('*', e, g) == mu_eg[e, g])
 
@@ -523,21 +524,21 @@ def ASYNCHRONOUS(data):
     for g in G_index:
         for o in O_index[:-1]:
             MODEL.addConstr(u_eg_o.sum('*', g, o) <= gp.quicksum(
-                v_eg_o[e, g, o_prima] for e in grafos[g - 1].edges for o_prima in O_index if o_prima > o))
+                v_eg_o[e, g, o_prima] for e in graphs[g - 1].edges for o_prima in O_index if o_prima > o))
 
     # (MTZ) Constraints
     for g in G_index:
-        for e in grafos[g - 1].edges:
-            for e_prima in grafos[g - 1].edges:
+        for e in graphs[g - 1].edges:
+            for e_prima in graphs[g - 1].edges:
                 if e != e_prima:
                     MODEL.addConstr(
-                        grafos[g - 1].edges_number - 1 >= (s_eg[e, g] - s_eg[e_prima, g]) + grafos[g - 1].edges_number *
+                        graphs[g - 1].edges_number - 1 >= (s_eg[e, g] - s_eg[e_prima, g]) + graphs[g - 1].edges_number *
                         zegeg[e, e_prima, g])
 
     for g in G_index:
-        for e in grafos[g - 1].edges:
+        for e in graphs[g - 1].edges:
             MODEL.addConstr(s_eg[e, g] >= 0)
-            MODEL.addConstr(s_eg[e, g] <= grafos[g - 1].edges_number - 1)
+            MODEL.addConstr(s_eg[e, g] <= graphs[g - 1].edges_number - 1)
 
     # (50): If we start the visit of g in event o, the gamma starts to be one at event o
 
@@ -600,7 +601,7 @@ def ASYNCHRONOUS(data):
 
     for o in O_index:
         for g in G_index:
-            for e in grafos[g - 1].edges:
+            for e in graphs[g - 1].edges:
                 for dim in range(2):
                     MODEL.addConstr(dif_L_eg_o[e, g, o, dim] >= (x_L_o[o, dim] - R_eg[e, g, dim]) * 14000 / 1e6)
                     MODEL.addConstr(dif_L_eg_o[e, g, o, dim] >= (-x_L_o[o, dim] + R_eg[e, g, dim]) * 14000 / 1e6)
@@ -613,7 +614,7 @@ def ASYNCHRONOUS(data):
 
     for o in O_index:
         for g in G_index:
-            for e in grafos[g - 1].edges:
+            for e in graphs[g - 1].edges:
                 for dim in range(2):
                     MODEL.addConstr(dif_R_eg_o[e, g, o, dim] >= (L_eg[e, g, dim] - x_R_o[o, dim]) * 14000 / 1e6)
                     MODEL.addConstr(dif_R_eg_o[e, g, o, dim] >= (-L_eg[e, g, dim] + x_R_o[o, dim]) * 14000 / 1e6)
@@ -625,8 +626,8 @@ def ASYNCHRONOUS(data):
     # d^{e_g e'_g}
 
     for g in G_index:
-        for e in grafos[g - 1].edges:
-            for e_prima in grafos[g - 1].edges:
+        for e in graphs[g - 1].edges:
+            for e_prima in graphs[g - 1].edges:
                 if e != e_prima:
                     for dim in range(2):
                         MODEL.addConstr(
@@ -707,7 +708,7 @@ def ASYNCHRONOUS(data):
     # p^{e_g} = \alpha^{e_g} \mu^{e_g}
 
     for g in G_index:
-        for e in grafos[g - 1].edges:
+        for e in graphs[g - 1].edges:
             MODEL.addConstr(prod_eg[e, g] <= mu_eg[e, g])
             MODEL.addConstr(prod_eg[e, g] <= alpha_eg[e, g])
             MODEL.addConstr(prod_eg[e, g] >= mu_eg[e, g] + alpha_eg[e, g] - 1)
@@ -719,7 +720,7 @@ def ASYNCHRONOUS(data):
     SmallM = 0
 
     for g in G_index:
-        for e in grafos[g - 1].edges:
+        for e in graphs[g - 1].edges:
             for o in O_index:
                 MODEL.addConstr(prod_L_eg_o[e, g, o] <= BigM * u_eg_o[e, g, o])
                 MODEL.addConstr(prod_L_eg_o[e, g, o] <= dist_L_eg_o[e, g, o])
@@ -732,7 +733,7 @@ def ASYNCHRONOUS(data):
     SmallM = 0
 
     for g in G_index:
-        for e in grafos[g - 1].edges:
+        for e in graphs[g - 1].edges:
             for o in O_index:
                 MODEL.addConstr(prod_R_eg_o[e, g, o] <= BigM * v_eg_o[e, g, o])
                 MODEL.addConstr(prod_R_eg_o[e, g, o] <= dist_R_eg_o[e, g, o])
@@ -742,21 +743,21 @@ def ASYNCHRONOUS(data):
     # p^{e_g e'_g} = d^{e_g e'_g} z^{e_g e'_g}
 
     for g in G_index:
-        for e in grafos[g - 1].edges:
-            for e_prima in grafos[g - 1].edges:
+        for e in graphs[g - 1].edges:
+            for e_prima in graphs[g - 1].edges:
                 if e != e_prima:
                     first_e = e // 100 - 1
                     second_e = e % 100
                     first_e_prima = e_prima // 100 - 1
                     second_e_prima = e_prima % 100
 
-                    segm_e = Polygonal(np.array([[grafos[g - 1].V[first_e, 0], grafos[g - 1].V[first_e, 1]],
-                                                 [grafos[g - 1].V[second_e, 0], grafos[g - 1].V[second_e, 1]]]),
-                                       grafos[g - 1].A[first_e, second_e])
+                    segm_e = Polygonal(np.array([[graphs[g - 1].V[first_e, 0], graphs[g - 1].V[first_e, 1]],
+                                                 [graphs[g - 1].V[second_e, 0], graphs[g - 1].V[second_e, 1]]]),
+                                       graphs[g - 1].A[first_e, second_e])
                     segm_e_prima = Polygonal(
-                        np.array([[grafos[g - 1].V[first_e_prima, 0], grafos[g - 1].V[first_e_prima, 1]],
-                                  [grafos[g - 1].V[second_e_prima, 0], grafos[g - 1].V[second_e_prima, 1]]]),
-                        grafos[g - 1].A[first_e_prima, second_e_prima])
+                        np.array([[graphs[g - 1].V[first_e_prima, 0], graphs[g - 1].V[first_e_prima, 1]],
+                                  [graphs[g - 1].V[second_e_prima, 0], graphs[g - 1].V[second_e_prima, 1]]]),
+                        graphs[g - 1].A[first_e_prima, second_e_prima])
 
                     BigM_local = eM.estimate_local_U(segm_e, segm_e_prima)
                     SmallM_local = eM.estimate_local_L(segm_e, segm_e_prima)
@@ -860,12 +861,12 @@ def ASYNCHRONOUS(data):
 
     for g in G_index:
         MODEL.addConstr((prod_L_eg_o.sum('*', g, '*') + prod_eg_eg.sum('*', '*', g) + gp.quicksum(
-            prod_eg[e, g] * grafos[g - 1].edges_length[e // 100 - 1, e % 100] for e in grafos[g - 1].edges) + prod_R_eg_o.sum(
+            prod_eg[e, g] * graphs[g - 1].edges_length[e // 100 - 1, e % 100] * scale for e in graphs[g - 1].edges) + prod_R_eg_o.sum(
             '*', g, '*')) / data.drone_speed <= dist_L_R_g[g] / data.truck_speed)
 
     for g in G_index:
         MODEL.addConstr(drone_time_g[g] == (prod_L_eg_o.sum('*', g, '*') + prod_eg_eg.sum('*', '*', g) + gp.quicksum(
-            prod_eg[e, g] * grafos[g - 1].edges_length[e // 100 - 1, e % 100] for e in grafos[g - 1].edges) + prod_R_eg_o.sum(
+            prod_eg[e, g] * graphs[g - 1].edges_length[e // 100 - 1, e % 100] * scale for e in graphs[g - 1].edges) + prod_R_eg_o.sum(
             '*', g, '*')) / data.drone_speed)
 
     ### time_endurance CONSTRAINT ###
@@ -876,41 +877,41 @@ def ASYNCHRONOUS(data):
     ### (\ALPHA-E) and (\ALPHA-G) CONSTRAINTS ###
 
     for g in G_index:
-        for e in grafos[g - 1].edges:
+        for e in graphs[g - 1].edges:
             start = e // 100 - 1
             end = e % 100
 
             MODEL.addConstr(rho_eg[e, g] - lambda_eg[e, g] == max_eg[e, g] - min_eg[e, g])
             MODEL.addConstr(max_eg[e, g] + min_eg[e, g] == alpha_eg[e, g])
             if data.alpha:
-                MODEL.addConstr(prod_eg[e, g] >= grafos[g - 1].A[start, end])
+                MODEL.addConstr(prod_eg[e, g] >= graphs[g - 1].A[start, end])
             MODEL.addConstr(max_eg[e, g] <= 1 - entry_eg[e, g])
             MODEL.addConstr(min_eg[e, g] <= entry_eg[e, g])
             MODEL.addConstr(
-                R_eg[e, g, 0] == rho_eg[e, g] * grafos[g - 1].V[start, 0] + (1 - rho_eg[e, g]) * grafos[g - 1].V[end, 0])
+                R_eg[e, g, 0] == rho_eg[e, g] * graphs[g - 1].V[start, 0] + (1 - rho_eg[e, g]) * graphs[g - 1].V[end, 0])
             MODEL.addConstr(
-                R_eg[e, g, 1] == rho_eg[e, g] * grafos[g - 1].V[start, 1] + (1 - rho_eg[e, g]) * grafos[g - 1].V[end, 1])
+                R_eg[e, g, 1] == rho_eg[e, g] * graphs[g - 1].V[start, 1] + (1 - rho_eg[e, g]) * graphs[g - 1].V[end, 1])
             MODEL.addConstr(
-                L_eg[e, g, 0] == lambda_eg[e, g] * grafos[g - 1].V[start, 0] + (1 - lambda_eg[e, g]) * grafos[g - 1].V[
+                L_eg[e, g, 0] == lambda_eg[e, g] * graphs[g - 1].V[start, 0] + (1 - lambda_eg[e, g]) * graphs[g - 1].V[
                     end, 0])
             MODEL.addConstr(
-                L_eg[e, g, 1] == lambda_eg[e, g] * grafos[g - 1].V[start, 1] + (1 - lambda_eg[e, g]) * grafos[g - 1].V[
+                L_eg[e, g, 1] == lambda_eg[e, g] * graphs[g - 1].V[start, 1] + (1 - lambda_eg[e, g]) * graphs[g - 1].V[
                     end, 1])
 
     if not (data.alpha):
         for g in G_index:
             MODEL.addConstr(gp.quicksum(
-                prod_eg[e, g] * grafos[g - 1].edges_length[e // 100 - 1, e % 100] for e in grafos[g - 1].edges) == grafos[
-                                g - 1].alpha * grafos[g - 1].longitud)
+                prod_eg[e, g] * graphs[g - 1].edges_length[e // 100 - 1, e % 100] * scale for e in graphs[g - 1].edges) == graphs[
+                                g - 1].alpha * graphs[g - 1].length * scale)
 
     # MODEL.read('solution.sol')
     acum = 0
     if data.alpha:
         for g in G_index:
-            for e in grafos[g - 1].edges:
+            for e in graphs[g - 1].edges:
                 start = e // 100 - 1
                 end = e % 100
-                # acum + = grafos[g-1].A[start,end]*grafos[g-1].A
+                # acum + = graphs[g-1].A[start,end]*graphs[g-1].A
         MODEL.addConstr(dM >= gp.quicksum(drone_time_g[g] for g in G_index))
 
     MODEL.update()
@@ -1120,7 +1121,7 @@ def ASYNCHRONOUS(data):
                                  R_eg[e2, g, 1].X - L_eg[e1, g, 1].X, width=0.1, head_width=0.5,
                                  length_includes_head=True, color=color)
 
-                for e in grafos[g - 1].edges:
+                for e in graphs[g - 1].edges:
                     if mu_eg[e, g].X >= 0.5 and prod_eg[e, g].X >= 0.05:
                         ax.arrow(R_eg[e, g, 0].X, R_eg[e, g, 1].X, L_eg[e, g, 0].X - R_eg[e, g, 0].X,
                                  L_eg[e, g, 1].X - R_eg[e, g, 1].X, width=0.1, head_width=0.5, length_includes_head=True,
@@ -1147,7 +1148,7 @@ def ASYNCHRONOUS(data):
 
             wasU = isU
 
-        for g in grafos:
+        for g in graphs:
             nx.draw(g.G, g.pos, node_size=10, width=1,
                     node_color='blue', alpha=1, edge_color='blue')
 

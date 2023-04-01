@@ -103,7 +103,7 @@ class Polygonal(object):
 
 
 class Graph(object):
-    def __init__(self, V, A, alpha, scale):
+    def __init__(self, V, A, alpha):
         """
         V: Set of the vertices of the graph
         A: Set of edges and percentage of traversing:
@@ -123,7 +123,7 @@ class Graph(object):
 
         for i, j in combinations(range(self.points_number), 2):
             if A[i, j] > 0:
-                self.edges_length[i, j] = np.linalg.norm(self.V[i] - self.V[j]) * scale
+                self.edges_length[i, j] = np.linalg.norm(self.V[i] - self.V[j])
                 length += self.edges_length[i, j]
         self.length = length
 
@@ -140,7 +140,7 @@ class Graph(object):
         for e in self.edges:
             first = e // 100 - 1
             second = e % 100
-            self.lengths.append(np.linalg.norm(self.V[first] - self.V[second])* scale)
+            self.lengths.append(np.linalg.norm(self.V[first] - self.V[second]))
 
         self.alpha = alpha
         self.pos = nx.get_node_attributes(self.G, 'pos')

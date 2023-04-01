@@ -45,12 +45,12 @@ def agglomerative(data, paths):
 
         MODEL.update()
 
-        MODEL.addConstrs(dif_L_g[g, dim]/scale >= (paths_problem[g][1][1][dim] - centroid[dim]) for g, dim in dif_L_g.keys())
-        MODEL.addConstrs(dif_L_g[g, dim]/scale >= (-paths_problem[g][1][1][dim] + centroid[dim]) for g, dim in dif_L_g.keys())
+        MODEL.addConstrs(dif_L_g[g, dim] >= (paths_problem[g][1][1][dim] - centroid[dim]) * scale for g, dim in dif_L_g.keys())
+        MODEL.addConstrs(dif_L_g[g, dim] >= (-paths_problem[g][1][1][dim] + centroid[dim]) * scale for g, dim in dif_L_g.keys())
         MODEL.addConstrs(gp.quicksum(dif_L_g[g, dim] * dif_L_g[g, dim] for dim in range(2)) <= dist_L_graph[g] * dist_L_graph[g] for g in dist_L_graph.keys())
 
-        MODEL.addConstrs(dif_R_graph[g, dim]/scale >= (paths_problem[g][1][0][dim] - centroid[dim]) for g, dim in dif_R_graph.keys())
-        MODEL.addConstrs(dif_R_graph[g, dim]/scale >= (-paths_problem[g][1][0][dim] + centroid[dim]) for g, dim in dif_R_graph.keys())
+        MODEL.addConstrs(dif_R_graph[g, dim] >= (paths_problem[g][1][0][dim] - centroid[dim]) * scale for g, dim in dif_R_graph.keys())
+        MODEL.addConstrs(dif_R_graph[g, dim] >= (-paths_problem[g][1][0][dim] + centroid[dim]) * scale for g, dim in dif_R_graph.keys())
         MODEL.addConstrs(gp.quicksum(dif_R_graph[g, dim] * dif_R_graph[g, dim] for dim in range(2)) <= dist_R_graph[g] * dist_R_graph[g] for g in dist_L_graph.keys())
 
         MODEL.addConstrs((dist_L_graph[g] + paths_problem[g][2] + dist_R_graph[g]) / data.drone_speed <= data.time_endurance for g in dist_L_graph.keys())
@@ -106,7 +106,7 @@ def agglomerative(data, paths):
 
             del clusters[removed]
         else:
-            print('The problem is infeasible for these clusters')
+            print('The problem is feasible for these clusters')
             print()
 
     return clusters

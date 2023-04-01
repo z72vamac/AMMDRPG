@@ -12,6 +12,7 @@ def clustering_easy(data, paths, clusters):
     drone_speed = data.drone_speed
     truck_speed = data.truck_speed
     origin = data.origin
+    destination = data.destination
     time_endurance = data.time_endurance
     scale = data.scale
 
@@ -31,9 +32,12 @@ def clustering_easy(data, paths, clusters):
     dist_k_k = MODEL.addVars(K_index, K_index, vtype=GRB.CONTINUOUS, lb=0.0, name='dist_k_k')
     dif_k_k = MODEL.addVars(K_index, K_index, 2, vtype=GRB.CONTINUOUS, lb=0.0, name='dif_k_k')
 
-    dist_k = MODEL.addVars(K_index, vtype=GRB.CONTINUOUS, lb=0.0, name='dist_k')
-    dif_k = MODEL.addVars(K_index, 2, vtype=GRB.CONTINUOUS, lb=0.0, name='dif_k')
+    dist_origin_k = MODEL.addVars(K_index, vtype=GRB.CONTINUOUS, lb=0.0, name='dist_origin_k')
+    dif_origin_k = MODEL.addVars(K_index, 2, vtype=GRB.CONTINUOUS, lb=0.0, name='dif_origin_k')
 
+    dist_destination_k = MODEL.addVars(K_index, vtype=GRB.CONTINUOUS, lb=0.0, name='dist_destination_k')
+    dif_destination_k = MODEL.addVars(K_index, 2, vtype=GRB.CONTINUOUS, lb=0.0, name='dif_destination_k')
+    
     C_k = MODEL.addVars(K_index, 2, vtype=GRB.CONTINUOUS, name='C_k')
 
     MODEL.update()
@@ -54,13 +58,17 @@ def clustering_easy(data, paths, clusters):
     MODEL.addConstrs((dif_k_k[k1, k2, dim]/scale >= -C_k[k1, dim] + C_k[k2, dim] for k1, k2, dim in dif_k_k.keys()))
     MODEL.addConstrs(gp.quicksum(dif_k_k[k1, k2, dim] * dif_k_k[k1, k2, dim] for dim in range(2)) <= dist_k_k[k1, k2] * dist_k_k[k1, k2] for k1, k2 in dist_k_k.keys())
 
-    MODEL.addConstrs((dif_k[k, dim]/scale >=  C_k[k, dim] - origin[dim] for k, dim in dif_k.keys()))
-    MODEL.addConstrs((dif_k[k, dim]/scale >= -C_k[k, dim] + origin[dim] for k, dim in dif_k.keys()))
-    MODEL.addConstrs(gp.quicksum(dif_k[k, dim] * dif_k[k, dim] for dim in range(2)) <= dist_k[k] * dist_k[k] for k in dist_k.keys())
+    MODEL.addConstrs((dif_origin_k[k, dim]/scale >=  C_k[k, dim] - origin[dim] for k, dim in dif_origin_k.keys()))
+    MODEL.addConstrs((dif_origin_k[k, dim]/scale >= -C_k[k, dim] + origin[dim] for k, dim in dif_origin_k.keys()))
+    MODEL.addConstrs(gp.quicksum(dif_origin_k[k, dim] * dif_origin_k[k, dim] for dim in range(2)) <= dist_origin_k[k] * dist_origin_k[k] for k in dist_origin_k.keys())
+
+    MODEL.addConstrs((dif_destination_k[k, dim]/scale >=  C_k[k, dim] - destination[dim] for k, dim in dif_destination_k.keys()))
+    MODEL.addConstrs((dif_destination_k[k, dim]/scale >= -C_k[k, dim] + destination[dim] for k, dim in dif_destination_k.keys()))
+    MODEL.addConstrs(gp.quicksum(dif_destination_k[k, dim] * dif_destination_k[k, dim] for dim in range(2)) <= dist_destination_k[k] * dist_destination_k[k] for k in dist_destination_k.keys())
 
     MODEL.addConstrs((gp.quicksum(assign_k_g[k, g] * dist_k_g[k, g] for k in K_index) + paths[g - 1][2] + gp.quicksum(assign_k_g[k, g] * dist_k_g_prime[k, g] for k in K_index)) / drone_speed <= time_endurance for g in G_index)
 
-    objective = gp.quicksum(dist_k_k[k1, k2] for k1, k2 in dist_k_k.keys()) + gp.quicksum(dist_k[k] for k in dist_k.keys())
+    objective = gp.quicksum(dist_k_k[k1, k2] for k1, k2 in dist_k_k.keys()) + gp.quicksum(dist_origin_k[k] + dist_destination_k[k] for k in dist_origin_k.keys()) + gp.quicksum(dist_k_g[k, g] + dist_k_g_prime[k, g] for k, g in dist_k_g.keys())
 
     MODEL.Params.OutputFlag = 1
     MODEL.setObjective(objective, GRB.MINIMIZE)

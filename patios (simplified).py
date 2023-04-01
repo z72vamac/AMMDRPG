@@ -6,6 +6,7 @@ import pandas as pd
 import neighbourhood as e
 # from AMMDRPGST import AMMDRPGST
 from asynchronous_version import asynchronous
+from synchronous_version import synchronous
 from data import *
 
 data = []
@@ -15,7 +16,7 @@ for i in range(1, 7):
 
     puntos['y'] = 200 - puntos['y']
 
-    V = copy.copy(puntos.to_numpy())
+    V = np.array(puntos)
 
     m = V.shape[0]
 
@@ -48,18 +49,18 @@ for i in range(1, 7):
         Ar[11, 22] = 1
         Ar[12, 23] = 1
 
-    data.append(e.Graph(V, Ar, 1))
+    data.append(e.Graph(V, Ar, alpha = 1, scale = 1))
 
-data = Data(data, graphs_number=6, grid_mode=True, time_limit=5, alpha=False, fleet_size=2, time_endurance=0.123672786,
+data = Data(data, graphs_number=6, grid_mode=True, time_limit=300, alpha=False, fleet_size=2, time_endurance=0.123672786,
              initialization=False,
-             show=True,
              truck_speed=30,
              drone_speed=43,
              origin=[0, 0],
              destination=[0, 0],
+             scale = 1.4e4/1e6,
              seed=2)
 
-print(sum([graph.length for graph in data]))  # *14000/1e6)
+print(sum([graph.length*1.4e4/1e6 for graph in data.instances]))  # *14000/1e6)
 
 # velocities = np.linspace(1.5, 3, 16)
 

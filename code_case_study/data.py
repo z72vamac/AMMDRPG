@@ -144,19 +144,19 @@ class Data(object):
 
             self.data.append((e.Graph(V, Ar, 1)))
 
-        # # genero radio del Grafo
+        # # genero radio del graph
         # radio = 5*np.random.uniform(self.r-1, self.r)
         #
-        # # genero "centro" del grafo
+        # # genero "centro" del graph
         # P = np.random.uniform(radio, 100 - radio, 2)
         #
-        # # genero el numero de vertices del grafo
+        # # genero el numero de vertices del graph
         # # nV = np.random.randint(4, 7)
         # # nV = 3
         #
         # V = np.random.uniform(P-radio, P+radio, (nV, 2))
         # #
-        # # genero aristas del grafo
+        # # genero aristas del graph
         # p = 1
         # sample = bernoulli.rvs(p, size=(nV, nV))
         # alpha = np.random.rand(nV, nV)
@@ -210,7 +210,7 @@ class Data(object):
         # # Ar[2, 3] = 1
         # # Ar[2, 4] = 1
         # Ar[3, 4] = 1
-        # self.data.append(e.Grafo(V, Ar, 1))
+        # self.data.append(e.graph(V, Ar, 1))
 
     def generar_punto(self):
         P = np.random.uniform(0, 100, 2)
@@ -274,7 +274,7 @@ class Data(object):
                 graphs_number += 1
 
     def generate_graphs(self, nV_list=[]):
-        # genero radio del Grafo
+        # genero radio del graph
         self.data = []
 
         div = 10
